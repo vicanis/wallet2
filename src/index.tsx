@@ -3,16 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import Container from "./container";
+import MobileWrapper from "./layouts/mobilewrapper";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
 root.render(
     <React.StrictMode>
-        <Container>
+        <MobileWrapper>
             <App />
-        </Container>
+        </MobileWrapper>
     </React.StrictMode>
 );
 
