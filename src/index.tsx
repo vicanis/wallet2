@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+import Index from "./pages";
 import reportWebVitals from "./reportWebVitals";
 import MobileWrapper from "./layouts/mobilewrapper";
 
@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <MobileWrapper>
-            <App />
+            <Index />
         </MobileWrapper>
     </React.StrictMode>
 );
