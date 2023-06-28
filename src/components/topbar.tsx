@@ -9,7 +9,7 @@ export default function TopBar() {
     }, []);
 
     return (
-        <div className="flex justify-between px-10 py-4">
+        <div className="flex justify-between px-10">
             <span className="flex justify-center items-center gap-2">
                 <Icon
                     path={mdiCalendar}
