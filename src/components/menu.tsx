@@ -1,14 +1,21 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useLayoutEffect, useState } from "react";
 import ImageHome from "../assets/menu/home.svg";
 import ImageExpense from "../assets/menu/expense.svg";
 import ImageIncome from "../assets/menu/income.svg";
 import ImageStats from "../assets/menu/stats.svg";
 import ImageExchange from "../assets/menu/exchange.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function Menu() {
     const [activeTab, setActiveTab] = useState<
         "home" | "expense" | "income" | "stats" | "exchange"
     >("home");
+
+    const navigate = useNavigate();
+
+    useLayoutEffect(() => {
+        navigate("/" + activeTab);
+    }, [activeTab]);
 
     return (
         <div className="fixed bottom-0 flex justify-around w-full h-12">
