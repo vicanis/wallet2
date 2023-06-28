@@ -98,78 +98,84 @@ export default function Dashboard() {
 
     return (
         <div
-            className="text-center border-2 rounded-b-2xl p-2"
-            style={{ borderColor: "#0A90D5" }}
+            className="text-center text-white rounded-b-2xl p-2 grid gap-4"
+            style={{ backgroundColor: "#0084C8" }}
         >
             <CurrencySelector
                 list={currencyList}
                 selected={balance.balance.currency}
             />
 
-            <div className="flex justify-between pt-4">
-                <div
-                    className="flex gap-1 items-center"
-                    onClick={() => {
-                        dispatch({ type: BalanceActionKind.PREV });
-                    }}
-                >
-                    <Icon path={mdiChevronLeft} size={1} />
-                    <CurrencyIcon
-                        type={currentBalance[balance.prev].currency}
-                        className="opacity-50"
+            <div>
+                <div className="flex justify-between px-4">
+                    <div
+                        className="flex gap-1 items-center"
+                        onClick={() => {
+                            dispatch({ type: BalanceActionKind.PREV });
+                        }}
+                    >
+                        <Icon path={mdiChevronLeft} size={1} />
+                        <CurrencyIcon
+                            type={currentBalance[balance.prev].currency}
+                            className="opacity-50"
+                        />
+                    </div>
+
+                    <Amount
+                        currency={balance.balance.currency}
+                        value={balance.balance.value}
+                        iconSize={1.4}
+                        style={{
+                            fontSize: "26pt",
+                            fontWeight: 500,
+                            lineHeight: "normal",
+                        }}
                     />
+
+                    <div
+                        className="flex gap-1 items-center"
+                        onClick={() => {
+                            dispatch({ type: BalanceActionKind.NEXT });
+                        }}
+                    >
+                        <CurrencyIcon
+                            type={currentBalance[balance.next].currency}
+                            className="opacity-50"
+                        />
+                        <Icon path={mdiChevronRight} size={1} />
+                    </div>
                 </div>
 
-                <Amount
-                    currency={balance.balance.currency}
-                    value={balance.balance.value}
-                    iconSize={1.2}
-                    style={{ fontSize: "22pt", fontWeight: 500 }}
-                />
-
-                <div
-                    className="flex gap-1 items-center"
-                    onClick={() => {
-                        dispatch({ type: BalanceActionKind.NEXT });
-                    }}
-                >
-                    <CurrencyIcon
-                        type={currentBalance[balance.next].currency}
-                        className="opacity-50"
-                    />
-                    <Icon path={mdiChevronRight} size={1} />
-                </div>
+                <span className="text-sm text-white">Остаток на счетах</span>
             </div>
 
-            <span className="text-sm text-gray-500">Остаток на счетах</span>
-
-            <div className="flex justify-between px-4 pt-6 pb-2">
+            <div className="flex justify-between px-4 pb-2">
                 <div className="flex gap-1 items-end">
-                    <Icon
-                        path={mdiArrowDownCircle}
-                        size={1.25}
-                        color="#67A656"
-                    />
+                    <Icon path={mdiArrowUpCircle} size={2.25} color="#67A656" />
                     <div className="flex flex-col justify-center">
-                        <span className="text-xs text-gray-500">Входящие</span>
+                        <span className="text-sm text-white">Входящие</span>
                         <Amount
                             currency={balance.balance.currency}
                             value={balance.balance.income}
                             iconSize={0.8}
-                            style={{ color: "#67A656", fontSize: "16pt" }}
+                            style={{ color: "white", fontSize: "16pt" }}
                         />
                     </div>
                 </div>
 
                 <div className="flex gap-1 items-end">
-                    <Icon path={mdiArrowUpCircle} size={1.25} color="#E85338" />
+                    <Icon
+                        path={mdiArrowDownCircle}
+                        size={2.25}
+                        color="#E85338"
+                    />
                     <div className="flex flex-col justify-center">
-                        <span className="text-xs text-gray-500">Исходящие</span>
+                        <span className="text-sm text-white">Исходящие</span>
                         <Amount
                             currency={balance.balance.currency}
                             value={balance.balance.expense}
                             iconSize={0.8}
-                            style={{ color: "#E85338", fontSize: "16pt" }}
+                            style={{ color: "white", fontSize: "16pt" }}
                         />
                     </div>
                 </div>
