@@ -1,8 +1,8 @@
 import React from "react";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import Dashboard from "../layouts/dashboard";
 import Menu from "../components/menu";
 import ErrorPage from "./error";
+import Home from "./home";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -18,7 +18,7 @@ export default function App() {
             children: [
                 {
                     path: "home",
-                    element: <Dashboard />,
+                    element: <Home />,
                 },
                 {
                     path: "expense",
