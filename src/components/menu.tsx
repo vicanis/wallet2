@@ -1,53 +1,46 @@
-import { ReactNode, useLayoutEffect, useState } from "react";
+import { ReactNode } from "react";
 import ImageHome from "../assets/menu/home.svg";
 import ImageExpense from "../assets/menu/expense.svg";
 import ImageIncome from "../assets/menu/income.svg";
 import ImageStats from "../assets/menu/stats.svg";
 import ImageExchange from "../assets/menu/exchange.svg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Menu() {
-    const [activeTab, setActiveTab] = useState<
-        "home" | "expense" | "income" | "stats" | "exchange"
-    >("home");
-
+    const location = useLocation();
     const navigate = useNavigate();
-
-    useLayoutEffect(() => {
-        navigate("/" + activeTab);
-    }, [activeTab]);
 
     return (
         <div className="fixed bottom-0 flex justify-around w-full h-12">
             <Icon
-                active={activeTab === "home"}
+                active={location.pathname === "/"}
                 image={<img className="w-7" src={ImageHome} />}
                 color="#0A90D5"
-                onClick={() => setActiveTab("home")}
+                onClick={() => navigate("/")}
             />
             <Icon
-                active={activeTab === "expense"}
+                active={location.pathname === "/expense"}
                 image={<img className="w-6" src={ImageExpense} />}
                 color="#E85338"
-                onClick={() => setActiveTab("expense")}
+                onClick={() => navigate("/expense")}
             />
             <Icon
-                active={activeTab === "income"}
+                active={location.pathname === "/income"}
                 image={<img className="w-6" src={ImageIncome} />}
                 color="#5D8E26"
-                onClick={() => setActiveTab("income")}
+                onClick={() => navigate("/income")}
             />
             <Icon
-                active={activeTab === "stats"}
+                active={location.pathname === "/stats"}
                 image={<img className="w-5" src={ImageStats} />}
                 color="#0A90D5"
-                onClick={() => setActiveTab("stats")}
+                onClick={() => navigate("/stats")}
             />
             <Icon
-                active={activeTab === "exchange"}
+                active={location.pathname === "/exchange"}
                 image={<img className="w-9" src={ImageExchange} />}
                 color="#0084C8"
-                onClick={() => setActiveTab("exchange")}
+                onClick={() => navigate("/exchange")}
             />
         </div>
     );

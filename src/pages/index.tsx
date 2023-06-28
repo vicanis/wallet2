@@ -17,8 +17,8 @@ export default function App() {
             errorElement: <ErrorPage />,
             children: [
                 {
-                    path: "home",
                     element: <Home />,
+                    index: true,
                 },
                 {
                     path: "expense",
