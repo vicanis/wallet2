@@ -98,7 +98,7 @@ export default function Dashboard() {
 
     return (
         <div
-            className="text-center text-white rounded-b-2xl p-2 grid gap-4"
+            className="text-center text-white rounded-b-2xl px-2 py-4 grid gap-4"
             style={{ backgroundColor: "#0084C8" }}
         >
             <CurrencySelector
@@ -149,7 +149,7 @@ export default function Dashboard() {
                 <span className="text-sm text-white">Остаток на счетах</span>
             </div>
 
-            <div className="flex justify-between px-4 pb-2">
+            <div className="flex justify-between px-4">
                 <div className="flex gap-1 items-end">
                     <Icon path={mdiArrowUpCircle} size={2.25} color="#67A656" />
                     <div className="flex flex-col justify-center">
