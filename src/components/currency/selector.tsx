@@ -11,6 +11,7 @@ export default function Selector({
         <span className="flex gap-1 justify-center">
             {list.map((type) => (
                 <CurrencyIcon
+                    key={type}
                     type={type as CurrencyType}
                     className={selected !== type ? "opacity-50" : ""}
                 />
