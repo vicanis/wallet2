@@ -151,14 +151,14 @@ export default function Dashboard() {
 
             <div className="flex justify-between px-4">
                 <div className="flex gap-1 items-end">
-                    <Icon path={mdiArrowUpCircle} size={2.25} color="#67A656" />
+                    <Icon path={mdiArrowUpCircle} size={1.75} color="#67A656" />
                     <div className="flex flex-col justify-center">
                         <span className="text-sm text-white">Входящие</span>
                         <Amount
                             currency={balance.balance.currency}
                             value={balance.balance.income}
-                            iconSize={0.8}
-                            style={{ color: "white", fontSize: "16pt" }}
+                            iconSize={0.7}
+                            style={{ color: "white", fontSize: "12pt" }}
                         />
                     </div>
                 </div>
@@ -166,7 +166,7 @@ export default function Dashboard() {
                 <div className="flex gap-1 items-end">
                     <Icon
                         path={mdiArrowDownCircle}
-                        size={2.25}
+                        size={1.75}
                         color="#E85338"
                     />
                     <div className="flex flex-col justify-center">
@@ -174,8 +174,8 @@ export default function Dashboard() {
                         <Amount
                             currency={balance.balance.currency}
                             value={balance.balance.expense}
-                            iconSize={0.8}
-                            style={{ color: "white", fontSize: "16pt" }}
+                            iconSize={0.7}
+                            style={{ color: "white", fontSize: "12pt" }}
                         />
                     </div>
                 </div>
