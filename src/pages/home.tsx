@@ -12,7 +12,7 @@ export default function Home() {
                 backgroundColor: "#F2F7FC",
             }}
         >
-            <div className="grid gap-4 sticky top-4 w-full">
+            <div className="grid gap-4 sticky top-4 w-full z-10">
                 <TopBar />
                 <Dashboard />
             </div>
