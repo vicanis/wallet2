@@ -1,4 +1,4 @@
-import Expense, { CategoryExpense } from "../components/category/expense";
+import Expense, { CategoryExpense } from "../../components/category/expense";
 
 const list: CategoryExpense[] = [
     {

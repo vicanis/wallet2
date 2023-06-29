@@ -1,4 +1,4 @@
-import Income, { CategoryIncome } from "../components/category/income";
+import Income, { CategoryIncome } from "../../components/category/income";
 
 const list: CategoryIncome[] = [
     {
