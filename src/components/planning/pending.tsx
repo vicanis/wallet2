@@ -1,6 +1,6 @@
 import { mdiCalendarMonthOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import Amount from "./amount";
+import Amount from "../amount";
 
 export default function Pending() {
     return (

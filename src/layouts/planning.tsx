@@ -1,6 +1,5 @@
-import { Fragment } from "react";
-import Pending from "../components/pending";
-import Remaining from "../components/remaining";
+import Pending from "../components/planning/pending";
+import Remaining from "../components/planning/remaining";
 
 export default function Planning() {
     return (

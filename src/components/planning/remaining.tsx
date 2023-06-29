@@ -1,5 +1,5 @@
-import Amount from "./amount";
-import Bar from "./bar";
+import Amount from "../amount";
+import Bar from "../bar";
 
 export default function Remaining() {
     return (
