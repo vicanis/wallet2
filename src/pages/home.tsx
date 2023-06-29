@@ -11,8 +11,11 @@ export default function Home() {
                 backgroundColor: "#F2F7FC",
             }}
         >
-            <TopBar />
-            <Dashboard />
+            <div className="grid gap-4 sticky top-4 w-full">
+                <TopBar />
+                <Dashboard />
+            </div>
+
             <Planning />
             <CategoryExpenses />
         </div>

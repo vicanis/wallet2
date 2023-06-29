@@ -24,7 +24,7 @@ const list: CategoryExpense[] = [
 export default function CategoryExpenses() {
     return (
         <div>
-            <div className="text-xs p-3 font-semibold">
+            <div className="text-xs px-3 pb-2 pt-1 font-semibold">
                 Расходы по категориям
             </div>
 

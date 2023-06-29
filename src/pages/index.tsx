@@ -9,7 +9,7 @@ export default function App() {
         {
             path: "/",
             element: (
-                <div>
+                <div className="pb-12">
                     <Outlet />
                     <Menu />
                 </div>
