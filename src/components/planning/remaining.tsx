@@ -29,7 +29,7 @@ export default function Remaining() {
                 />
             </div>
 
-            <Bar total={100000} used={10000} />
+            <Bar total={100000} used={10000} size="medium" />
         </div>
     );
 }
