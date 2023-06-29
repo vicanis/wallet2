@@ -4,6 +4,7 @@ import Menu from "../components/menu";
 import ErrorPage from "./error";
 import Home from "./home";
 import Expense from "./expense";
+import NavBar from "../components/navbar";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -11,6 +12,7 @@ export default function App() {
             path: "/",
             element: (
                 <div className="pb-12">
+                    <NavBar />
                     <Outlet />
                     <Menu />
                 </div>
