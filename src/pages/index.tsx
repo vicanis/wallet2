@@ -3,6 +3,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Menu from "../components/menu";
 import ErrorPage from "./error";
 import Home from "./home";
+import Expense from "./expense";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -22,7 +23,7 @@ export default function App() {
                 },
                 {
                     path: "expense",
-                    element: <span>Expenses</span>,
+                    element: <Expense />,
                 },
                 {
                     path: "income",
