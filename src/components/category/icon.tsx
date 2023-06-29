@@ -1,11 +1,17 @@
-import { mdiBottleTonicPlus, mdiCarHatchback, mdiCart } from "@mdi/js";
+import {
+    mdiBottleTonicPlus,
+    mdiCarHatchback,
+    mdiCart,
+    mdiCashMultiple,
+    mdiCreditCardMultiple,
+} from "@mdi/js";
 import Icon from "@mdi/react";
 
 export default function CategoryIcon({
     category,
     color,
 }: {
-    category: CategoryIconType;
+    category: CategoryExpenseIconType | CategoryIncomeIconType;
     color: string;
 }) {
     switch (category) {
@@ -21,7 +27,22 @@ export default function CategoryIcon({
                         borderRadius: "50%",
                     }}
                 >
-                    <Icon path={Icons[category]} size={1} />
+                    <Icon path={ExpenseIcons[category]} size={1} />
+                </div>
+            );
+
+        case "cash":
+        case "card":
+            return (
+                <div
+                    className="p-1"
+                    style={{
+                        color: "#fff",
+                        backgroundColor: color,
+                        borderRadius: "50%",
+                    }}
+                >
+                    <Icon path={IncomeIcons[category]} size={1} />
                 </div>
             );
     }
@@ -29,10 +50,17 @@ export default function CategoryIcon({
     return <div>{category}</div>;
 }
 
-const Icons = {
+const ExpenseIcons = {
     auto: mdiCarHatchback,
     grocery: mdiCart,
     medical: mdiBottleTonicPlus,
 };
 
-export type CategoryIconType = keyof typeof Icons;
+export type CategoryExpenseIconType = keyof typeof ExpenseIcons;
+
+const IncomeIcons = {
+    cash: mdiCashMultiple,
+    card: mdiCreditCardMultiple,
+};
+
+export type CategoryIncomeIconType = keyof typeof IncomeIcons;

@@ -1,8 +1,8 @@
 import Amount from "../amount";
 import Bar from "../bar";
-import CategoryIcon, { CategoryExpenseIconType } from "./icon";
+import CategoryIcon, { CategoryIncomeIconType } from "./icon";
 
-export default function Expense({ name, icon, value, limit }: CategoryExpense) {
+export default function Income({ name, icon, value, limit }: CategoryIncome) {
     const remains = limit - value;
 
     return (
@@ -33,10 +33,10 @@ export default function Expense({ name, icon, value, limit }: CategoryExpense) {
                     <span
                         className="flex gap-1 text-xs"
                         style={{
-                            color: remains < 0 ? "#E85338" : "#BFB7B7",
+                            color: "#BFB7B7",
                         }}
                     >
-                        {remains < 0 ? "сверх" : "осталось"}
+                        <span>осталось</span>
                         <Amount
                             currency="RUB"
                             value={Math.abs(remains)}
@@ -50,9 +50,9 @@ export default function Expense({ name, icon, value, limit }: CategoryExpense) {
     );
 }
 
-export interface CategoryExpense {
+export interface CategoryIncome {
     name: string;
-    icon: CategoryExpenseIconType;
+    icon: CategoryIncomeIconType;
     value: number;
     limit: number;
 }
