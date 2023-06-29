@@ -4,12 +4,9 @@ import CurrencySelector, {
 } from "../components/currency/selector";
 import { CurrencyIcon } from "../components/currency/icon";
 import Icon from "@mdi/react";
-import {
-    mdiArrowDownCircle,
-    mdiArrowUpCircle,
-    mdiChevronLeft,
-    mdiChevronRight,
-} from "@mdi/js";
+import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
+import IconArrowUp from "../assets/arrow_up.svg";
+import IconArrowDown from "../assets/arrow_down.svg";
 import Amount from "../components/amount";
 
 const currentBalance: Balance[] = [
@@ -150,32 +147,32 @@ export default function Dashboard() {
             </div>
 
             <div className="flex justify-between px-4">
-                <div className="flex gap-1 items-end">
-                    <Icon path={mdiArrowUpCircle} size={1.75} color="#67A656" />
+                <div className="flex gap-1 items-center">
+                    <img src={IconArrowUp} />
                     <div className="flex flex-col justify-center">
-                        <span className="text-sm text-white">Входящие</span>
+                        <span className="text-xs text-white pl-1">
+                            Входящие
+                        </span>
                         <Amount
                             currency={balance.balance.currency}
                             value={balance.balance.income}
                             iconSize={0.7}
-                            style={{ color: "white", fontSize: "12pt" }}
+                            style={{ color: "white", fontSize: "11pt" }}
                         />
                     </div>
                 </div>
 
-                <div className="flex gap-1 items-end">
-                    <Icon
-                        path={mdiArrowDownCircle}
-                        size={1.75}
-                        color="#E85338"
-                    />
+                <div className="flex gap-1 items-center">
+                    <img src={IconArrowDown} />
                     <div className="flex flex-col justify-center">
-                        <span className="text-sm text-white">Исходящие</span>
+                        <span className="text-xs text-white pl-1">
+                            Исходящие
+                        </span>
                         <Amount
                             currency={balance.balance.currency}
                             value={balance.balance.expense}
                             iconSize={0.7}
-                            style={{ color: "white", fontSize: "12pt" }}
+                            style={{ color: "white", fontSize: "11pt" }}
                         />
                     </div>
                 </div>
