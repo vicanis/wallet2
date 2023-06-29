@@ -11,7 +11,7 @@ export default function Menu() {
     const navigate = useNavigate();
 
     return (
-        <div className="fixed bottom-0 flex justify-around w-full h-12">
+        <div className="fixed bottom-2 flex justify-around w-full h-10 bg-white">
             <Icon
                 active={location.pathname === "/"}
                 image={<img className="w-7" src={ImageHome} />}
@@ -21,13 +21,13 @@ export default function Menu() {
             <Icon
                 active={location.pathname === "/expense"}
                 image={<img className="w-6" src={ImageExpense} />}
-                color="#E85338"
+                color="#0A90D5"
                 onClick={() => navigate("/expense")}
             />
             <Icon
                 active={location.pathname === "/income"}
                 image={<img className="w-6" src={ImageIncome} />}
-                color="#5D8E26"
+                color="#0A90D5"
                 onClick={() => navigate("/income")}
             />
             <Icon
@@ -39,7 +39,7 @@ export default function Menu() {
             <Icon
                 active={location.pathname === "/exchange"}
                 image={<img className="w-9" src={ImageExchange} />}
-                color="#0084C8"
+                color="#0A90D5"
                 onClick={() => navigate("/exchange")}
             />
         </div>
