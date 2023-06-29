@@ -1,5 +1,5 @@
 import TopBar from "../components/topbar";
-import CategoryExpenses from "../layouts/category/expenses";
+import CategoryExpenses from "../layouts/expenses";
 import Dashboard from "../layouts/dashboard";
 import Planning from "../layouts/planning";
 
@@ -17,6 +17,7 @@ export default function Home() {
             </div>
 
             <Planning />
+
             <CategoryExpenses />
         </div>
     );
