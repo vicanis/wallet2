@@ -22,7 +22,9 @@ export default function Pending() {
             />
 
             <div className="grid justify-start items-center gap-2">
-                <span className="text-sm">3 предстоящих расхода</span>
+                <span className="text-sm font-semibold">
+                    3 предстоящих расхода
+                </span>
                 <Amount
                     currency="RUB"
                     value={90000}

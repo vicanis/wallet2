@@ -9,7 +9,7 @@ export default function Remaining() {
                 backgroundColor: "#9DD1EC",
             }}
         >
-            <div className="text-sm">
+            <div className="text-sm font-semibold">
                 Остаток с учетом запланированных средств
             </div>
 
