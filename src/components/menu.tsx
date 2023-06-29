@@ -11,7 +11,7 @@ export default function Menu() {
     const navigate = useNavigate();
 
     return (
-        <div className="fixed bottom-2 flex justify-around w-full h-10 bg-white">
+        <div className="fixed bottom-0 flex justify-around w-full h-12 pb-2 bg-white">
             <Icon
                 active={location.pathname === "/"}
                 image={<img className="w-7" src={ImageHome} />}
@@ -68,7 +68,7 @@ function Icon({
 
             {active && (
                 <div
-                    className="border-b-2 absolute bottom-0.5 w-10"
+                    className="border-b-2 absolute bottom-1.5 w-10"
                     style={{ borderColor: color }}
                 >
                     &nbsp;
