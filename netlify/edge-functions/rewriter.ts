@@ -1,16 +1,15 @@
 import type { Context } from "@netlify/edge-functions";
 
 export default async (request: Request, context: Context) => {
-    const url = new URL(request.url);
+    const { pathname } = new URL(request.url);
 
-    console.log(
-        "handle request from URL",
-        request.url,
-        "host",
-        url.hostname,
-        "path",
-        url.pathname
-    );
+    if (pathname.indexOf("/static") === 0) {
+        return;
+    }
 
-    // return new URL("/", request.url);
+    for (const page of ["/expense", "/income", "/stats", "/exchange"]) {
+        if (pathname.indexOf(page) === 0) {
+            return new URL("/", request.url);
+        }
+    }
 };
