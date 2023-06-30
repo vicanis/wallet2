@@ -5,6 +5,7 @@ import ErrorPage from "./error";
 import Home from "./home";
 import OperationPage from "./operation";
 import NavBar from "../components/navbar";
+import ExchangePage from "./exchange";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -37,7 +38,7 @@ export default function App() {
                 },
                 {
                     path: "exchange",
-                    element: <span>Exchange</span>,
+                    element: <ExchangePage />,
                 },
             ],
         },
