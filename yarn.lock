@@ -6344,6 +6344,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"flag-icons@npm:^6.7.0":
+  version: 6.7.0
+  resolution: "flag-icons@npm:6.7.0"
+  checksum: 4c61421f4d88b327b79eb26137c9c5f625aead7755445068186f80ec4bc65c602622d338e8cb39eb84025b672c2e157c1eda8b40dcb5124cbb8d33f6068653b2
+  languageName: node
+  linkType: hard
+
 "flat-cache@npm:^3.0.4":
   version: 3.0.4
   resolution: "flat-cache@npm:3.0.4"
@@ -12686,6 +12693,7 @@ __metadata:
     dayjs: ^1.11.8
     eslint-config-react: ^1.1.7
     eslint-config-react-app: ^7.0.1
+    flag-icons: ^6.7.0
     react: ^18.2.0
     react-dom: ^18.2.0
     react-router-dom: ^6.14.0
