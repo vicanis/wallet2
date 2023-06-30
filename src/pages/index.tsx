@@ -3,7 +3,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Menu from "../components/menu";
 import ErrorPage from "./error";
 import Home from "./home";
-import Expense from "./expense";
+import OperationPage from "./operation";
 import NavBar from "../components/navbar";
 
 export default function App() {
@@ -25,11 +25,11 @@ export default function App() {
                 },
                 {
                     path: "expense",
-                    element: <Expense />,
+                    element: <OperationPage />,
                 },
                 {
                     path: "income",
-                    element: <span>Incomes</span>,
+                    element: <OperationPage />,
                 },
                 {
                     path: "stats",

@@ -1,13 +1,19 @@
 import { mdiCalendarMonthOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import RadioGroup from "../../components/radiogroup";
-import WalletSelector from "../../components/walletselector";
-import InputGroup from "../../components/group";
-import AmountEditor from "../../components/amounteditor";
-import CategorySelector from "../../components/category/selector";
-import PrimaryButton from "../../components/button/primary";
+import RadioGroup from "../components/radiogroup";
+import WalletSelector from "../components/walletselector";
+import InputGroup from "../components/group";
+import AmountEditor from "../components/amounteditor";
+import CategorySelector from "../components/category/selector";
+import PrimaryButton from "../components/button/primary";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export default function OperationExpense() {
+export default function Operation() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const page = location.pathname === "/expense" ? "expense" : "income";
+
     return (
         <div className="grid gap-6 justify-stretch">
             <div className="flex justify-center gap-2 items-center">
@@ -25,14 +31,17 @@ export default function OperationExpense() {
                         {
                             id: "expense",
                             name: "Расход",
-                            selected: true,
+                            selected: page === "expense",
                         },
                         {
                             id: "income",
                             name: "Доход",
-                            selected: false,
+                            selected: page === "income",
                         },
                     ]}
+                    onChange={(id: string) => {
+                        navigate(`/${id}`);
+                    }}
                 />
             </div>
 
