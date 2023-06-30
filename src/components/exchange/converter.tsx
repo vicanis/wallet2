@@ -7,10 +7,16 @@ import { mdiSwapVertical } from "@mdi/js";
 
 export default function Converter({
     value,
+    from,
+    to,
     rate,
+    onChangeCurrency,
 }: {
     value: number;
+    from: CurrencyType;
+    to: CurrencyType;
     rate: number;
+    onChangeCurrency: (from: CurrencyType, to: CurrencyType) => void;
 }) {
     const valueTo = useMemo(() => {
         const converted = Math.trunc(100 * (value / rate));
@@ -24,14 +30,21 @@ export default function Converter({
                 backgroundColor: "#0A90D5",
             }}
         >
-            <Line currency="RUB" value={value} />
+            <Line currency={from} value={value} />
+
             <div className="text-center relative">
-                <div className="absolute left-10">
+                <div
+                    className="absolute left-10"
+                    onClick={() => {
+                        onChangeCurrency(to, from);
+                    }}
+                >
                     <Icon path={mdiSwapVertical} size={1} />
                 </div>
-                <Rate from="RUB" to="USD" rate={rate} />
+                <Rate from={from} to={to} rate={rate} />
             </div>
-            <Line currency="USD" value={valueTo} />
+
+            <Line currency={to} value={valueTo} />
         </div>
     );
 }
@@ -57,7 +70,7 @@ function Rate({
 }) {
     return (
         <span>
-            1 {to} = {rate.toFixed(2)} {from}
+            1 {to} = {rate} {from}
         </span>
     );
 }
