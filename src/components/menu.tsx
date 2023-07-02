@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import ImageHome from "../assets/menu/home.svg";
 import ImageExpense from "../assets/menu/expense.svg";
 import ImageIncome from "../assets/menu/income.svg";
 import ImageStats from "../assets/menu/stats.svg";
 import ImageExchange from "../assets/menu/exchange.svg";
-import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Menu() {
     const location = useLocation();
