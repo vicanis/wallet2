@@ -6,6 +6,9 @@ import Home from "./home";
 import OperationPage from "./operation";
 import NavBar from "../components/navbar";
 import ExchangePage from "./exchange";
+import StatsPage from "./stats";
+import CategoryPage from "./stats/category";
+import StatisticsPage from "./stats/statistics";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -34,7 +37,18 @@ export default function App() {
                 },
                 {
                     path: "stats",
-                    element: <span>Stats</span>,
+                    element: <StatsPage />,
+                    children: [
+                        {
+                            path: "category?",
+                            element: <CategoryPage />,
+                            index: true,
+                        },
+                        {
+                            path: "statistics",
+                            element: <StatisticsPage />,
+                        },
+                    ],
                 },
                 {
                     path: "exchange",

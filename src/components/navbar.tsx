@@ -13,11 +13,12 @@ export default function NavBar() {
             case "/income":
                 return "Новая операция";
 
-            case "/stats":
-                return "Аналитика";
-
             case "/exchange":
                 return "Обмен валюты";
+        }
+
+        if (pathname.indexOf("/stats") === 0) {
+            return "Аналитика";
         }
 
         return pathname;
