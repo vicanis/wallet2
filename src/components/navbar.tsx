@@ -29,9 +29,9 @@ export default function NavBar() {
 
     return (
         <div
-            className="flex gap-4 items-center justify-between p-5 rounded-b-xl text-white"
+            className="flex gap-4 items-center justify-between p-5 text-white"
             style={{
-                backgroundColor: "#0A90D5",
+                backgroundColor: "#0084C8",
             }}
         >
             <span onClick={() => navigate(-1)}>
