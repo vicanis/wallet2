@@ -19,25 +19,25 @@ export default function Menu() {
                 onClick={() => navigate("/")}
             />
             <Icon
-                active={location.pathname === "/expense"}
+                active={location.pathname.indexOf("/expense") === 0}
                 image={<img className="w-6" src={ImageExpense} />}
                 color="#0A90D5"
                 onClick={() => navigate("/expense")}
             />
             <Icon
-                active={location.pathname === "/income"}
+                active={location.pathname.indexOf("/income") === 0}
                 image={<img className="w-6" src={ImageIncome} />}
                 color="#0A90D5"
                 onClick={() => navigate("/income")}
             />
             <Icon
-                active={location.pathname === "/stats"}
+                active={location.pathname.indexOf("/stats") === 0}
                 image={<img className="w-5" src={ImageStats} />}
                 color="#0A90D5"
                 onClick={() => navigate("/stats")}
             />
             <Icon
-                active={location.pathname === "/exchange"}
+                active={location.pathname.indexOf("/exchange") === 0}
                 image={<img className="w-9" src={ImageExchange} />}
                 color="#0A90D5"
                 onClick={() => navigate("/exchange")}

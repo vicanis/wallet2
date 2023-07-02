@@ -42,7 +42,21 @@ export default function App() {
                         {
                             path: "category?",
                             element: <CategoryPage />,
-                            index: true,
+                            children: [
+                                {
+                                    path: "expense?",
+                                    element: (
+                                        <div>Stats / Category / Expense</div>
+                                    ),
+                                    index: true,
+                                },
+                                {
+                                    path: "income",
+                                    element: (
+                                        <div>Stats / Category / Income</div>
+                                    ),
+                                },
+                            ],
                         },
                         {
                             path: "statistics",

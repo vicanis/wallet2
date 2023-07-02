@@ -36,7 +36,7 @@ function Item({
     const location = useLocation();
 
     const selected =
-        location.pathname === `/stats/${type}` ||
+        location.pathname.indexOf(`/stats/${type}`) === 0 ||
         (type === "category" && location.pathname === "/stats");
 
     const { icon, name } = Tabs[type];
