@@ -45,16 +45,47 @@ export default function App() {
                             children: [
                                 {
                                     path: "expense?",
-                                    element: (
-                                        <div>Stats / Category / Expense</div>
-                                    ),
-                                    index: true,
+                                    children: [
+                                        {
+                                            path: "year",
+                                            element: <div>Year</div>,
+                                        },
+                                        {
+                                            path: "month?",
+                                            element: <div>Month</div>,
+                                            index: true,
+                                        },
+                                        {
+                                            path: "week",
+                                            element: <div>Week</div>,
+                                        },
+                                        {
+                                            path: "day",
+                                            element: <div>Day</div>,
+                                        },
+                                    ],
                                 },
                                 {
                                     path: "income",
-                                    element: (
-                                        <div>Stats / Category / Income</div>
-                                    ),
+                                    children: [
+                                        {
+                                            path: "year",
+                                            element: <div>Year</div>,
+                                        },
+                                        {
+                                            path: "month?",
+                                            element: <div>Month</div>,
+                                            index: true,
+                                        },
+                                        {
+                                            path: "week",
+                                            element: <div>Week</div>,
+                                        },
+                                        {
+                                            path: "day",
+                                            element: <div>Day</div>,
+                                        },
+                                    ],
                                 },
                             ],
                         },

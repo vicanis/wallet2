@@ -4,6 +4,9 @@ export default function Switcher() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
 
+    const parts = pathname.split("/");
+    const period = parts?.[4] ?? "month";
+
     return (
         <div className="flex gap-8 justify-center">
             <Item
@@ -11,14 +14,14 @@ export default function Switcher() {
                 checked={
                     pathname === "/stats" ||
                     pathname === "/stats/category" ||
-                    pathname === "/stats/category/expense"
+                    pathname.indexOf("/stats/category/expense") === 0
                 }
-                onSelect={() => navigate("/stats/category/expense")}
+                onSelect={() => navigate(`/stats/category/expense/${period}`)}
             />
             <Item
                 name="Доход"
-                checked={pathname === "/stats/category/income"}
-                onSelect={() => navigate("/stats/category/income")}
+                checked={pathname.indexOf("/stats/category/income") === 0}
+                onSelect={() => navigate(`/stats/category/income/${period}`)}
             />
         </div>
     );
