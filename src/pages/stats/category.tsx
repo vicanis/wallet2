@@ -1,7 +1,5 @@
-import PeriodSelector from "../../components/stats/periodselector";
 import Switcher from "../../components/stats/switcher";
-import CategoryListLayout from "../../layouts/stats/categorylist";
-import PieChartLayout from "../../layouts/stats/piechart";
+import CategoryLayout from "../../layouts/stats/category";
 
 export default function CategoryPage() {
     return (
@@ -10,12 +8,7 @@ export default function CategoryPage() {
                 <Switcher />
             </div>
 
-            <div className="px-5 py-2 rounded-2xl grid gap-2 bg-white">
-                <PeriodSelector />
-                <PieChartLayout />
-            </div>
-
-            <CategoryListLayout />
+            <CategoryLayout />
         </div>
     );
 }

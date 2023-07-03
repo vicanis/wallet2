@@ -10,9 +10,11 @@ import Icon from "@mdi/react";
 export default function CategoryIcon({
     category,
     color,
+    size = 1,
 }: {
     category: CategoryExpenseIconType | CategoryIncomeIconType;
     color: string;
+    size?: number;
 }) {
     switch (category) {
         case "auto":
@@ -27,7 +29,7 @@ export default function CategoryIcon({
                         borderRadius: "50%",
                     }}
                 >
-                    <Icon path={ExpenseIcons[category]} size={1} />
+                    <Icon path={ExpenseIcons[category]} size={size} />
                 </div>
             );
 
@@ -42,7 +44,7 @@ export default function CategoryIcon({
                         borderRadius: "50%",
                     }}
                 >
-                    <Icon path={IncomeIcons[category]} size={1} />
+                    <Icon path={IncomeIcons[category]} size={size} />
                 </div>
             );
     }
