@@ -41,27 +41,26 @@ export default function App() {
                     children: [
                         {
                             path: "category?",
-                            element: <CategoryPage />,
                             children: [
                                 {
                                     path: "expense?",
                                     children: [
                                         {
                                             path: "year",
-                                            element: <div>Year</div>,
+                                            element: <CategoryPage />,
                                         },
                                         {
                                             path: "month?",
-                                            element: <div>Month</div>,
+                                            element: <CategoryPage />,
                                             index: true,
                                         },
                                         {
                                             path: "week",
-                                            element: <div>Week</div>,
+                                            element: <CategoryPage />,
                                         },
                                         {
                                             path: "day",
-                                            element: <div>Day</div>,
+                                            element: <CategoryPage />,
                                         },
                                     ],
                                 },
@@ -70,20 +69,20 @@ export default function App() {
                                     children: [
                                         {
                                             path: "year",
-                                            element: <div>Year</div>,
+                                            element: <CategoryPage />,
                                         },
                                         {
                                             path: "month?",
-                                            element: <div>Month</div>,
+                                            element: <CategoryPage />,
                                             index: true,
                                         },
                                         {
                                             path: "week",
-                                            element: <div>Week</div>,
+                                            element: <CategoryPage />,
                                         },
                                         {
                                             path: "day",
-                                            element: <div>Day</div>,
+                                            element: <CategoryPage />,
                                         },
                                     ],
                                 },
