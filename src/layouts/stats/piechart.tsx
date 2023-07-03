@@ -33,11 +33,19 @@ export default function PieChartLayout() {
     const items = useMemo<PieChartItemData[]>(() => {
         const items: PieChartItemData[] = [];
 
-        const total = initialItems.reduce((sum, item) => sum + item.value, 0);
+        const sorted: ItemData[] = initialItems.sort((a, b) => {
+            if (a.value === b.value) {
+                return 0;
+            }
+
+            return a.value > b.value ? -1 : 1;
+        });
+
+        const total = sorted.reduce((sum, item) => sum + item.value, 0);
 
         let start = 0;
 
-        for (const { name, color, value } of initialItems) {
+        for (const { name, color, value } of sorted) {
             const percent = (value / total) * 100;
 
             items.push({
@@ -51,13 +59,7 @@ export default function PieChartLayout() {
             start += percent;
         }
 
-        return items.sort((a, b) => {
-            if (a.percent === b.percent) {
-                return 0;
-            }
-
-            return a.percent > b.percent ? -1 : 1;
-        });
+        return items;
     }, [initialItems]);
 
     return (
