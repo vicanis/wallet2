@@ -45,6 +45,7 @@ export default function PieChartLayout() {
                 color,
                 percent,
                 start,
+                value,
             });
 
             start += percent;
@@ -60,9 +61,9 @@ export default function PieChartLayout() {
     }, [initialItems]);
 
     return (
-        <div className="grid grid-flow-col gap-6">
+        <div className="flex items-start gap-6">
             <PieChart items={items} />
-            <div className="grid gap-3">
+            <div className="flex-grow grid gap-3">
                 {items.map((item, index) => (
                     <ListItem key={index} {...item} />
                 ))}
