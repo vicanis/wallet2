@@ -9,10 +9,7 @@ export default function CategoryBar({ item }: { item: PieChartItemData }) {
 
             <div className="w-full h-full my-auto">
                 <div className="flex-grow flex justify-between">
-                    <div className="flex-grow flex gap-4">
-                        <div>{item.name}</div>
-                        <div>{Math.floor(item.percent)}%</div>
-                    </div>
+                    <div className="flex-grow flex gap-3">{item.name}</div>
 
                     <span style={{ color: "#B49C98" }}>
                         <Amount
@@ -23,18 +20,23 @@ export default function CategoryBar({ item }: { item: PieChartItemData }) {
                     </span>
                 </div>
 
-                <div className="flex-grow w-full relative mt-1">
-                    <div
-                        className="absolute w-full h-2 rounded-md"
-                        style={{ backgroundColor: "#D3EAFF" }}
-                    ></div>
-                    <div
-                        className="absolute h-2 rounded-md"
-                        style={{
-                            width: `${item.percent}%`,
-                            backgroundColor: item.color,
-                        }}
-                    ></div>
+                <div className="flex gap-2 items-center">
+                    <div className="text-sm color-[#B49C98] w-10 text-right">
+                        {Math.floor(item.percent)}%
+                    </div>
+                    <div className="flex-grow w-full relative h-2">
+                        <div
+                            className="absolute w-full h-2 rounded-md"
+                            style={{ backgroundColor: "#D3EAFF" }}
+                        ></div>
+                        <div
+                            className="absolute h-2 rounded-md"
+                            style={{
+                                width: `${item.percent}%`,
+                                backgroundColor: item.color,
+                            }}
+                        ></div>
+                    </div>
                 </div>
             </div>
         </div>
