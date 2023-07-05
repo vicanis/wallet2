@@ -4,6 +4,10 @@ import "./index.css";
 import Index from "./pages";
 import reportWebVitals from "./reportWebVitals";
 import MobileWrapper from "./layouts/mobilewrapper";
+import netlifyIdentity from "netlify-identity-widget";
+
+window.netlifyIdentity = netlifyIdentity;
+netlifyIdentity.init();
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement

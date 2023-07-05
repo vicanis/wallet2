@@ -2948,6 +2948,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/netlify-identity-widget@npm:^1.9.3":
+  version: 1.9.3
+  resolution: "@types/netlify-identity-widget@npm:1.9.3"
+  checksum: 11f2160db1466aaed4e626c45ad87e65d98f944e2950ddc1c1ab10214e779a317c18e8a26047fbcbf6588f17ee84b248f8bd830b1ea0737f77b1a4505c1845b4
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*, @types/node@npm:^16.7.13":
   version: 16.18.36
   resolution: "@types/node@npm:16.18.36"
@@ -9119,6 +9126,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"netlify-identity-widget@npm:^1.9.2":
+  version: 1.9.2
+  resolution: "netlify-identity-widget@npm:1.9.2"
+  checksum: abba8d53ef2a4e0faa187198ba4b861d58e044be3ab57276be5a21a3c859fa03398c485b31a06ecd5d200ead968c47a61c4ae3554d6a09d35fe88acd27ed415f
+  languageName: node
+  linkType: hard
+
 "no-case@npm:^3.0.4":
   version: 3.0.4
   resolution: "no-case@npm:3.0.4"
@@ -12747,6 +12761,7 @@ __metadata:
     "@testing-library/react": ^13.0.0
     "@testing-library/user-event": ^13.2.1
     "@types/jest": ^27.0.1
+    "@types/netlify-identity-widget": ^1.9.3
     "@types/node": ^16.7.13
     "@types/react": ^18.0.0
     "@types/react-dom": ^18.0.0
@@ -12756,6 +12771,7 @@ __metadata:
     eslint-config-react: ^1.1.7
     eslint-config-react-app: ^7.0.1
     flag-icons: ^6.7.0
+    netlify-identity-widget: ^1.9.2
     react: ^18.2.0
     react-chartjs-2: ^5.2.0
     react-dom: ^18.2.0
