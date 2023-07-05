@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { mdiCalendar, mdiMenu } from "@mdi/js";
 import Icon from "@mdi/react";
 import dayjs from "../lib/dayjs";
+import AuthButton from "./auth/button";
 
 export default function TopBar() {
     const month = useMemo(() => {
@@ -18,6 +19,8 @@ export default function TopBar() {
                 />
                 <span className="text-sm">{month}</span>
             </span>
+
+            <AuthButton />
 
             <Icon path={mdiMenu} size={1} style={{ color: "#0A90D5" }} />
         </div>
