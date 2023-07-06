@@ -5,6 +5,7 @@ import Icon from "@mdi/react";
 import MonthSelector from "../components/monthselector";
 import Overlay from "../components/menu/overlay";
 import Menu from "../components/menu";
+import { Transition } from "@headlessui/react";
 
 export default function NavBar() {
     const { pathname } = useLocation();
@@ -54,11 +55,19 @@ export default function NavBar() {
                 <Icon path={mdiMenu} size={1} />
             </span>
 
-            {isMenuOpened && (
+            <Transition
+                show={isMenuOpened}
+                enter="transition-opacity duration-150"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity duration-150"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+            >
                 <Overlay onClick={() => setIsMenuOpened(false)}>
                     <Menu />
                 </Overlay>
-            )}
+            </Transition>
         </div>
     );
 }

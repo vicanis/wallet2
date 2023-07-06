@@ -9,7 +9,7 @@ export default function Overlay({
 }) {
     return (
         <div
-            className="fixed top-0 left-0 w-full h-full backdrop-blur-md z-[1]"
+            className="fixed top-0 left-0 w-full h-full backdrop-blur-md z-10"
             onClick={onClick}
         >
             <div
