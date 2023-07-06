@@ -1,16 +1,17 @@
 class AuthClass {
-    public Authenticate(callback: (user: User) => void) {
-        window.netlifyIdentity.open();
-        window.netlifyIdentity.on("login", (user: User) => {
-            callback(user);
-        });
+    public SignUp(callback: (user: User) => void) {
+        window.netlifyIdentity.open("signup");
+        window.netlifyIdentity.on("login", callback);
+    }
+
+    public SignIn(callback: (user: User) => void) {
+        window.netlifyIdentity.open("login");
+        window.netlifyIdentity.on("login", callback);
     }
 
     public Logout(callback: () => void) {
         window.netlifyIdentity.logout();
-        window.netlifyIdentity.on("logout", () => {
-            callback();
-        });
+        window.netlifyIdentity.on("logout", callback);
     }
 
     public Close() {

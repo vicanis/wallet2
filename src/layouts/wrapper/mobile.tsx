@@ -1,6 +1,6 @@
 import { Fragment, ReactNode } from "react";
-import ImagePhoneHand from "../assets/phone_hand2.png";
-import useMobile from "../hooks/mobile";
+import ImagePhoneHand from "../../assets/phone_hand2.png";
+import useMobile from "../../hooks/mobile";
 
 export default function MobileWrapper({ children }: { children: ReactNode }) {
     const mobile = useMobile();

@@ -28,7 +28,7 @@ export default function AuthButton() {
     return (
         <a
             onClick={() => {
-                Auth.Authenticate((user) => {
+                Auth.SignIn((user) => {
                     Auth.Close();
                     navigate("/");
                 });

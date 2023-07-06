@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import Index from "./pages";
 import reportWebVitals from "./reportWebVitals";
-import MobileWrapper from "./layouts/mobilewrapper";
+import MobileWrapper from "./layouts/wrapper/mobile";
 import netlifyIdentity from "netlify-identity-widget";
 
 window.netlifyIdentity = netlifyIdentity;

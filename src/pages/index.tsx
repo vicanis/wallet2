@@ -9,17 +9,32 @@ import ExchangePage from "./exchange";
 import StatsPage from "./stats";
 import CategoryPage from "./stats/category";
 import StatisticsPage from "./stats/statistics";
+import LoginWrapper from "../layouts/wrapper/login";
+import WelcomePage from "./welcome";
+import LoginPage from "./login";
 
 export default function App() {
     const router = createBrowserRouter([
         {
+            path: "welcome",
+            element: <WelcomePage />,
+            errorElement: <ErrorPage />,
+        },
+        {
+            path: "login",
+            element: <LoginPage />,
+            errorElement: <ErrorPage />,
+        },
+        {
             path: "/",
             element: (
-                <div className="pb-12">
-                    <NavBar />
-                    <Outlet />
-                    <Menu />
-                </div>
+                <LoginWrapper>
+                    <div className="pb-12">
+                        <NavBar />
+                        <Outlet />
+                        <Menu />
+                    </div>
+                </LoginWrapper>
             ),
             errorElement: <ErrorPage />,
             children: [
