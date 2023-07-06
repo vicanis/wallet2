@@ -17,7 +17,7 @@ export default function Menu() {
 
     return (
         <div className="grid gap-4 items-start font-medium">
-            <div className="flex items-center gap-4 border-b-2 pb-4 mb-2">
+            <div className="flex items-center gap-4 pt-2 px-4">
                 <Icon path={mdiAccountCircleOutline} size={1.5} />
                 <div>
                     <div>{user.email}</div>
@@ -28,25 +28,33 @@ export default function Menu() {
                 </div>
             </div>
 
-            <Item icon={ImageCategory} text="Категории" />
-            <Item icon={ImageMoneyBag} text="Счета" />
-            <Item icon={ImageBills} text="Регулярные платежи" />
-            <Item icon={ImageBell} text="Уведомления" />
-            <Item icon={ImageCurrency} text="Валюта" />
-            <Item icon={ImageCog} text="Настройки" />
+            <hr />
 
-            <br />
+            <div className="grid gap-4 px-4">
+                <div className="w-full py-4 mb-1 border-[1px] text-center">
+                    Совместный доступ
+                </div>
 
-            <Item
-                icon={ImageLogout}
-                text="Выход из аккаунта"
-                onClick={() => {
-                    Auth.Logout(() => {
-                        Auth.Close();
-                        navigate("/");
-                    });
-                }}
-            />
+                <Item icon={ImageCategory} text="Категории" />
+                <Item icon={ImageMoneyBag} text="Счета" />
+                <Item icon={ImageBills} text="Регулярные платежи" />
+                <Item icon={ImageBell} text="Уведомления" />
+                <Item icon={ImageCurrency} text="Валюта" />
+                <Item icon={ImageCog} text="Настройки" />
+
+                <br />
+
+                <Item
+                    icon={ImageLogout}
+                    text="Выход из аккаунта"
+                    onClick={() => {
+                        Auth.Logout(() => {
+                            Auth.Close();
+                            navigate("/");
+                        });
+                    }}
+                />
+            </div>
         </div>
     );
 }
