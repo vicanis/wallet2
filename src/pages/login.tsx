@@ -4,6 +4,7 @@ import Auth from "../lib/auth";
 import ImageFacebook from "../assets/social/facebook.svg";
 import ImageVK from "../assets/social/vk.svg";
 import ImageGoogle from "../assets/social/google.svg";
+import Button from "../components/button";
 
 export default function LoginPage() {
     const navigate = useNavigate();
@@ -32,13 +33,27 @@ export default function LoginPage() {
                 >
                     Войти
                 </button>
+
                 <hr />
+
                 <div className="text-sm">Войти с помощью</div>
                 <div className="flex justify-center gap-4">
                     <img src={ImageFacebook} />
                     <img src={ImageVK} />
                     <img src={ImageGoogle} />
                 </div>
+
+                <hr />
+
+                <Button
+                    onClick={() => {
+                        //
+                    }}
+                >
+                    <span className="text-sm">
+                        Продолжить без создания аккаунта
+                    </span>
+                </Button>
             </div>
         </div>
     );
