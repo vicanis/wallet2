@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ImageHome from "../assets/menu/home.svg";
-import ImageExpense from "../assets/menu/expense.svg";
-import ImageIncome from "../assets/menu/income.svg";
-import ImageStats from "../assets/menu/stats.svg";
-import ImageExchange from "../assets/menu/exchange.svg";
+import ImageHome from "../assets/menu/bottom/home.svg";
+import ImageExpense from "../assets/menu/bottom/expense.svg";
+import ImageIncome from "../assets/menu/bottom/income.svg";
+import ImageStats from "../assets/menu/bottom/stats.svg";
+import ImageExchange from "../assets/menu/bottom/exchange.svg";
 
 export default function BottomBar() {
     const location = useLocation();
