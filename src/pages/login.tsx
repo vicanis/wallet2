@@ -38,9 +38,22 @@ export default function LoginPage() {
 
                 <div className="text-sm">Войти с помощью</div>
                 <div className="flex justify-center gap-4">
-                    <img src={ImageFacebook} />
-                    <img src={ImageVK} />
-                    <img src={ImageGoogle} />
+                    <span className="opacity-50">
+                        <img src={ImageFacebook} />
+                    </span>
+                    <span className="opacity-50">
+                        <img src={ImageVK} />
+                    </span>
+                    <span
+                        onClick={() =>
+                            Auth.SignIn((user) => {
+                                Auth.Close();
+                                navigate("/");
+                            })
+                        }
+                    >
+                        <img src={ImageGoogle} />
+                    </span>
                 </div>
 
                 <hr />
