@@ -30,7 +30,7 @@ export default function Menu() {
 
             <hr />
 
-            <div className="grid gap-4 px-4">
+            <div className="grid gap-6 px-4">
                 <div className="w-full py-4 mb-1 border-[1px] text-center">
                     Совместный доступ
                 </div>
