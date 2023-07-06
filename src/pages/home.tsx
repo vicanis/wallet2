@@ -1,4 +1,3 @@
-import TopBar from "../components/topbar";
 import CategoryExpenses from "../layouts/category/expenses";
 import Dashboard from "../layouts/dashboard";
 import Planning from "../layouts/planning";
@@ -12,13 +11,8 @@ export default function Home() {
                 backgroundColor: "#F2F7FC",
             }}
         >
-            <div className="grid sticky top-0 w-full z-10">
-                <TopBar />
-                <Dashboard />
-            </div>
-
+            <Dashboard />
             <Planning />
-
             <CategoryExpenses />
             <CategoryIncomes />
         </div>

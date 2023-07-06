@@ -1,7 +1,8 @@
 import { mdiChevronLeft, mdiMenu } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import MonthSelector from "./monthselector";
 
 export default function NavBar() {
     const { pathname } = useLocation();
@@ -24,23 +25,28 @@ export default function NavBar() {
         return pathname;
     }, [pathname]);
 
-    if (pathname === "/") {
-        return null;
-    }
-
     return (
         <div
-            className="flex gap-4 items-center justify-between p-5 text-white"
-            style={{
-                backgroundColor: "#0084C8",
-            }}
+            className={`flex gap-4 items-center justify-between p-5
+            ${
+                pathname === "/"
+                    ? "text-[#0084C8] bg-white"
+                    : "text-white bg-[#0084C8]"
+            }`}
         >
-            <span onClick={() => navigate(-1)}>
-                <Icon path={mdiChevronLeft} size={1} />
-            </span>
-            <span className="flex-grow" style={{ fontWeight: 500 }}>
-                {title}
-            </span>
+            {pathname === "/" ? (
+                <MonthSelector />
+            ) : (
+                <Fragment>
+                    <span onClick={() => navigate(-1)}>
+                        <Icon path={mdiChevronLeft} size={1} />
+                    </span>
+                    <span className="flex-grow" style={{ fontWeight: 500 }}>
+                        {title}
+                    </span>
+                </Fragment>
+            )}
+
             <Icon path={mdiMenu} size={1} />
         </div>
     );

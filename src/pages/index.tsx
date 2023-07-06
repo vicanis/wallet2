@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import Menu from "../components/menu";
+import BottomBar from "../components/bottombar";
 import ErrorPage from "./error";
 import Home from "./home";
 import OperationPage from "./operation";
@@ -32,7 +32,7 @@ export default function App() {
                     <div className="pb-12">
                         <NavBar />
                         <Outlet />
-                        <Menu />
+                        <BottomBar />
                     </div>
                 </LoginWrapper>
             ),

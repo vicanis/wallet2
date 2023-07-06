@@ -6,7 +6,7 @@ import ImageIncome from "../assets/menu/income.svg";
 import ImageStats from "../assets/menu/stats.svg";
 import ImageExchange from "../assets/menu/exchange.svg";
 
-export default function Menu() {
+export default function BottomBar() {
     const location = useLocation();
     const navigate = useNavigate();
 
