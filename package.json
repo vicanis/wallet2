@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "@faker-js/faker": "^8.0.2",
+        "@headlessui/react": "^1.7.15",
         "@mdi/js": "^7.2.96",
         "@mdi/react": "^1.6.1",
         "@netlify/edge-functions": "^2.0.0",
