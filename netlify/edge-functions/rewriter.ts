@@ -7,7 +7,14 @@ export default async (request: Request, context: Context) => {
         return;
     }
 
-    for (const page of ["/expense", "/income", "/stats", "/exchange"]) {
+    for (const page of [
+        "/expense",
+        "/income",
+        "/stats",
+        "/exchange",
+        "/welcome",
+        "/login",
+    ]) {
         if (pathname.indexOf(page) === 0) {
             return new URL("/", request.url);
         }
