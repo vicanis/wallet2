@@ -55,7 +55,7 @@ export default function NavBar() {
             </span>
 
             {isMenuOpened && (
-                <Overlay>
+                <Overlay onClick={() => setIsMenuOpened(false)}>
                     <Menu />
                 </Overlay>
             )}
