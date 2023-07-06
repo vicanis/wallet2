@@ -22,7 +22,7 @@ class AuthClass {
         return this.User() !== null;
     }
 
-    public User() {
+    public User(): User {
         return window.netlifyIdentity.currentUser();
     }
 }
@@ -32,6 +32,7 @@ const Auth = new AuthClass();
 export default Auth;
 
 export interface User {
+    email: string;
     user_metadata: {
         full_name: string;
     };

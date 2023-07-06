@@ -4,7 +4,7 @@ import BottomBar from "../components/bottombar";
 import ErrorPage from "./error";
 import Home from "./home";
 import OperationPage from "./operation";
-import NavBar from "../components/navbar";
+import NavBar from "../layouts/navbar";
 import ExchangePage from "./exchange";
 import StatsPage from "./stats";
 import CategoryPage from "./stats/category";
