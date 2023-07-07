@@ -1,20 +1,36 @@
 import { Handler } from "@netlify/functions";
+import { MongoClient } from "mongodb";
 
 export const handler: Handler = async (event, context) => {
-    const params = event.queryStringParameters;
+    const mongoclient = new MongoClient(process.env.MONGODB_URI!);
 
-    if (params === null) {
+    const conn = mongoclient.connect();
+
+    try {
+        const db = (await conn).db("wallet2");
+        const coll = db.collection("category");
+
+        const list = coll.find(
+            {},
+            {
+                sort: {
+                    name: 1,
+                },
+            }
+        );
+
+        const items = await list.toArray();
+
         return {
-            statusCode: 403,
+            statusCode: 200,
+            body: JSON.stringify(items),
         };
+    } catch (e) {
+        return {
+            statusCode: 500,
+            body: e.toString(),
+        };
+    } finally {
+        mongoclient.close();
     }
-
-    const { name = "stranger" } = params;
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify({
-            message: `Hello, ${name}!`,
-        }),
-    };
 };
