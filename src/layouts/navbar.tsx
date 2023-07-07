@@ -22,8 +22,20 @@ export default function NavBar() {
                 return "Обмен валюты";
         }
 
-        if (pathname.indexOf("/stats") === 0) {
-            return "Аналитика";
+        const prefixes: [string, string][] = [
+            ["/stats", "Аналитика"],
+            ["/settings/category", "Категории"],
+            ["/settings/wallet", "Счета"],
+            ["/settings/payment", "Регулярные платежи"],
+            ["/settings/notification", "Уведомления"],
+            ["/settings/currency", "Валюта"],
+            ["/settings/other", "Настройки"],
+        ];
+
+        for (const [prefix, title] of prefixes) {
+            if (pathname.indexOf(prefix) === 0) {
+                return title;
+            }
         }
 
         return pathname;

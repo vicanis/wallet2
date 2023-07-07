@@ -12,6 +12,11 @@ import StatisticsPage from "./stats/statistics";
 import LoginWrapper from "../layouts/wrapper/login";
 import WelcomePage from "./welcome";
 import LoginPage from "./login";
+import CategorySettingsPage from "./settings/category";
+import WalletSettingsPage from "./settings/wallet";
+import PaymentSettingsPage from "./settings/payment";
+import NotificationSettingsPage from "./settings/notification";
+import OtherSettingsPage from "./settings/other";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -112,6 +117,35 @@ export default function App() {
                 {
                     path: "exchange",
                     element: <ExchangePage />,
+                },
+                {
+                    path: "settings",
+                    children: [
+                        {
+                            path: "category",
+                            element: <CategorySettingsPage />,
+                        },
+                        {
+                            path: "wallet",
+                            element: <WalletSettingsPage />,
+                        },
+                        {
+                            path: "payment",
+                            element: <PaymentSettingsPage />,
+                        },
+                        {
+                            path: "notification",
+                            element: <NotificationSettingsPage />,
+                        },
+                        {
+                            path: "currency",
+                            element: <NotificationSettingsPage />,
+                        },
+                        {
+                            path: "other",
+                            element: <OtherSettingsPage />,
+                        },
+                    ],
                 },
             ],
         },

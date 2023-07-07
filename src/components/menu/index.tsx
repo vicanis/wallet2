@@ -57,13 +57,26 @@ export default function Menu({ menuClose }: { menuClose: () => void }) {
                     <Link to="/settings/category">
                         <Item icon={ImageCategory} text="Категории" />
                     </Link>
-                    <Link to="/settings/bills">
+
+                    <Link to="/settings/wallet">
                         <Item icon={ImageMoneyBag} text="Счета" />
                     </Link>
-                    <Item icon={ImageBills} text="Регулярные платежи" />
-                    <Item icon={ImageBell} text="Уведомления" />
-                    <Item icon={ImageCurrency} text="Валюта" />
-                    <Item icon={ImageCog} text="Настройки" />
+
+                    <Link to="/settings/payment">
+                        <Item icon={ImageBills} text="Регулярные платежи" />
+                    </Link>
+
+                    <Link to="/settings/notification">
+                        <Item icon={ImageBell} text="Уведомления" />
+                    </Link>
+
+                    <Link to="/settings/currency">
+                        <Item icon={ImageCurrency} text="Валюта" />
+                    </Link>
+
+                    <Link to="/settings/other">
+                        <Item icon={ImageCog} text="Настройки" />
+                    </Link>
 
                     <br />
 
