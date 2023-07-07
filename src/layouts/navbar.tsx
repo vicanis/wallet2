@@ -3,14 +3,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { mdiChevronLeft, mdiMenu } from "@mdi/js";
 import Icon from "@mdi/react";
 import MonthSelector from "../components/monthselector";
-import Overlay from "../components/menu/overlay";
 import Menu from "../components/menu";
 import { Transition } from "@headlessui/react";
+import Blur from "../components/blur";
 
 export default function NavBar() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
-    const [isMenuOpened, setIsMenuOpened] = useState(false);
+    const [isMenuOpened, setMenuOpened] = useState(false);
 
     const title = useMemo(() => {
         switch (pathname) {
@@ -51,7 +51,7 @@ export default function NavBar() {
                 </Fragment>
             )}
 
-            <span onClick={() => setIsMenuOpened((flag) => !flag)}>
+            <span onClick={() => setMenuOpened((flag) => !flag)}>
                 <Icon path={mdiMenu} size={1} />
             </span>
 
@@ -64,9 +64,9 @@ export default function NavBar() {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
             >
-                <Overlay onClick={() => setIsMenuOpened(false)}>
-                    <Menu />
-                </Overlay>
+                <Blur onClick={() => setMenuOpened(false)}>
+                    <Menu menuClose={() => setMenuOpened(false)} />
+                </Blur>
             </Transition>
         </div>
     );

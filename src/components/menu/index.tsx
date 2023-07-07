@@ -10,50 +10,78 @@ import ImageCurrency from "../../assets/menu/top/currency.svg";
 import ImageCog from "../../assets/menu/top/cog.svg";
 import ImageLogout from "../../assets/menu/top/logout.svg";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import Blur from "../blur";
+import LogoutLayout from "../../layouts/logout";
 
-export default function Menu() {
+export default function Menu({ menuClose }: { menuClose: () => void }) {
     const navigate = useNavigate();
     const user = Auth.User();
 
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+    if (isLoggingOut) {
+        return (
+            <Blur>
+                <LogoutLayout />
+            </Blur>
+        );
+    }
+
     return (
-        <div className="grid gap-4 items-start font-medium">
-            <div className="flex items-center gap-4 pt-2 px-4">
-                <Icon path={mdiAccountCircleOutline} size={1.5} />
-                <div>
-                    <div>{user.email}</div>
-                    <div className="flex items-center gap-2">
-                        Остаток:{" "}
-                        <Amount currency="RUB" value={100000} iconSize={0.7} />
+        <div className="absolute right-0 bg-[#0084C8] text-white h-screen w-[80%] rounded-l-xl">
+            <div className="grid gap-4 items-start font-medium">
+                <div className="flex items-center gap-4 pt-2 px-4">
+                    <Icon path={mdiAccountCircleOutline} size={1.5} />
+                    <div>
+                        <div>{user.email}</div>
+                        <div className="flex items-center gap-2">
+                            Остаток:{" "}
+                            <Amount
+                                currency="RUB"
+                                value={100000}
+                                iconSize={0.7}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <hr />
+                <hr />
 
-            <div className="grid gap-6 px-4">
-                <div className="w-full py-4 mb-1 border-[1px] text-center">
-                    Совместный доступ
+                <div className="grid gap-6 px-4" onClick={menuClose}>
+                    <div className="w-full py-4 mb-1 border-[1px] text-center">
+                        Совместный доступ
+                    </div>
+
+                    <Link to="/settings/category">
+                        <Item icon={ImageCategory} text="Категории" />
+                    </Link>
+                    <Link to="/settings/bills">
+                        <Item icon={ImageMoneyBag} text="Счета" />
+                    </Link>
+                    <Item icon={ImageBills} text="Регулярные платежи" />
+                    <Item icon={ImageBell} text="Уведомления" />
+                    <Item icon={ImageCurrency} text="Валюта" />
+                    <Item icon={ImageCog} text="Настройки" />
+
+                    <br />
+
+                    <Item
+                        icon={ImageLogout}
+                        text="Выход из аккаунта"
+                        onClick={(event) => {
+                            event.stopPropagation();
+
+                            setIsLoggingOut(true);
+
+                            Auth.Logout(() => {
+                                Auth.Close();
+                                navigate("/");
+                            });
+                        }}
+                    />
                 </div>
-
-                <Item icon={ImageCategory} text="Категории" />
-                <Item icon={ImageMoneyBag} text="Счета" />
-                <Item icon={ImageBills} text="Регулярные платежи" />
-                <Item icon={ImageBell} text="Уведомления" />
-                <Item icon={ImageCurrency} text="Валюта" />
-                <Item icon={ImageCog} text="Настройки" />
-
-                <br />
-
-                <Item
-                    icon={ImageLogout}
-                    text="Выход из аккаунта"
-                    onClick={() => {
-                        Auth.Logout(() => {
-                            Auth.Close();
-                            navigate("/");
-                        });
-                    }}
-                />
             </div>
         </div>
     );
@@ -68,16 +96,16 @@ function Item({
     icon: string;
     text: string;
     path?: string;
-    onClick?: () => void;
+    onClick?: (event: React.MouseEvent) => void;
 }) {
     const navigate = useNavigate();
 
     return (
         <div
             className="flex items-center gap-4"
-            onClick={() => {
+            onClick={(event) => {
                 if (typeof onClick === "function") {
-                    onClick();
+                    onClick(event);
                 }
 
                 if (typeof path === "string") {
