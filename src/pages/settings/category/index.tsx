@@ -1,12 +1,10 @@
-import { Await, defer, useLoaderData } from "react-router-dom";
+import { defer, useLoaderData } from "react-router-dom";
 import CategoryList from "../../../layouts/category/list";
 import { Category } from "../../../types/category";
 import Button from "../../../components/button";
 import { WithId } from "mongodb";
 import { Link } from "react-router-dom";
-import React from "react";
-import Blur from "../../../components/blur";
-import LoadingLayout from "../../../layouts/loading";
+import LoadablePage from "../../../components/loadable";
 
 export default function CategorySettingsPage() {
     const { list } = useLoaderData() as { list: WithId<Category>[] };
@@ -17,24 +15,14 @@ export default function CategorySettingsPage() {
                 <Button>Создать категорию</Button>
             </Link>
 
-            <React.Suspense
-                fallback={
-                    <Blur>
-                        <LoadingLayout>Загрузка данных ...</LoadingLayout>
-                    </Blur>
-                }
-            >
-                <Await resolve={list} errorElement={<div>Error loading</div>}>
-                    {(data) => <CategoryList list={data} />}
-                </Await>
-            </React.Suspense>
+            <LoadablePage renderer={(data) => <CategoryList list={data} />} />
         </div>
     );
 }
 
 export function CategoryListLoader() {
     return defer({
-        list: Loader(),
+        data: Loader(),
     });
 }
 
