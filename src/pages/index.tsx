@@ -12,11 +12,16 @@ import StatisticsPage from "./stats/statistics";
 import LoginWrapper from "../layouts/wrapper/login";
 import WelcomePage from "./welcome";
 import LoginPage from "./login";
-import CategorySettingsPage from "./settings/category";
+import CategorySettingsPage, {
+    CategoryListLoader as CategoryListLoader,
+} from "./settings/category";
 import WalletSettingsPage from "./settings/wallet";
 import PaymentSettingsPage from "./settings/payment";
 import NotificationSettingsPage from "./settings/notification";
 import OtherSettingsPage from "./settings/other";
+import CategorySettingsItemPage, {
+    CategoryItemLoader,
+} from "./settings/category/id";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -123,7 +128,18 @@ export default function App() {
                     children: [
                         {
                             path: "category",
-                            element: <CategorySettingsPage />,
+                            children: [
+                                {
+                                    path: ":id",
+                                    element: <CategorySettingsItemPage />,
+                                    loader: CategoryItemLoader,
+                                },
+                                {
+                                    element: <CategorySettingsPage />,
+                                    index: true,
+                                    loader: CategoryListLoader,
+                                },
+                            ],
                         },
                         {
                             path: "wallet",
