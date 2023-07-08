@@ -43,7 +43,9 @@ export function CategoryItemLoader({ params }: LoaderFunctionArgs) {
     }
 
     if (id === "new") {
-        return Promise.reject();
+        return defer({
+            item: {},
+        });
     }
 
     return defer({

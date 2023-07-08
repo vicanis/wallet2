@@ -20,6 +20,19 @@ export default function NavBar() {
 
             case "/exchange":
                 return "Обмен валюты";
+
+            case "/settings/category/new":
+                return "Создание категории";
+        }
+
+        const regexes: [RegExp, string][] = [
+            [/\/settings\/category\/[a-f0-9]+/, "Редактирование категории"],
+        ];
+
+        for (const [regex, title] of regexes) {
+            if (regex.test(pathname)) {
+                return title;
+            }
         }
 
         const prefixes: [string, string][] = [
