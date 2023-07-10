@@ -11,10 +11,8 @@ export default function ColorSelector({
     function Color({ color }: { color: string }) {
         return (
             <div
-                className={`${
-                    selected === color
-                        ? "w-11 h-11 border-[6px] border-[#1F93CE]"
-                        : "w-9 h-9"
+                className={`w-11 h-11 border-[6px] ${
+                    selected === color ? "border-[#1F93CE]" : "border-white"
                 }`}
                 style={{
                     backgroundColor: color,
