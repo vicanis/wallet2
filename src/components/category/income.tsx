@@ -1,13 +1,13 @@
 import Amount from "../amount";
 import Bar from "../bar";
-import CategoryIcon, { CategoryIncomeIconType } from "./icon";
+import CategoryIcon from "./icon";
 
 export default function Income({ name, icon, value, limit }: CategoryIncome) {
     const remains = limit - value;
 
     return (
         <div className="flex items-center gap-2">
-            <CategoryIcon category={icon} color="#0084C8" />
+            <CategoryIcon icon={icon} color="#0084C8" />
 
             <div className="w-full grid gap-1">
                 <div className="flex justify-between items-center">
@@ -52,7 +52,7 @@ export default function Income({ name, icon, value, limit }: CategoryIncome) {
 
 export interface CategoryIncome {
     name: string;
-    icon: CategoryIncomeIconType;
+    icon: string;
     value: number;
     limit: number;
 }

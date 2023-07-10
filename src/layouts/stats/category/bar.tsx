@@ -5,7 +5,7 @@ import { PieChartItemData } from "../../../components/stats/piechart";
 export default function CategoryBar({ item }: { item: PieChartItemData }) {
     return (
         <div className="flex items-center gap-3">
-            <CategoryIcon category="auto" color={item.color} size={1.5} />
+            <CategoryIcon icon="auto" color={item.color} size={1.5} />
 
             <div className="w-full h-full my-auto">
                 <div className="flex-grow flex justify-between">

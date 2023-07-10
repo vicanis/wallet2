@@ -1,23 +1,35 @@
-import Expense, { CategoryExpense } from "../../components/category/expense";
+import Expense from "../../components/category/expense";
+import { Category } from "../../types/category";
 
-const list: CategoryExpense[] = [
+const list: (Category & {
+    value: number;
+})[] = [
     {
+        type: "expense",
         name: "Транспорт",
         icon: "auto",
         value: 3000,
-        limit: 2000,
+        plan: {
+            value: 2000,
+        },
     },
     {
+        type: "expense",
         name: "Покупки",
         icon: "grocery",
         value: 5000,
-        limit: 10000,
+        plan: {
+            value: 10000,
+        },
     },
     {
+        type: "expense",
         name: "Медицина",
         icon: "medical",
         value: 1000,
-        limit: 7000,
+        plan: {
+            value: 7000,
+        },
     },
 ];
 

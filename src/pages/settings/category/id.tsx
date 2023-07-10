@@ -11,6 +11,7 @@ import { CurrencyType } from "../../../components/currency/selector";
 import { Category } from "../../../types/category";
 import PrimaryButton from "../../../components/button/primary";
 import ColorSelector from "../../../components/colorselector";
+import IconSelector from "../../../components/category/icon/selector";
 
 export default function CategorySettingsItemPage() {
     const [activeTab, setActiveTab] = useState("expense");
@@ -18,6 +19,10 @@ export default function CategorySettingsItemPage() {
     const [categoryData, dispatchCategoryData] = useReducer(
         (state: Category, action: CategoryAction) => {
             switch (action.type) {
+                case "type":
+                    state.type = action.value;
+                    break;
+
                 case "name":
                     state.name = action.value;
                     break;
@@ -38,6 +43,7 @@ export default function CategorySettingsItemPage() {
             return { ...state };
         },
         {
+            type: "expense",
             name: "",
             plan: {
                 currency: "RUB",
@@ -67,9 +73,12 @@ export default function CategorySettingsItemPage() {
                                 name: "Доход",
                             },
                         ]}
-                        selected="expense"
+                        selected={categoryData.type}
                         onSelect={(tab) => {
-                            setActiveTab(tab.id);
+                            dispatchCategoryData({
+                                type: "type",
+                                value: tab.id as "expense" | "income",
+                            });
                         }}
                     />
 
@@ -127,12 +136,12 @@ export default function CategorySettingsItemPage() {
                         </Block>
 
                         <Block title="Иконки">
-                            <div>Icon selector</div>
+                            <IconSelector color={categoryData.color ?? ""} />
                         </Block>
 
                         <Block title="Цвет">
                             <ColorSelector
-                                selected={categoryData.color}
+                                selected={categoryData.color ?? ""}
                                 onSelect={(color) =>
                                     dispatchCategoryData({
                                         type: "color",
@@ -186,6 +195,10 @@ async function Loader(id: string) {
 }
 
 type CategoryAction =
+    | {
+          type: "type";
+          value: "expense" | "income";
+      }
     | {
           type: "name" | "color";
           value: string;

@@ -1,13 +1,21 @@
+import { Category } from "../../types/category";
 import Amount from "../amount";
 import Bar from "../bar";
-import CategoryIcon, { CategoryExpenseIconType } from "./icon";
+import CategoryIcon from "./icon";
 
-export default function Expense({ name, icon, value, limit }: CategoryExpense) {
+export default function Expense({
+    name,
+    icon,
+    value,
+    plan,
+}: Category & { value: number }) {
+    const limit = typeof plan.value !== "undefined" ? plan.value : 0;
+
     const remains = limit - value;
 
     return (
         <div className="flex items-center gap-2">
-            <CategoryIcon category={icon} color="#0084C8" />
+            <CategoryIcon icon={icon ?? ""} color="#0084C8" />
 
             <div className="w-full grid gap-1">
                 <div className="flex justify-between items-center">
@@ -48,11 +56,4 @@ export default function Expense({ name, icon, value, limit }: CategoryExpense) {
             </div>
         </div>
     );
-}
-
-export interface CategoryExpense {
-    name: string;
-    icon: CategoryExpenseIconType;
-    value: number;
-    limit: number;
 }
