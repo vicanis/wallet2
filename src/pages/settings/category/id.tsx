@@ -31,6 +31,10 @@ export default function CategorySettingsItemPage() {
                     state.color = action.value;
                     break;
 
+                case "icon":
+                    state.icon = action.value;
+                    break;
+
                 case "plan":
                     state.plan.value = action.value;
                     break;
@@ -136,7 +140,17 @@ export default function CategorySettingsItemPage() {
                         </Block>
 
                         <Block title="Иконки">
-                            <IconSelector color={categoryData.color ?? ""} />
+                            <IconSelector
+                                type={categoryData.type}
+                                color={categoryData.color ?? ""}
+                                selected={categoryData.icon ?? "grocery"}
+                                onSelect={(icon) =>
+                                    dispatchCategoryData({
+                                        type: "icon",
+                                        value: icon,
+                                    })
+                                }
+                            />
                         </Block>
 
                         <Block title="Цвет">
@@ -200,7 +214,7 @@ type CategoryAction =
           value: "expense" | "income";
       }
     | {
-          type: "name" | "color";
+          type: "name" | "color" | "icon";
           value: string;
       }
     | {
