@@ -1,16 +1,20 @@
 import { Fragment, ReactNode, useLayoutEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { WithId } from "mongodb";
+import { Link, useNavigate } from "react-router-dom";
+import { ObjectId, WithId } from "mongodb";
 import { Category } from "../../types/category";
 import Button from "../../components/button";
 import CategoryItem from "./item";
 import CategoryTypeTabs from "./typetabs";
+import Blur from "../../components/blur";
+import LoadingLayout from "../loading";
 
 export default function CategoryList({
     list: fullList,
 }: {
     list: WithId<Category>[];
 }) {
+    const navigate = useNavigate();
+
     const [type, setType] = useState<"expense" | "income">("expense");
 
     const list = useMemo(() => {
@@ -23,71 +27,151 @@ export default function CategoryList({
         y: 0,
     });
 
+    const [confirmationData, setConfirmationData] = useState<{
+        header: string;
+        text: string;
+        handler: () => void;
+    }>();
+
+    const [busy, setBusy] = useState(false);
+
     return (
         <div className="grid gap-4">
             <CategoryTypeTabs selected={type} onSelect={setType} />
 
-            <div>
-                <Link to="new">
-                    <Button>Создать категорию</Button>
-                </Link>
+            <Link to="new">
+                <Button>Создать категорию</Button>
+            </Link>
 
-                {list.length > 0 ? (
-                    <div className="relative p-4 w-full grid grid-cols-3 gap-4">
-                        {list.map((item, index) => (
-                            <div
-                                key={index}
-                                onContextMenu={(event) => {
-                                    event.preventDefault();
-
-                                    const {
-                                        button,
-                                        clientX: X,
-                                        clientY: Y,
-                                    } = event;
-
-                                    if (button === 2) {
-                                        setContextMenuData({
-                                            index,
-                                            x: X,
-                                            y: Y,
-                                        });
-                                    }
-                                }}
-                                className={`${
-                                    contextMenuData.index !== -1 &&
-                                    index === contextMenuData.index
-                                        ? "z-20"
-                                        : ""
-                                }`}
-                            >
-                                <CategoryItem {...item} />
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-[#808080]">Не найдено</div>
-                )}
-
-                {contextMenuData.index !== -1 && (
-                    <Fragment>
+            {list.length > 0 ? (
+                <div className="relative p-4 w-full grid grid-cols-3 gap-4">
+                    {list.map((item, index) => (
                         <div
-                            className="fixed top-0 left-0 h-screen w-screen bg-transparent z-10"
+                            key={index}
+                            onContextMenu={(event) => {
+                                event.preventDefault();
+
+                                const {
+                                    button,
+                                    clientX: X,
+                                    clientY: Y,
+                                } = event;
+
+                                if (button === 2) {
+                                    setContextMenuData({
+                                        index,
+                                        x: X,
+                                        y: Y,
+                                        id: item._id,
+                                    });
+                                }
+                            }}
+                            className={`${
+                                contextMenuData.index !== -1 &&
+                                index === contextMenuData.index
+                                    ? "z-20"
+                                    : ""
+                            }`}
+                        >
+                            <CategoryItem {...item} />
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="text-[#808080]">Не найдено</div>
+            )}
+
+            {contextMenuData.index !== -1 && (
+                <Fragment>
+                    <div
+                        className="fixed top-0 left-0 h-screen w-screen bg-transparent z-10"
+                        onClick={() => {
+                            setContextMenuData((data) => ({
+                                ...data,
+                                index: -1,
+                            }));
+                        }}
+                    />
+
+                    <ContextMenu position={contextMenuData}>
+                        <div>Реорганизовать</div>
+                        <div
                             onClick={() => {
                                 setContextMenuData((data) => ({
                                     ...data,
                                     index: -1,
                                 }));
-                            }}
-                        />
 
-                        <ContextMenu position={contextMenuData}>
-                            <div>Реорганизовать</div>
-                            <div>Удалить</div>
-                        </ContextMenu>
-                    </Fragment>
-                )}
-            </div>
+                                setConfirmationData({
+                                    header: "Удалить категорию?",
+                                    text: 'Все содержащиеся в ней операции будут перемещены в категорию "Другое"',
+                                    handler: () => {
+                                        setConfirmationData(undefined);
+                                    },
+                                });
+                            }}
+                        >
+                            Удалить
+                        </div>
+                    </ContextMenu>
+                </Fragment>
+            )}
+
+            {typeof confirmationData !== "undefined" && (
+                <Blur onClick={() => setConfirmationData(undefined)}>
+                    <div className="flex justify-center items-center h-full w-full">
+                        <div
+                            className="bg-[#f8f8f8] grid gap-3 px-8 py-6"
+                            style={{
+                                boxShadow:
+                                    "0px 4px 20px 0px rgba(0, 0, 0, 0.25)",
+                                maxWidth: "80%",
+                            }}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                            }}
+                        >
+                            <div className="text-lg">
+                                {confirmationData.header}
+                            </div>
+
+                            <div>{confirmationData.text}</div>
+
+                            <div className="mt-4 mx-auto flex gap-20 text-[#0084C8] font-semibold uppercase">
+                                <div
+                                    className="p-4"
+                                    onClick={() => {
+                                        setConfirmationData(undefined);
+                                    }}
+                                >
+                                    Нет
+                                </div>
+                                <div
+                                    className="p-4"
+                                    onClick={async () => {
+                                        setBusy(true);
+
+                                        await fetch(
+                                            "/.netlify/functions/del_category/?id=" +
+                                                contextMenuData.id!.toString()
+                                        );
+
+                                        navigate(0);
+                                    }}
+                                >
+                                    Да
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Blur>
+            )}
+
+            {busy && (
+                <Blur>
+                    <LoadingLayout />
+                </Blur>
+            )}
         </div>
     );
 }
@@ -96,6 +180,7 @@ interface ContextMenuData {
     x: number;
     y: number;
     index: number;
+    id?: ObjectId;
 }
 
 function ContextMenu({
