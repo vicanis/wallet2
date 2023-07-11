@@ -195,7 +195,7 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                             return;
                         }
 
-                        await fetch("/.netlify/functions/add_category", {
+                        await fetch("/.netlify/functions/set_category", {
                             method: "POST",
                             body: JSON.stringify({
                                 _id,
