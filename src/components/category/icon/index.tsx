@@ -33,13 +33,13 @@ export default function CategoryIcon({
 }
 
 export const Icons = {
-    auto: mdiCarHatchback,
     grocery: mdiCart,
+    auto: mdiCarHatchback,
     food: mdiFood,
     medical: mdiBottleTonicPlus,
-    cash: mdiCashMultiple,
-    card: mdiCreditCardMultiple,
     basketball: mdiBasketball,
+    card: mdiCreditCardMultiple,
+    cash: mdiCashMultiple,
 };
 
 export type IconType = keyof typeof Icons;
