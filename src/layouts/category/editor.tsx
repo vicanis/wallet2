@@ -48,19 +48,38 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
     );
 
     useLayoutEffect(() => {
+        const isIncome = (icon: string) =>
+            ["cash", "card"].indexOf(icon) !== -1;
+
         switch (categoryData.type) {
             case "expense":
+                if (
+                    typeof categoryData.icon !== "undefined" &&
+                    !isIncome(categoryData.icon)
+                ) {
+                    break;
+                }
+
                 dispatchCategoryData({
                     type: "icon",
                     value: "grocery",
                 });
+
                 break;
 
             case "income":
+                if (
+                    typeof categoryData.icon !== "undefined" &&
+                    isIncome(categoryData.icon)
+                ) {
+                    break;
+                }
+
                 dispatchCategoryData({
                     type: "icon",
                     value: "card",
                 });
+
                 break;
         }
     }, [categoryData.type]);
