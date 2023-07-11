@@ -1,4 +1,10 @@
-import { ReactNode, useLayoutEffect, useReducer } from "react";
+import {
+    ReactNode,
+    useEffect,
+    useLayoutEffect,
+    useReducer,
+    useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { WithId } from "mongodb";
 import Icon from "@mdi/react";
@@ -13,6 +19,8 @@ import CategoryTypeTabs from "../../layouts/category/typetabs";
 
 export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
     const navigate = useNavigate();
+
+    const [valid, setValid] = useState(data.name !== "");
 
     const [categoryData, dispatchCategoryData] = useReducer(
         (state: Category, action: CategoryAction) => {
@@ -46,6 +54,10 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
         },
         data
     );
+
+    useEffect(() => {
+        setValid(categoryData.name !== "");
+    }, [categoryData.name]);
 
     useLayoutEffect(() => {
         const isIncome = (icon: string) =>
@@ -174,10 +186,15 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                 </Block>
 
                 <PrimaryButton
+                    disabled={!valid}
                     title={
                         typeof _id === "undefined" ? "Добавить" : "Сохранить"
                     }
                     onClick={async () => {
+                        if (!valid) {
+                            return;
+                        }
+
                         await fetch("/.netlify/functions/add_category", {
                             method: "POST",
                             body: JSON.stringify({
