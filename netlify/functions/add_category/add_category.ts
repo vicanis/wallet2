@@ -1,5 +1,5 @@
 import { Handler } from "@netlify/functions";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId, WithId } from "mongodb";
 import type { Category } from "../../../src/types/category";
 
 export const handler: Handler = async (event, context) => {
@@ -11,9 +11,16 @@ export const handler: Handler = async (event, context) => {
     }
 
     let category: Category;
+    let id: ObjectId | undefined;
 
     try {
-        category = JSON.parse(event.body);
+        const { _id, ...data } = JSON.parse(event.body) as WithId<Category>;
+
+        if (typeof _id !== "undefined") {
+            id = new ObjectId(_id);
+        }
+
+        category = data;
     } catch (e) {
         return {
             statusCode: 403,
@@ -29,11 +36,14 @@ export const handler: Handler = async (event, context) => {
         const db = (await conn).db("wallet2");
         const coll = db.collection("category");
 
-        const { insertedId: id } = await coll.insertOne(category);
+        if (typeof id === "undefined") {
+            await coll.insertOne(category);
+        } else {
+            await coll.replaceOne({ _id: id }, category);
+        }
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ id }),
         };
     } catch (e) {
         return {
