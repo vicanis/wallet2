@@ -51,20 +51,14 @@ export default function CategoryList({
                             onContextMenu={(event) => {
                                 event.preventDefault();
 
-                                const {
-                                    button,
-                                    clientX: X,
-                                    clientY: Y,
-                                } = event;
+                                const { clientX: X, clientY: Y } = event;
 
-                                if (button === 2) {
-                                    setContextMenuData({
-                                        index,
-                                        x: X,
-                                        y: Y,
-                                        id: item._id,
-                                    });
-                                }
+                                setContextMenuData({
+                                    index,
+                                    x: X,
+                                    y: Y,
+                                    id: item._id,
+                                });
                             }}
                             className={`${
                                 contextMenuData.index !== -1 &&
