@@ -14,6 +14,7 @@ export default async (request: Request, context: Context) => {
         "/exchange",
         "/welcome",
         "/login",
+        "/settings",
     ]) {
         if (pathname.indexOf(page) === 0) {
             return new URL("/", request.url);
