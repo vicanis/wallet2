@@ -3,7 +3,7 @@ import LoadablePage from "../../../components/loadable";
 import ImageArrowDown from "../../../assets/arrow_down2.svg";
 import ImageArrowUp from "../../../assets/arrow_up2.svg";
 import Tabs from "../../../components/tabs";
-import { ReactNode, useEffect, useLayoutEffect, useReducer } from "react";
+import { ReactNode, useLayoutEffect, useReducer } from "react";
 import Icon from "@mdi/react";
 import { mdiListBoxOutline } from "@mdi/js";
 import CurrencyMiniSelector from "../../../components/currency/miniselector";
@@ -53,10 +53,6 @@ export default function CategorySettingsItemPage() {
             color: "#F52D20",
         }
     );
-
-    useEffect(() => {
-        console.log("category data updated", categoryData);
-    }, [categoryData]);
 
     useLayoutEffect(() => {
         switch (categoryData.type) {
@@ -181,7 +177,18 @@ export default function CategorySettingsItemPage() {
                             />
                         </Block>
 
-                        <PrimaryButton title="Добавить" />
+                        <PrimaryButton
+                            title="Добавить"
+                            onClick={async () => {
+                                await fetch(
+                                    "/.netlify/functions/add_category",
+                                    {
+                                        method: "POST",
+                                        body: JSON.stringify(categoryData),
+                                    }
+                                );
+                            }}
+                        />
                     </div>
                 </div>
             )}
