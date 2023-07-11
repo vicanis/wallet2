@@ -29,7 +29,7 @@ export default function IconSelector({
                 >
                     <CategoryIcon
                         icon={key}
-                        color={key === selected ? color : `${color}60`}
+                        color={key === selected ? color : "#0084C860"}
                         size={1.5}
                     />
                 </span>
