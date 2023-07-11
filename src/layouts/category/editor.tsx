@@ -161,7 +161,10 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                     onClick={async () => {
                         await fetch("/.netlify/functions/add_category", {
                             method: "POST",
-                            body: JSON.stringify(categoryData),
+                            body: JSON.stringify({
+                                _id,
+                                ...categoryData,
+                            }),
                         });
 
                         navigate(-1);
