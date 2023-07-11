@@ -3,7 +3,7 @@ import LoadablePage from "../../../components/loadable";
 import ImageArrowDown from "../../../assets/arrow_down2.svg";
 import ImageArrowUp from "../../../assets/arrow_up2.svg";
 import Tabs from "../../../components/tabs";
-import { ReactNode, useEffect, useReducer, useState } from "react";
+import { ReactNode, useEffect, useLayoutEffect, useReducer } from "react";
 import Icon from "@mdi/react";
 import { mdiListBoxOutline } from "@mdi/js";
 import CurrencyMiniSelector from "../../../components/currency/miniselector";
@@ -14,8 +14,6 @@ import ColorSelector from "../../../components/colorselector";
 import IconSelector from "../../../components/category/icon/selector";
 
 export default function CategorySettingsItemPage() {
-    const [activeTab, setActiveTab] = useState("expense");
-
     const [categoryData, dispatchCategoryData] = useReducer(
         (state: Category, action: CategoryAction) => {
             switch (action.type) {
@@ -59,6 +57,24 @@ export default function CategorySettingsItemPage() {
     useEffect(() => {
         console.log("category data updated", categoryData);
     }, [categoryData]);
+
+    useLayoutEffect(() => {
+        switch (categoryData.type) {
+            case "expense":
+                dispatchCategoryData({
+                    type: "icon",
+                    value: "grocery",
+                });
+                break;
+
+            case "income":
+                dispatchCategoryData({
+                    type: "icon",
+                    value: "card",
+                });
+                break;
+        }
+    }, [categoryData.type]);
 
     return (
         <LoadablePage
@@ -106,7 +122,7 @@ export default function CategorySettingsItemPage() {
 
                         <Block
                             title={
-                                activeTab === "expense"
+                                categoryData.type === "expense"
                                     ? "Планирую тратить"
                                     : "Планирую получать"
                             }
