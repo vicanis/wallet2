@@ -1,19 +1,19 @@
-import { LoaderFunctionArgs, defer } from "react-router-dom";
-import LoadablePage from "../../../components/loadable";
-import ImageArrowDown from "../../../assets/arrow_down2.svg";
-import ImageArrowUp from "../../../assets/arrow_up2.svg";
-import Tabs from "../../../components/tabs";
 import { ReactNode, useLayoutEffect, useReducer } from "react";
+import { LoaderFunctionArgs, defer, useNavigate } from "react-router-dom";
 import Icon from "@mdi/react";
 import { mdiListBoxOutline } from "@mdi/js";
+import { Category } from "../../../types/category";
+import LoadablePage from "../../../components/loadable";
 import CurrencyMiniSelector from "../../../components/currency/miniselector";
 import { CurrencyType } from "../../../components/currency/selector";
-import { Category } from "../../../types/category";
 import PrimaryButton from "../../../components/button/primary";
 import ColorSelector from "../../../components/colorselector";
 import IconSelector from "../../../components/category/icon/selector";
+import CategoryTypeTabs from "../../../layouts/category/typetabs";
 
 export default function CategorySettingsItemPage() {
+    const navigate = useNavigate();
+
     const [categoryData, dispatchCategoryData] = useReducer(
         (state: Category, action: CategoryAction) => {
             switch (action.type) {
@@ -76,24 +76,12 @@ export default function CategorySettingsItemPage() {
         <LoadablePage
             renderer={(data) => (
                 <div>
-                    <Tabs
-                        tabs={[
-                            {
-                                id: "expense",
-                                icon: ImageArrowUp,
-                                name: "Расход",
-                            },
-                            {
-                                id: "income",
-                                icon: ImageArrowDown,
-                                name: "Доход",
-                            },
-                        ]}
+                    <CategoryTypeTabs
                         selected={categoryData.type}
                         onSelect={(tab) => {
                             dispatchCategoryData({
                                 type: "type",
-                                value: tab.id as "expense" | "income",
+                                value: tab,
                             });
                         }}
                     />
@@ -187,6 +175,8 @@ export default function CategorySettingsItemPage() {
                                         body: JSON.stringify(categoryData),
                                     }
                                 );
+
+                                navigate(-1);
                             }}
                         />
                     </div>
