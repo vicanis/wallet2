@@ -113,7 +113,7 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                     <Icon path={mdiListBoxOutline} size={1.5} />
 
                     <input
-                        className="border-b-2 border-b-[#0084C8] w-full placeholder-[#8A8181]"
+                        className="border-b-2 border-b-[#0084C8] w-full placeholder-[#8A8181] px-1 py-2"
                         type="text"
                         placeholder="Название категории"
                         defaultValue={categoryData.name}
@@ -137,7 +137,7 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                         <input
                             type="text"
                             placeholder="не задано"
-                            className="border-b-2 border-b-[#0084C8] placeholder-[#8A8181] max-w-[125px]"
+                            className="border-b-2 border-b-[#0084C8] placeholder-[#8A8181] max-w-[125px] px-1 py-2"
                             defaultValue={categoryData.plan.value ?? 0}
                             onChange={(event) =>
                                 dispatchCategoryData({
