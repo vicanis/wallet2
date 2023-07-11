@@ -20,19 +20,18 @@ export default function IconSelector({
     ) as IconType[];
 
     return (
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-4 gap-y-3">
             {keys.map((key) => (
                 <span
                     key={key}
-                    className={`m-auto border-[6px] ${
-                        selected === key ? "border-[#1F93CE]" : "border-white"
-                    }`}
-                    style={{
-                        borderRadius: "50%",
-                    }}
+                    className={`m-auto ${key === selected ? "" : "p-2"}`}
                     onClick={() => onSelect(key)}
                 >
-                    <CategoryIcon icon={Icons[key]} color={color} size={2} />
+                    <CategoryIcon
+                        icon={Icons[key]}
+                        color={key === selected ? color : `${color}88`}
+                        size={key === selected ? 2.5 : 2}
+                    />
                 </span>
             ))}
 
