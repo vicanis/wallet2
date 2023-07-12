@@ -9,10 +9,10 @@ export const handler: Handler = async (event, context) => {
         };
     }
 
-    let items: SortItem[];
+    let updateItems: SortItem[];
 
     try {
-        items = JSON.parse(event.body);
+        updateItems = JSON.parse(event.body);
     } catch (e) {
         return {
             statusCode: 403,
@@ -40,7 +40,7 @@ export const handler: Handler = async (event, context) => {
         const db = (await conn).db("wallet2");
         const coll = db.collection("category");
 
-        for (const { _id, order } of items) {
+        for (const { _id, order } of updateItems) {
             await coll.updateOne(
                 { _id: new ObjectId(_id) },
                 { $set: { order } },
@@ -50,11 +50,26 @@ export const handler: Handler = async (event, context) => {
 
         await session.commitTransaction();
 
+        const list = coll.find(
+            {},
+            {
+                sort: {
+                    order: 1,
+                    name: 1,
+                },
+            }
+        );
+
+        const actualItems = await list.toArray();
+
         return {
             statusCode: 200,
+            body: JSON.stringify(actualItems),
         };
     } catch (e) {
         await session.abortTransaction();
+
+        console.error("category sort failed", e);
 
         return {
             statusCode: 500,

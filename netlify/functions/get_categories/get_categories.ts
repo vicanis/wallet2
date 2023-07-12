@@ -14,6 +14,7 @@ export const handler: Handler = async (event, context) => {
             {},
             {
                 sort: {
+                    order: 1,
                     name: 1,
                 },
             }

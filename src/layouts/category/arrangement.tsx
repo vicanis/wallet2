@@ -1,5 +1,5 @@
 import { ReactNode, useMemo, useState } from "react";
-import { ObjectId, WithId } from "mongodb";
+import { WithId } from "mongodb";
 import { Draggable } from "react-drag-reorder";
 import { Category } from "../../types/category";
 import CategoryTypeTabs from "./typetabs";
@@ -17,25 +17,18 @@ export default function CategoryArrangementLayout({
     const [type, setType] = useState<"expense" | "income">("expense");
 
     const list = useMemo<WithId<Category>[]>(() => {
-        return [
-            ...currentList.filter((item) => item.type === type),
-            {
-                _id: "other" as unknown as ObjectId,
-                type,
-                name: "Другое",
-                color: "#3EC79E",
-                plan: {},
-            },
-        ].map((item, index) => {
-            if (typeof item.order !== "undefined") {
-                return item;
-            }
+        return currentList
+            .filter((item) => item.type === type)
+            .map((item, index) => {
+                if (typeof item.order !== "undefined") {
+                    return item;
+                }
 
-            return {
-                ...item,
-                order: index,
-            };
-        });
+                return {
+                    ...item,
+                    order: index,
+                };
+            });
     }, [currentList, type]);
 
     const [busy, setBusy] = useState(false);
@@ -65,13 +58,18 @@ export default function CategoryArrangementLayout({
                             items[1].order = tmp;
 
                             try {
-                                await fetch(
+                                const response = await fetch(
                                     "/.netlify/functions/sort_category",
                                     {
                                         method: "POST",
                                         body: JSON.stringify(items),
                                     }
                                 );
+
+                                const sorted: WithId<Category>[] =
+                                    await response.json();
+
+                                setCurrentList(sorted);
                             } finally {
                                 setBusy(false);
                             }
