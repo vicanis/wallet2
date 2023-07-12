@@ -8,7 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { WithId } from "mongodb";
 import Icon from "@mdi/react";
-import { mdiListBoxOutline } from "@mdi/js";
+import { mdiTagOutline } from "@mdi/js";
 import { Category } from "../../types/category";
 import CurrencyMiniSelector from "../../components/currency/miniselector";
 import { CurrencyType } from "../../components/currency/selector";
@@ -57,8 +57,12 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
     );
 
     useEffect(() => {
-        setValid(categoryData.name !== "");
-    }, [categoryData.name]);
+        setValid(
+            categoryData.name !== "" &&
+                categoryData.color !== "" &&
+                categoryData.icon !== ""
+        );
+    }, [categoryData]);
 
     useLayoutEffect(() => {
         const isIncome = (icon: string) =>
@@ -75,7 +79,7 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
 
                 dispatchCategoryData({
                     type: "icon",
-                    value: "grocery",
+                    value: "",
                 });
 
                 break;
@@ -90,7 +94,7 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
 
                 dispatchCategoryData({
                     type: "icon",
-                    value: "card",
+                    value: "",
                 });
 
                 break;
@@ -132,7 +136,7 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
 
             <div className="p-6 text-[#0084C8] grid gap-6">
                 <div className="flex items-center gap-3">
-                    <Icon path={mdiListBoxOutline} size={1.5} />
+                    <Icon path={mdiTagOutline} size={1.5} />
 
                     <input
                         className="border-b-2 border-b-[#0084C8] w-full placeholder-[#8A8181] px-1 py-2"
@@ -184,8 +188,8 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                 <Block title="Иконки">
                     <IconSelector
                         type={categoryData.type}
-                        color={categoryData.color ?? ""}
-                        selected={categoryData.icon ?? "grocery"}
+                        color={categoryData.color ?? "#1F93CE"}
+                        selected={categoryData.icon ?? ""}
                         onSelect={(icon) =>
                             dispatchCategoryData({
                                 type: "icon",

@@ -24,7 +24,6 @@ export function CategoryItemLoader({ params }: LoaderFunctionArgs) {
                     plan: {
                         currency: "RUB",
                     },
-                    color: "#F52D20",
                 },
             });
     }
