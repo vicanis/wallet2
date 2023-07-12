@@ -1,8 +1,7 @@
 import { Fragment, ReactNode, useLayoutEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ObjectId, WithId } from "mongodb";
 import { Category } from "../../types/category";
-import Button from "../../components/button";
 import CategoryItem from "./item";
 import CategoryTypeTabs from "./typetabs";
 import Blur from "../../components/blur";
@@ -39,13 +38,9 @@ export default function CategoryList({
         <div className="grid gap-4">
             <CategoryTypeTabs selected={type} onSelect={setType} />
 
-            <Link to="new">
-                <Button>Создать категорию</Button>
-            </Link>
-
-            {list.length > 0 ? (
-                <div className="relative p-4 w-full grid grid-cols-3 gap-4">
-                    {list.map((item, index) => (
+            <div className="relative p-4 w-full grid grid-cols-3 gap-4">
+                {list.length > 0 &&
+                    list.map((item, index) => (
                         <div
                             key={index}
                             onContextMenu={(event) => {
@@ -70,10 +65,24 @@ export default function CategoryList({
                             <CategoryItem {...item} />
                         </div>
                     ))}
-                </div>
-            ) : (
-                <div className="text-[#808080] px-4">Не найдено</div>
-            )}
+
+                <CategoryItem
+                    _id={"other" as unknown as ObjectId}
+                    type="expense"
+                    color="#3EC79E"
+                    name="Другое"
+                    plan={{}}
+                />
+
+                <CategoryItem
+                    _id={"new" as unknown as ObjectId}
+                    type="expense"
+                    color="#0084C8"
+                    name="Создать"
+                    icon="plus"
+                    plan={{}}
+                />
+            </div>
 
             {contextMenuData.index !== -1 && (
                 <Fragment>

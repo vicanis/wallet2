@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import Blur from "../blur";
 import LoadingLayout from "../../layouts/loading";
 
@@ -6,10 +6,12 @@ export default function PrimaryButton({
     title,
     disabled = false,
     onClick,
+    style,
 }: {
     title: string;
     disabled?: boolean;
     onClick?: () => void | Promise<void>;
+    style?: CSSProperties;
 }) {
     const [busy, setBusy] = useState(false);
 
@@ -39,6 +41,7 @@ export default function PrimaryButton({
                     setBusy(false);
                 }
             }}
+            style={style}
         >
             {title}
         </div>

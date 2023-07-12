@@ -13,7 +13,7 @@ export default function CategoryItem({
         <Link to={_id.toString()}>
             <div className="grid gap-3 justify-items-center">
                 <CategoryIcon icon={icon} color={color} size={1.5} />
-                <div className="flex-grow">{name}</div>
+                <div>{name}</div>
             </div>
         </Link>
     );

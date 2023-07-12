@@ -6,7 +6,8 @@ import {
     mdiCashMultiple,
     mdiCreditCardMultiple,
     mdiFood,
-    mdiHelpCircleOutline,
+    mdiHelp,
+    mdiPlus,
 } from "@mdi/js";
 import Icon from "@mdi/react";
 
@@ -21,8 +22,10 @@ export default function CategoryIcon({
 }) {
     const path =
         typeof icon !== "undefined"
-            ? Icons[icon as IconType] ?? mdiHelpCircleOutline
-            : mdiHelpCircleOutline;
+            ? Icons[icon as IconType] ??
+              CommonIcons[icon as keyof typeof CommonIcons] ??
+              UnknownIcon
+            : UnknownIcon;
 
     return (
         <div
@@ -49,3 +52,9 @@ export const Icons = {
 };
 
 export type IconType = keyof typeof Icons;
+
+const CommonIcons = {
+    plus: mdiPlus,
+};
+
+const UnknownIcon = mdiHelp;

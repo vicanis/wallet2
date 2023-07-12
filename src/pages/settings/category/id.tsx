@@ -13,17 +13,20 @@ export function CategoryItemLoader({ params }: LoaderFunctionArgs) {
         return Promise.reject();
     }
 
-    if (id === "new") {
-        return defer({
-            data: {
-                type: "expense",
-                name: "",
-                plan: {
-                    currency: "RUB",
+    switch (id) {
+        case "new":
+        case "other":
+            return defer({
+                data: {
+                    _id: id,
+                    type: "expense",
+                    name: "",
+                    plan: {
+                        currency: "RUB",
+                    },
+                    color: "#F52D20",
                 },
-                color: "#F52D20",
-            },
-        });
+            });
     }
 
     return defer({
