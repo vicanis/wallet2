@@ -97,7 +97,9 @@ export default function CategoryList({
                     />
 
                     <ContextMenu position={contextMenuData}>
-                        <div>Реорганизовать</div>
+                        <div onClick={() => navigate("arrangement")}>
+                            Реорганизовать
+                        </div>
                         <div
                             onClick={() => {
                                 setContextMenuData((data) => ({

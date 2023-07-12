@@ -23,6 +23,9 @@ export default function NavBar() {
 
             case "/settings/category/new":
                 return "Создание категории";
+
+            case "/settings/category/arrangement":
+                return "Реорганизовать";
         }
 
         const regexes: [RegExp, string][] = [

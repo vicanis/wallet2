@@ -9,4 +9,5 @@ export interface Category {
         value?: number;
         currency?: CurrencyType;
     };
+    order?: number;
 }

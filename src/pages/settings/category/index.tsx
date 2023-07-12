@@ -2,7 +2,7 @@ import { defer } from "react-router-dom";
 import CategoryList from "../../../layouts/category/list";
 import LoadablePage from "../../../components/loadable";
 
-export default function CategorySettingsPage() {
+export default function CategoryListPage() {
     return <LoadablePage renderer={(data) => <CategoryList list={data} />} />;
 }
 
