@@ -218,7 +218,7 @@ function ContextMenu({
 
     return (
         <div
-            className="absolute bg-[#f8f8f8] bg-opacity-90 z-20 w-max p-4 grid gap-3 mt-2"
+            className="absolute bg-[#f8f8f8] z-20 w-max p-4 grid gap-3 mt-2"
             style={style}
         >
             {children}
