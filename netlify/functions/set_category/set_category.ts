@@ -38,6 +38,12 @@ export const handler: Handler = async (event, context) => {
         const db = (await conn).db("wallet2");
         const coll = db.collection("category");
 
+        if (typeof category.order === "undefined") {
+            category.order = await coll.countDocuments({
+                type: category.type,
+            });
+        }
+
         if (typeof id === "undefined") {
             await coll.insertOne(category);
         } else {
