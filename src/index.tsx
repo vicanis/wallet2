@@ -5,6 +5,7 @@ import Index from "./pages";
 import reportWebVitals from "./reportWebVitals";
 import MobileWrapper from "./layouts/wrapper/mobile";
 import netlifyIdentity from "netlify-identity-widget";
+import "drag-drop-touch";
 
 window.netlifyIdentity = netlifyIdentity;
 netlifyIdentity.init();

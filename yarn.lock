@@ -5580,6 +5580,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"drag-drop-touch@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "drag-drop-touch@npm:1.3.1"
+  checksum: 23ac65ecc9bdd941330a6e96833d064bdaededa1db985045571ee7d7567fe305738ff96c8e59c34a9656bd61ad02b685efae66c9fedcdb3867d70b2ade8c196c
+  languageName: node
+  linkType: hard
+
 "duplexer@npm:^0.1.2":
   version: 0.1.2
   resolution: "duplexer@npm:0.1.2"
@@ -12949,6 +12956,7 @@ __metadata:
     "@types/react-router-dom": ^5.3.3
     chart.js: ^4.3.0
     dayjs: ^1.11.8
+    drag-drop-touch: ^1.3.1
     eslint-config-react: ^1.1.7
     eslint-config-react-app: ^7.0.1
     flag-icons: ^6.7.0
