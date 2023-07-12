@@ -72,7 +72,7 @@ export default function CategoryList({
                     ))}
                 </div>
             ) : (
-                <div className="text-[#808080]">Не найдено</div>
+                <div className="text-[#808080] px-4">Не найдено</div>
             )}
 
             {contextMenuData.index !== -1 && (
