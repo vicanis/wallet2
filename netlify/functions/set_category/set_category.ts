@@ -5,7 +5,7 @@ import type { Category } from "../../../src/types/category";
 export const handler: Handler = async (event, context) => {
     if (event.body === null) {
         return {
-            statusCode: 403,
+            statusCode: 400,
             body: "no body",
         };
     }
@@ -16,14 +16,16 @@ export const handler: Handler = async (event, context) => {
     try {
         const { _id, ...data } = JSON.parse(event.body) as WithId<Category>;
 
-        if (typeof _id !== "undefined") {
+        if (typeof _id === "string" && _id !== "new") {
             id = new ObjectId(_id);
         }
 
         category = data;
     } catch (e) {
+        console.error("category parse failed", e);
+
         return {
-            statusCode: 403,
+            statusCode: 400,
             body: e.toString(),
         };
     }
