@@ -4,12 +4,14 @@ export default function SettingsBlock({
     title,
     children,
 }: {
-    title: ReactNode;
+    title?: ReactNode;
     children: ReactNode;
 }) {
     return (
         <div className="grid gap-3">
-            <div className="text-[#8A8181]">{title}</div>
+            {typeof title !== "undefined" && (
+                <div className="text-[#8A8181] text-sm">{title}</div>
+            )}
             {children}
         </div>
     );
