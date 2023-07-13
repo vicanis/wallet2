@@ -5,6 +5,8 @@ import CurrencyMiniSelector from "../../components/currency/miniselector";
 import Input from "../../components/input";
 import SettingsBlock from "../settings/block";
 import { Wallet } from "../../types/wallet";
+import Checkbox from "../../components/checkbox";
+import PrimaryButton from "../../components/button/primary";
 
 export default function CreateWalletLayout() {
     const [data, setData] = useState<Wallet>({
@@ -12,7 +14,6 @@ export default function CreateWalletLayout() {
         currency: "RUB",
         value: 0,
         icon: "",
-        color: "",
     });
 
     return (
@@ -59,7 +60,7 @@ export default function CreateWalletLayout() {
 
             <SettingsBlock title="Иконка">
                 <IconSelector
-                    color={data.color!}
+                    color={data.color ?? "#0084C8"}
                     onSelect={(icon) => {
                         setData((data) => ({
                             ...data,
@@ -82,6 +83,26 @@ export default function CreateWalletLayout() {
                     }}
                 />
             </SettingsBlock>
+
+            <Checkbox
+                checked={data.outcast}
+                onChange={(checked) => {
+                    setData((data) => ({
+                        ...data,
+                        outcast: checked,
+                    }));
+                }}
+            >
+                Не учитывать в общем балансе
+            </Checkbox>
+
+            <PrimaryButton
+                title="Добавить"
+                disabled={!data.color || !data.name || !data.icon}
+                onClick={() => {
+                    console.log("add wallet with data", data);
+                }}
+            />
         </div>
     );
 }

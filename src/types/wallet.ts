@@ -6,4 +6,5 @@ export interface Wallet {
     icon: string;
     color?: string;
     value: number;
+    outcast?: boolean;
 }
