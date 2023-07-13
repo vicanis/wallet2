@@ -7,4 +7,5 @@ export interface Wallet {
     color?: string;
     value: number;
     outcast?: boolean;
+    order?: number;
 }
