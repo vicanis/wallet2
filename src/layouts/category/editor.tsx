@@ -1,10 +1,4 @@
-import {
-    ReactNode,
-    useEffect,
-    useLayoutEffect,
-    useReducer,
-    useState,
-} from "react";
+import { useEffect, useLayoutEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { WithId } from "mongodb";
 import Icon from "@mdi/react";
@@ -17,6 +11,7 @@ import ColorSelector from "../../components/colorselector";
 import IconSelector from "../../components/category/icon/selector";
 import CategoryTypeTabs from "../../layouts/category/typetabs";
 import Blur from "../../components/blur";
+import SettingsBlock from "../settings/block";
 
 export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
     const navigate = useNavigate();
@@ -152,7 +147,7 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                     />
                 </div>
 
-                <Block
+                <SettingsBlock
                     title={
                         categoryData.type === "expense"
                             ? "Планирую тратить"
@@ -183,9 +178,9 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                         />
                         <div className="text-[#161414]">в месяц</div>
                     </div>
-                </Block>
+                </SettingsBlock>
 
-                <Block title="Иконки">
+                <SettingsBlock title="Иконки">
                     <IconSelector
                         type={categoryData.type}
                         color={categoryData.color ?? "#1F93CE"}
@@ -197,9 +192,9 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                             })
                         }
                     />
-                </Block>
+                </SettingsBlock>
 
-                <Block title="Цвет">
+                <SettingsBlock title="Цвет">
                     <ColorSelector
                         selected={categoryData.color ?? ""}
                         onSelect={(color) =>
@@ -209,7 +204,7 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                             })
                         }
                     />
-                </Block>
+                </SettingsBlock>
 
                 <PrimaryButton
                     disabled={!valid}
@@ -233,16 +228,6 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                     }}
                 />
             </div>
-        </div>
-    );
-}
-
-function Block({ title, children }: { title: ReactNode; children: ReactNode }) {
-    return (
-        <div className="grid gap-3">
-            <div className="text-[#8A8181]">{title}</div>
-
-            {children}
         </div>
     );
 }
