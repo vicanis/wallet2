@@ -83,7 +83,7 @@ export default function DashboardBalanceLayout({
 
     return (
         <div
-            className="text-center text-white py-4 grid gap-4"
+            className="text-center text-white pb-4 grid gap-4"
             style={{ backgroundColor: "#0084C8" }}
         >
             <CurrencySelector

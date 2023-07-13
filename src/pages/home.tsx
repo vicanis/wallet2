@@ -11,7 +11,10 @@ export default function Home() {
                 backgroundColor: "#F2F7FC",
             }}
         >
-            <DashboardLayout />
+            <div>
+                <div className="h-4 bg-[#0084C8]" />
+                <DashboardLayout />
+            </div>
             <Planning />
             <CategoryExpenses />
             <CategoryIncomes />
