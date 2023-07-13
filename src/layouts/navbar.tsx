@@ -26,6 +26,9 @@ export default function NavBar() {
 
             case "/settings/category/arrangement":
                 return "Реорганизовать";
+
+            case "/settings/wallet/new":
+                return "Добавление счета";
         }
 
         const regexes: [RegExp, string][] = [

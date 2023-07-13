@@ -1,4 +1,4 @@
-import WalletSettingsLayout from "../../layouts/wallet/settings";
+import WalletSettingsLayout from "../../../layouts/wallet/settings";
 
 export default function WalletSettingsPage() {
     return <WalletSettingsLayout />;

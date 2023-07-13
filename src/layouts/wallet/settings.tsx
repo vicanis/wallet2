@@ -9,6 +9,7 @@ import ImageHistory from "../../assets/history.svg";
 import ImageExchange from "../../assets/exchange.svg";
 import { CurrencyType } from "../../components/currency/selector";
 import { DashboardItem } from "../dashboard";
+import { Link } from "react-router-dom";
 
 export default function WalletSettingsLayout() {
     const dashboardItems = useMemo<DashboardItem[]>(() => {
@@ -59,7 +60,9 @@ export default function WalletSettingsLayout() {
             </div>
 
             <div className="flex justify-center">
-                <Icon path={mdiPlusCircle} size={2.5} color="#0084C8" />
+                <Link to="new">
+                    <Icon path={mdiPlusCircle} size={2.5} color="#0084C8" />
+                </Link>
             </div>
         </div>
     );
