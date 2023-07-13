@@ -15,7 +15,7 @@ import LoginPage from "./login";
 import CategoryListPage, {
     CategoryListLoader as CategoryListLoader,
 } from "./settings/category";
-import WalletSettingsPage from "./settings/wallet";
+import WalletSettingsPage, { WalletListLoader } from "./settings/wallet";
 import PaymentSettingsPage from "./settings/payment";
 import NotificationSettingsPage from "./settings/notification";
 import OtherSettingsPage from "./settings/other";
@@ -154,6 +154,7 @@ export default function App() {
                                 {
                                     element: <WalletSettingsPage />,
                                     index: true,
+                                    loader: WalletListLoader,
                                 },
                                 {
                                     path: "new",

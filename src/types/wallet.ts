@@ -9,3 +9,8 @@ export interface Wallet {
     outcast?: boolean;
     order?: number;
 }
+
+export interface WalletSettingsItem {
+    currency: CurrencyType;
+    wallets: Wallet[];
+}
