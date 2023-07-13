@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import Icon from "@mdi/react";
+import { mdiPlusCircle } from "@mdi/js";
 import Tabs from "../../components/tabs";
 import WalletItem from "../../components/wallet/item";
 import { Wallet } from "../../types/wallet";
@@ -50,10 +52,14 @@ export default function WalletSettingsLayout() {
                 selected=""
             />
 
-            <div className="grid gap-6 p-8 text-lg">
+            <div className="grid gap-6 px-8 py-6 text-lg">
                 {wallets.map((wallet, index) => (
                     <WalletItem key={index} wallet={wallet} />
                 ))}
+            </div>
+
+            <div className="flex justify-center">
+                <Icon path={mdiPlusCircle} size={2.5} color="#0084C8" />
             </div>
         </div>
     );
