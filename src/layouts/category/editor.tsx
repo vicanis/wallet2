@@ -12,6 +12,7 @@ import IconSelector from "../../components/category/icon/selector";
 import CategoryTypeTabs from "../../layouts/category/typetabs";
 import Blur from "../../components/blur";
 import SettingsBlock from "../settings/block";
+import Input from "../../components/input";
 
 export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
     const navigate = useNavigate();
@@ -133,15 +134,13 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                 <div className="flex items-center gap-3">
                     <Icon path={mdiTagOutline} size={1.5} />
 
-                    <input
-                        className="border-b-2 border-b-[#0084C8] w-full placeholder-[#8A8181] px-1 py-2"
-                        type="text"
+                    <Input
                         placeholder="Название категории"
                         defaultValue={categoryData.name}
-                        onChange={(event) =>
+                        onChange={(value) =>
                             dispatchCategoryData({
                                 type: "name",
-                                value: event.target.value,
+                                value,
                             })
                         }
                     />
@@ -155,15 +154,14 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                     }
                 >
                     <div className="flex items-center gap-4">
-                        <input
-                            type="text"
+                        <Input
+                            type="number"
                             placeholder="не задано"
-                            className="border-b-2 border-b-[#0084C8] placeholder-[#8A8181] max-w-[125px] px-1 py-2"
                             defaultValue={categoryData.plan.value ?? 0}
-                            onChange={(event) =>
+                            onChange={(value) =>
                                 dispatchCategoryData({
                                     type: "plan",
-                                    value: Number(event.target.value),
+                                    value: Number(value),
                                 })
                             }
                         />
