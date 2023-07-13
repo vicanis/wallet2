@@ -9,8 +9,11 @@ import Checkbox from "../../components/checkbox";
 import PrimaryButton from "../../components/button/primary";
 import Blur from "../../components/blur";
 import LoadingLayout from "../loading";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateWalletLayout() {
+    const navigate = useNavigate();
+
     const [data, setData] = useState<Wallet>({
         name: "",
         currency: "RUB",
@@ -120,6 +123,8 @@ export default function CreateWalletLayout() {
                     });
 
                     setBusy(false);
+
+                    navigate(-1);
                 }}
             />
         </div>
