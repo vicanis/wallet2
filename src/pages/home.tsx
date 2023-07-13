@@ -1,5 +1,5 @@
 import CategoryExpenses from "../layouts/category/expenses";
-import Dashboard from "../layouts/dashboard";
+import DashboardLayout from "../layouts/dashboard";
 import Planning from "../layouts/planning";
 import CategoryIncomes from "../layouts/category/incomes";
 
@@ -11,7 +11,7 @@ export default function Home() {
                 backgroundColor: "#F2F7FC",
             }}
         >
-            <Dashboard />
+            <DashboardLayout />
             <Planning />
             <CategoryExpenses />
             <CategoryIncomes />

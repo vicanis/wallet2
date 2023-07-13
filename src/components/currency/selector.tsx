@@ -1,6 +1,6 @@
 import { CurrencyIcon } from "./icon";
 
-export default function Selector({
+export default function CurrencySelector({
     list,
     selected,
 }: {
