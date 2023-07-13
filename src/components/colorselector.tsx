@@ -1,4 +1,4 @@
-import { mdiCheck, mdiPlusCircleOutline } from "@mdi/js";
+import { mdiCheck, mdiPlusCircle } from "@mdi/js";
 import Icon from "@mdi/react";
 
 export default function ColorSelector({
@@ -34,7 +34,10 @@ export default function ColorSelector({
             <Color color="#63B611" />
             <Color color="#102BBA" />
             <Color color="#761BBDD6" />
-            <Icon path={mdiPlusCircleOutline} className="w-11 h-11" />
+            <Icon
+                path={mdiPlusCircle}
+                className="w-11 h-11 text-[#0084C8] text-opacity-50"
+            />
         </div>
     );
 }
