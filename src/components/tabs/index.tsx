@@ -22,7 +22,7 @@ export default function Tabs({
 
     return (
         <div
-            className="font-semibold text-white uppercase rounded-b-xl grid grid-cols-2 justify-items-center"
+            className="font-semibold text-white uppercase rounded-b-xl grid grid-cols-2 justify-items-center px-4 pb-4"
             style={{
                 backgroundColor: "#0084C8",
             }}
