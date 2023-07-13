@@ -33,6 +33,10 @@ export default function PrimaryButton({
                     return;
                 }
 
+                if (disabled === true) {
+                    return;
+                }
+
                 setBusy(true);
 
                 try {
