@@ -38,7 +38,7 @@ export default function IconSelector({
             <Icon
                 path={mdiDotsHorizontalCircleOutline}
                 size={3}
-                className="m-auto"
+                className="m-auto text-[#0084C8] text-opacity-50"
             />
         </div>
     );
