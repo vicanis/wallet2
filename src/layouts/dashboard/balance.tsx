@@ -83,7 +83,7 @@ export default function DashboardBalanceLayout({
 
     return (
         <div
-            className="text-center text-white px-2 py-4 grid gap-4"
+            className="text-center text-white py-4 grid gap-4"
             style={{ backgroundColor: "#0084C8" }}
         >
             <CurrencySelector
@@ -92,7 +92,7 @@ export default function DashboardBalanceLayout({
             />
 
             <div>
-                <div className="flex justify-between px-4">
+                <div className="flex justify-between px-2">
                     <div
                         className="flex gap-1 items-center"
                         onClick={() => {
