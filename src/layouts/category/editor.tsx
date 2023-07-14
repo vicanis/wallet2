@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useReducer, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { WithId } from "mongodb";
 import Icon from "@mdi/react";
@@ -17,83 +17,23 @@ import Input from "../../components/input";
 export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
     const navigate = useNavigate();
 
-    const [valid, setValid] = useState(data.name !== "");
-
-    const [categoryData, dispatchCategoryData] = useReducer(
-        (state: Category, action: CategoryAction) => {
-            switch (action.type) {
-                case "type":
-                    state.type = action.value;
-                    break;
-
-                case "name":
-                    state.name = action.value;
-                    break;
-
-                case "color":
-                    state.color = action.value;
-                    break;
-
-                case "icon":
-                    state.icon = action.value;
-                    break;
-
-                case "plan":
-                    state.plan.value = action.value;
-                    break;
-
-                case "currency":
-                    state.plan.currency = action.currency;
-                    break;
-            }
-
-            return { ...state };
-        },
-        data
-    );
-
-    useEffect(() => {
-        setValid(
-            categoryData.name !== "" &&
-                categoryData.color !== "" &&
-                categoryData.icon !== ""
-        );
-    }, [categoryData]);
+    const [categoryData, setCategoryData] = useState<Category>(data);
 
     useLayoutEffect(() => {
         const isIncome = (icon: string) =>
             ["cash", "card"].indexOf(icon) !== -1;
 
-        switch (categoryData.type) {
-            case "expense":
-                if (
-                    typeof categoryData.icon !== "undefined" &&
-                    !isIncome(categoryData.icon)
-                ) {
-                    break;
-                }
-
-                dispatchCategoryData({
-                    type: "icon",
-                    value: "",
-                });
-
-                break;
-
-            case "income":
-                if (
-                    typeof categoryData.icon !== "undefined" &&
-                    isIncome(categoryData.icon)
-                ) {
-                    break;
-                }
-
-                dispatchCategoryData({
-                    type: "icon",
-                    value: "",
-                });
-
-                break;
+        if (typeof categoryData.icon !== "undefined") {
+            if (
+                (categoryData.type === "expense" &&
+                    isIncome(categoryData.icon)) ||
+                (categoryData.type === "income" && !isIncome(categoryData.icon))
+            ) {
+                setCategoryData((data) => ({
+                    ...data,
+                    icon: "",
+                }));
+            }
         }
     }, [categoryData.type]);
 
@@ -123,10 +63,10 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
             <CategoryTypeTabs
                 selected={categoryData.type}
                 onSelect={(tab) => {
-                    dispatchCategoryData({
-                        type: "type",
-                        value: tab,
-                    });
+                    setCategoryData((data) => ({
+                        ...data,
+                        type: tab,
+                    }));
                 }}
             />
 
@@ -138,10 +78,10 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                         placeholder="Название категории"
                         defaultValue={categoryData.name}
                         onChange={(value) =>
-                            dispatchCategoryData({
-                                type: "name",
-                                value,
-                            })
+                            setCategoryData((data) => ({
+                                ...data,
+                                name: value,
+                            }))
                         }
                     />
                 </div>
@@ -159,18 +99,20 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                             placeholder="не задано"
                             defaultValue={categoryData.plan.value ?? 0}
                             onChange={(value) =>
-                                dispatchCategoryData({
-                                    type: "plan",
-                                    value: Number(value),
+                                setCategoryData((data) => {
+                                    const plan = data.plan;
+                                    plan.value = Number(value);
+                                    return { ...data, plan };
                                 })
                             }
                         />
                         <CurrencyMiniSelector
                             currency={categoryData.plan.currency ?? "RUB"}
                             onChange={(currency) =>
-                                dispatchCategoryData({
-                                    type: "currency",
-                                    currency,
+                                setCategoryData((data) => {
+                                    const plan = data.plan;
+                                    plan.currency = currency;
+                                    return { ...data, plan };
                                 })
                             }
                         />
@@ -184,10 +126,10 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                         color={categoryData.color ?? "#1F93CE"}
                         selected={categoryData.icon ?? ""}
                         onSelect={(icon) =>
-                            dispatchCategoryData({
-                                type: "icon",
-                                value: icon,
-                            })
+                            setCategoryData((data) => ({
+                                ...data,
+                                icon,
+                            }))
                         }
                     />
                 </SettingsBlock>
@@ -196,24 +138,24 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                     <ColorSelector
                         selected={categoryData.color ?? ""}
                         onSelect={(color) =>
-                            dispatchCategoryData({
-                                type: "color",
-                                value: color,
-                            })
+                            setCategoryData((data) => ({
+                                ...data,
+                                color,
+                            }))
                         }
                     />
                 </SettingsBlock>
 
                 <PrimaryButton
-                    disabled={!valid}
+                    disabled={
+                        categoryData.name === "" ||
+                        categoryData.color === "" ||
+                        categoryData.icon === ""
+                    }
                     title={
                         typeof _id === "undefined" ? "Добавить" : "Сохранить"
                     }
                     onClick={async () => {
-                        if (!valid) {
-                            return;
-                        }
-
                         await fetch("/.netlify/functions/set_category", {
                             method: "POST",
                             body: JSON.stringify({
