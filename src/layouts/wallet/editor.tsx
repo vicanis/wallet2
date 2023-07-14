@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { WithId } from "mongodb";
 import IconSelector from "../../components/category/icon/selector";
 import ColorSelector from "../../components/colorselector";
 import CurrencyMiniSelector from "../../components/currency/miniselector";
@@ -9,17 +11,11 @@ import Checkbox from "../../components/checkbox";
 import PrimaryButton from "../../components/button/primary";
 import Blur from "../../components/blur";
 import LoadingLayout from "../loading";
-import { useNavigate } from "react-router-dom";
 
-export default function CreateWalletLayout() {
+export default function WalletEditor({ _id, ...data }: WithId<Wallet>) {
     const navigate = useNavigate();
 
-    const [data, setData] = useState<Wallet>({
-        name: "",
-        currency: "RUB",
-        value: 0,
-        icon: "",
-    });
+    const [walletData, setWalletData] = useState<Wallet>(data);
 
     const [busy, setBusy] = useState(false);
 
@@ -41,18 +37,18 @@ export default function CreateWalletLayout() {
                             textAlign: "center",
                             fontSize: "x-large",
                         }}
-                        defaultValue={data.value}
+                        defaultValue={walletData.value}
                         onChange={(value) => {
-                            setData((data) => ({
+                            setWalletData((data) => ({
                                 ...data,
                                 value: Number(value),
                             }));
                         }}
                     />
                     <CurrencyMiniSelector
-                        currency={data.currency}
+                        currency={walletData.currency}
                         onChange={(currency) => {
-                            setData((data) => ({
+                            setWalletData((data) => ({
                                 ...data,
                                 currency,
                             }));
@@ -64,8 +60,9 @@ export default function CreateWalletLayout() {
             <SettingsBlock title="Имя счета">
                 <Input
                     placeholder="Введите имя счета"
+                    defaultValue={walletData.name}
                     onChange={(name) => {
-                        setData((data) => ({
+                        setWalletData((data) => ({
                             ...data,
                             name,
                         }));
@@ -75,23 +72,23 @@ export default function CreateWalletLayout() {
 
             <SettingsBlock title="Иконка">
                 <IconSelector
-                    color={data.color ?? "#0084C8"}
+                    color={walletData.color ?? "#0084C8"}
                     onSelect={(icon) => {
-                        setData((data) => ({
+                        setWalletData((data) => ({
                             ...data,
                             icon,
                         }));
                     }}
-                    selected={data.icon}
+                    selected={walletData.icon}
                     type="income"
                 />
             </SettingsBlock>
 
             <SettingsBlock title="Цвет">
                 <ColorSelector
-                    selected={data.color!}
+                    selected={walletData.color!}
                     onSelect={(color) => {
-                        setData((data) => ({
+                        setWalletData((data) => ({
                             ...data,
                             color,
                         }));
@@ -100,9 +97,9 @@ export default function CreateWalletLayout() {
             </SettingsBlock>
 
             <Checkbox
-                checked={data.outcast}
+                checked={walletData.outcast}
                 onChange={(checked) => {
-                    setData((data) => ({
+                    setWalletData((data) => ({
                         ...data,
                         outcast: checked,
                     }));
@@ -112,14 +109,16 @@ export default function CreateWalletLayout() {
             </Checkbox>
 
             <PrimaryButton
-                title="Добавить"
-                disabled={!data.color || !data.name || !data.icon}
+                title={_id.toString() === "new" ? "Добавить" : "Сохранить"}
+                disabled={
+                    !walletData.color || !walletData.name || !walletData.icon
+                }
                 onClick={async () => {
                     setBusy(true);
 
                     await fetch("/.netlify/functions/set_wallet", {
                         method: "POST",
-                        body: JSON.stringify(data),
+                        body: JSON.stringify(walletData),
                     });
 
                     setBusy(false);

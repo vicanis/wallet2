@@ -23,7 +23,7 @@ import CategorySettingsItemPage, {
     CategoryItemLoader,
 } from "./settings/category/id";
 import CategoryArrangementPage from "./settings/category/arrangement";
-import CreateWalletPage from "./settings/wallet/create";
+import WalletSettingsItemPage, { WalletItemLoader } from "./settings/wallet/id";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -152,13 +152,14 @@ export default function App() {
                             path: "wallet",
                             children: [
                                 {
+                                    path: ":id",
+                                    element: <WalletSettingsItemPage />,
+                                    loader: WalletItemLoader,
+                                },
+                                {
                                     element: <WalletSettingsPage />,
                                     index: true,
                                     loader: WalletListLoader,
-                                },
-                                {
-                                    path: "new",
-                                    element: <CreateWalletPage />,
                                 },
                             ],
                         },

@@ -33,6 +33,7 @@ export default function NavBar() {
 
         const regexes: [RegExp, string][] = [
             [/\/settings\/category\/[a-f0-9]+/, "Редактирование категории"],
+            [/\/settings\/wallet\/[a-f0-9]+/, "Редактирование счета"],
         ];
 
         for (const [regex, title] of regexes) {

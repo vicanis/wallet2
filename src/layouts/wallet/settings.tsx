@@ -58,7 +58,7 @@ export default function WalletSettingsLayout({
 
             <div className="grid gap-6 px-8 py-6 text-lg">
                 {wallets.map((wallet, index) => (
-                    <WalletItem key={index} wallet={wallet} />
+                    <WalletItem key={index} {...wallet} />
                 ))}
             </div>
 

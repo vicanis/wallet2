@@ -1,3 +1,4 @@
+import { WithId } from "mongodb";
 import { CurrencyType } from "../components/currency/selector";
 
 export interface Wallet {
@@ -12,5 +13,5 @@ export interface Wallet {
 
 export interface WalletSettingsItem {
     currency: CurrencyType;
-    wallets: Wallet[];
+    wallets: WithId<Wallet>[];
 }
