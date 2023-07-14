@@ -15,7 +15,10 @@ import LoadingLayout from "../loading";
 export default function WalletEditor({ _id, ...data }: WithId<Wallet>) {
     const navigate = useNavigate();
 
-    const [walletData, setWalletData] = useState<Wallet>(data);
+    const [walletData, setWalletData] = useState<WithId<Wallet>>({
+        _id,
+        ...data,
+    });
 
     const [busy, setBusy] = useState(false);
 
