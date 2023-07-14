@@ -9,26 +9,11 @@ import SettingsBlock from "../settings/block";
 import { Wallet } from "../../types/wallet";
 import Checkbox from "../../components/checkbox";
 import PrimaryButton from "../../components/button/primary";
-import Blur from "../../components/blur";
-import LoadingLayout from "../loading";
 
 export default function WalletEditor({ _id, ...data }: WithId<Wallet>) {
     const navigate = useNavigate();
 
-    const [walletData, setWalletData] = useState<WithId<Wallet>>({
-        _id,
-        ...data,
-    });
-
-    const [busy, setBusy] = useState(false);
-
-    if (busy) {
-        return (
-            <Blur>
-                <LoadingLayout />
-            </Blur>
-        );
-    }
+    const [walletData, setWalletData] = useState<Wallet>(data);
 
     return (
         <div className="grid gap-8 p-4">
@@ -117,14 +102,13 @@ export default function WalletEditor({ _id, ...data }: WithId<Wallet>) {
                     !walletData.color || !walletData.name || !walletData.icon
                 }
                 onClick={async () => {
-                    setBusy(true);
-
                     await fetch("/.netlify/functions/set_wallet", {
                         method: "POST",
-                        body: JSON.stringify(walletData),
+                        body: JSON.stringify({
+                            _id,
+                            ...walletData,
+                        }),
                     });
-
-                    setBusy(false);
 
                     navigate(-1);
                 }}
