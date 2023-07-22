@@ -9,6 +9,8 @@ import DashboardBalanceLayout from "../dashboard/balance";
 import ImageHistory from "../../assets/history.svg";
 import ImageExchange from "../../assets/exchange.svg";
 import { DashboardItem } from "../dashboard";
+import ContextMenuContainer from "../../components/contextmenu";
+import ContextMenuItem from "../../components/contextmenu/item";
 
 export default function WalletSettingsLayout({
     list,
@@ -56,11 +58,33 @@ export default function WalletSettingsLayout({
                 selected=""
             />
 
-            <div className="grid gap-6 px-8 py-6 text-lg">
-                {wallets.map((wallet, index) => (
-                    <WalletItem key={index} {...wallet} />
-                ))}
-            </div>
+            <ContextMenuContainer
+                items={[
+                    {
+                        title: "Реорганизовать",
+                        onClick: () => {
+                            //
+                        },
+                    },
+                    {
+                        title: "Удалить",
+                        onClick: (index) => {
+                            //
+                        },
+                    },
+                ]}
+            >
+                <div className="relative grid gap-6 px-8 py-6 text-lg">
+                    {wallets.map((wallet, index) => (
+                        <ContextMenuItem
+                            key={index}
+                            item={{ index, id: wallet._id }}
+                        >
+                            <WalletItem {...wallet} />
+                        </ContextMenuItem>
+                    ))}
+                </div>
+            </ContextMenuContainer>
 
             <div className="flex justify-center">
                 <Link to="new">

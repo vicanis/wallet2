@@ -1,5 +1,5 @@
 import { defer } from "react-router-dom";
-import WalletSettingsLayout from "../../../layouts/wallet/settings";
+import WalletSettingsLayout from "../../../layouts/wallet/list";
 import LoadablePage from "../../../components/loadable";
 
 export default function WalletSettingsPage() {
