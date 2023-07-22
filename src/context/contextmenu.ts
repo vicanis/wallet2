@@ -2,17 +2,17 @@ import { createContext } from "react";
 import { ObjectId } from "mongodb";
 
 export interface ItemData {
-    index: number;
     id?: ObjectId;
 }
 
 export interface MenuData extends ItemData {
+    visible: boolean;
     x: number;
     y: number;
 }
 
 export const ContextMenuDefault: MenuData = {
-    index: -1,
+    visible: false,
     x: 0,
     y: 0,
 };
@@ -24,5 +24,5 @@ export const ContextMenuContext = createContext<{
 
 export interface MenuItem {
     title: string;
-    onClick: (index: number) => void;
+    onClick: (id: string) => void;
 }

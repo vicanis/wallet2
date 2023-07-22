@@ -15,11 +15,8 @@ export default function ContextMenuItem({
             onContextMenu={(event) => {
                 event.preventDefault();
                 const { clientX: x, clientY: y } = event;
-                setData({ x, y, ...item });
+                setData({ visible: true, x, y, ...item });
             }}
-            className={`${
-                data.index !== -1 && item.index === data.index ? "z-20" : ""
-            }`}
         >
             {children}
         </div>

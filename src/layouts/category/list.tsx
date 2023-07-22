@@ -61,7 +61,7 @@ export default function CategoryList({
                         list.map((item, index) => (
                             <ContextMenuItem
                                 key={index}
-                                item={{ index, id: item._id }}
+                                item={{ id: item._id }}
                             >
                                 <CategoryItem {...item} />
                             </ContextMenuItem>

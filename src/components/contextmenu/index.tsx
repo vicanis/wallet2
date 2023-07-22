@@ -20,14 +20,14 @@ export default function ContextMenuContainer({
         <ContextMenuContext.Provider value={{ data, setData }}>
             {children}
 
-            {data.index !== -1 && (
+            {data.visible && (
                 <Fragment>
                     <div
                         className="fixed top-0 left-0 h-screen w-screen bg-transparent z-10"
                         onClick={() => {
                             setData((data) => ({
                                 ...data,
-                                index: -1,
+                                visible: false,
                             }));
                         }}
                     />
@@ -37,12 +37,16 @@ export default function ContextMenuContainer({
                             <div
                                 key={index}
                                 onClick={() => {
+                                    if (typeof data.id === "undefined") {
+                                        return;
+                                    }
+
                                     setData((data) => ({
                                         ...data,
-                                        index: -1,
+                                        visible: false,
                                     }));
 
-                                    item.onClick(index);
+                                    item.onClick(data.id.toString());
                                 }}
                             >
                                 {item.title}
