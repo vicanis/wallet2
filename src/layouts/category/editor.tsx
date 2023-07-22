@@ -5,7 +5,6 @@ import Icon from "@mdi/react";
 import { mdiTagOutline } from "@mdi/js";
 import { Category } from "../../types/category";
 import CurrencyMiniSelector from "../../components/currency/miniselector";
-import { CurrencyType } from "../../components/currency/selector";
 import PrimaryButton from "../../components/button/primary";
 import ColorSelector from "../../components/colorselector";
 import IconSelector from "../../components/category/icon/selector";
@@ -171,21 +170,3 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
         </div>
     );
 }
-
-type CategoryAction =
-    | {
-          type: "type";
-          value: "expense" | "income";
-      }
-    | {
-          type: "name" | "color" | "icon";
-          value: string;
-      }
-    | {
-          type: "plan";
-          value: number;
-      }
-    | {
-          type: "currency";
-          currency: CurrencyType;
-      };
