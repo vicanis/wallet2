@@ -1,11 +1,16 @@
 import { defer } from "react-router-dom";
 import WalletSettingsLayout from "../../../layouts/wallet/list";
 import LoadablePage from "../../../components/loadable";
+import ConfirmationProvider from "../../../components/confirmation/provider";
 
 export default function WalletSettingsPage() {
     return (
         <LoadablePage
-            renderer={(data) => <WalletSettingsLayout list={data} />}
+            renderer={(data) => (
+                <ConfirmationProvider>
+                    <WalletSettingsLayout list={data} />
+                </ConfirmationProvider>
+            )}
         />
     );
 }

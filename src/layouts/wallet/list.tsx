@@ -1,34 +1,41 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { WithId } from "mongodb";
 import Icon from "@mdi/react";
 import { mdiPlusCircle } from "@mdi/js";
 import Tabs from "../../components/tabs";
 import WalletItem from "../../components/wallet/item";
-import { WalletSettingsItem } from "../../types/wallet";
+import { Wallet, WalletSettingsItem } from "../../types/wallet";
 import DashboardBalanceLayout from "../dashboard/balance";
 import ImageHistory from "../../assets/history.svg";
 import ImageExchange from "../../assets/exchange.svg";
 import { DashboardItem } from "../dashboard";
 import ContextMenuContainer from "../../components/contextmenu";
 import ContextMenuItem from "../../components/contextmenu/item";
+import ConfirmationPopup from "../../components/confirmation/popup";
+import { ConfirmationContext } from "../../context/confirmation";
 
 export default function WalletSettingsLayout({
-    list,
+    list: fullList,
 }: {
     list: WalletSettingsItem[];
 }) {
+    const navigate = useNavigate();
+
     const dashboardItems = useMemo<DashboardItem[]>(() => {
-        return list.map(({ currency, wallets }) => ({
+        return fullList.map(({ currency, wallets }) => ({
             currency,
             value: wallets.reduce((sum, item) => sum + item.value, 0),
         }));
-    }, [list]);
+    }, [fullList]);
 
     const [index, setIndex] = useState(0);
 
-    const wallets = useMemo(() => {
-        return list[index].wallets;
-    }, [list, index]);
+    const list = useMemo(() => {
+        return fullList[index].wallets;
+    }, [fullList, index]);
+
+    const { setState } = useContext(ConfirmationContext);
 
     return (
         <div>
@@ -61,29 +68,44 @@ export default function WalletSettingsLayout({
             <ContextMenuContainer
                 items={[
                     {
-                        title: "Реорганизовать",
-                        onClick: () => {
-                            //
-                        },
-                    },
-                    {
                         title: "Удалить",
-                        onClick: (index) => {
-                            //
+                        onClick: (id: string) => {
+                            const item = list
+                                .filter((item) => item._id.toString() === id)
+                                .shift();
+
+                            setState((state) => ({
+                                ...state,
+                                visible: true,
+                                payload: item,
+                            }));
                         },
                     },
                 ]}
             >
                 <div className="relative grid gap-6 px-8 py-6 text-lg">
-                    {wallets.map((wallet, index) => (
-                        <ContextMenuItem
-                            key={index}
-                            item={{ index, id: wallet._id }}
-                        >
+                    {list.map((wallet, index) => (
+                        <ContextMenuItem key={index} item={{ id: wallet._id }}>
                             <WalletItem {...wallet} />
                         </ContextMenuItem>
                     ))}
                 </div>
+
+                <ConfirmationPopup<WithId<Wallet>>
+                    header="Удалить счет?"
+                    handler={async (wallet) => {
+                        if (typeof wallet === "undefined") {
+                            return;
+                        }
+
+                        await fetch(
+                            "/.netlify/functions/del_wallet/?id=" +
+                                wallet._id.toString()
+                        );
+
+                        navigate(0);
+                    }}
+                />
             </ContextMenuContainer>
 
             <div className="flex justify-center">
