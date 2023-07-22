@@ -23,6 +23,23 @@ export const handler: Handler = async (event, context) => {
 
         const items = await list.toArray();
 
+        if (event.queryStringParameters !== null) {
+            const { mode } = event.queryStringParameters;
+
+            switch (mode) {
+                case "plain":
+                    return {
+                        statusCode: 200,
+                        body: JSON.stringify(items),
+                    };
+            }
+
+            return {
+                statusCode: 400,
+                body: "bad request mode",
+            };
+        }
+
         const data: WalletSettingsItem[] = [];
 
         itemloop: for (const item of items) {
