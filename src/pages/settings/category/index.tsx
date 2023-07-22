@@ -1,9 +1,18 @@
 import { defer } from "react-router-dom";
 import CategoryList from "../../../layouts/category/list";
 import LoadablePage from "../../../components/loadable";
+import ConfirmationProvider from "../../../components/confirmation/provider";
 
 export default function CategoryListPage() {
-    return <LoadablePage renderer={(data) => <CategoryList list={data} />} />;
+    return (
+        <LoadablePage
+            renderer={(data) => (
+                <ConfirmationProvider>
+                    <CategoryList list={data} />
+                </ConfirmationProvider>
+            )}
+        />
+    );
 }
 
 export function CategoryListLoader() {

@@ -1,13 +1,13 @@
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ObjectId, WithId } from "mongodb";
 import { Category } from "../../types/category";
 import CategoryItem from "./item";
 import CategoryTypeTabs from "./typetabs";
-import Blur from "../../components/blur";
-import LoadingLayout from "../loading";
 import ContextMenuContainer from "../../components/contextmenu";
 import ContextMenuItem from "../../components/contextmenu/item";
+import { ConfirmationContext } from "../../context/confirmation";
+import ConfirmationPopup from "../../components/confirmation/popup";
 
 export default function CategoryList({
     list: fullList,
@@ -22,14 +22,7 @@ export default function CategoryList({
         return fullList.filter((item) => item.type === type);
     }, [fullList, type]);
 
-    const [confirmationData, setConfirmationData] = useState<{
-        header: string;
-        text: string;
-        handler: () => void;
-        id: ObjectId;
-    }>();
-
-    const [busy, setBusy] = useState(false);
+    const { setState } = useContext(ConfirmationContext);
 
     return (
         <div className="grid gap-4">
@@ -43,15 +36,16 @@ export default function CategoryList({
                     },
                     {
                         title: "Удалить",
-                        onClick: (index) => {
-                            setConfirmationData({
-                                header: "Удалить категорию?",
-                                text: 'Все содержащиеся в ней операции будут перемещены в категорию "Другое"',
-                                id: list[index]._id,
-                                handler: () => {
-                                    setConfirmationData(undefined);
-                                },
-                            });
+                        onClick: (id: string) => {
+                            const item = list
+                                .filter((item) => item._id.toString() === id)
+                                .shift();
+
+                            setState((state) => ({
+                                ...state,
+                                visible: true,
+                                payload: item,
+                            }));
                         },
                     },
                 ]}
@@ -83,64 +77,24 @@ export default function CategoryList({
                         icon="plus"
                         plan={{}}
                     />
+
+                    <ConfirmationPopup<WithId<Category>>
+                        header="Удалить категорию?"
+                        handler={async (category) => {
+                            if (typeof category === "undefined") {
+                                return;
+                            }
+
+                            await fetch(
+                                "/.netlify/functions/del_category/?id=" +
+                                    category._id.toString()
+                            );
+
+                            navigate(0);
+                        }}
+                    />
                 </div>
             </ContextMenuContainer>
-
-            {typeof confirmationData !== "undefined" && (
-                <Blur onClick={() => setConfirmationData(undefined)}>
-                    <div className="flex justify-center items-center h-full w-full">
-                        <div
-                            className="bg-[#f8f8f8] grid gap-3 px-8 py-6"
-                            style={{
-                                boxShadow:
-                                    "0px 4px 20px 0px rgba(0, 0, 0, 0.25)",
-                                maxWidth: "80%",
-                            }}
-                            onClick={(event) => {
-                                event.stopPropagation();
-                            }}
-                        >
-                            <div className="text-lg">
-                                {confirmationData.header}
-                            </div>
-
-                            <div>{confirmationData.text}</div>
-
-                            <div className="mt-4 mx-auto flex gap-20 text-[#0084C8] font-semibold uppercase">
-                                <div
-                                    className="p-4"
-                                    onClick={() => {
-                                        setConfirmationData(undefined);
-                                    }}
-                                >
-                                    Нет
-                                </div>
-                                <div
-                                    className="p-4"
-                                    onClick={async () => {
-                                        setBusy(true);
-
-                                        await fetch(
-                                            "/.netlify/functions/del_category/?id=" +
-                                                confirmationData.id!.toString()
-                                        );
-
-                                        navigate(0);
-                                    }}
-                                >
-                                    Да
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Blur>
-            )}
-
-            {busy && (
-                <Blur>
-                    <LoadingLayout />
-                </Blur>
-            )}
         </div>
     );
 }
