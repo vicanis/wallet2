@@ -18,6 +18,7 @@ export function WalletItemLoader({ params }: LoaderFunctionArgs) {
         case "other":
             return defer({
                 data: {
+                    _id: id,
                     name: "",
                     currency: "RUB",
                     value: 0,
