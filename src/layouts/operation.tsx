@@ -1,3 +1,4 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import { mdiCalendarMonthOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import RadioGroup from "../components/radiogroup";
@@ -6,16 +7,15 @@ import InputGroup from "../components/group";
 import AmountEditor from "../components/amounteditor";
 import CategorySelector from "../components/category/selector";
 import PrimaryButton from "../components/button/primary";
-import { useLocation, useNavigate } from "react-router-dom";
 
-export default function Operation() {
+export default function OperationLayout({ data }: { data: any }) {
     const location = useLocation();
     const navigate = useNavigate();
 
     const page = location.pathname === "/expense" ? "expense" : "income";
 
     return (
-        <div className="grid gap-6 justify-stretch">
+        <div className="p-4 grid gap-6 justify-stretch">
             <div className="flex justify-center gap-2 items-center">
                 <Icon
                     path={mdiCalendarMonthOutline}

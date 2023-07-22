@@ -3,7 +3,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import BottomBar from "../components/bottombar";
 import ErrorPage from "./error";
 import Home from "./home";
-import OperationPage from "./operation";
+import OperationPage, { OperationPageLoader } from "./operation";
 import NavBar from "../layouts/navbar";
 import ExchangePage from "./exchange";
 import StatsPage from "./stats";
@@ -57,10 +57,12 @@ export default function App() {
                 {
                     path: "expense",
                     element: <OperationPage />,
+                    loader: OperationPageLoader,
                 },
                 {
                     path: "income",
                     element: <OperationPage />,
+                    loader: OperationPageLoader,
                 },
                 {
                     path: "stats",
