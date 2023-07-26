@@ -38,7 +38,7 @@ export default function WalletSelector() {
             <Blur>
                 <div className="h-full flex items-center justify-center">
                     <div
-                        className="grid gap-5 w-3/4 px-6 py-5"
+                        className="grid gap-5 w-full mx-4 py-5 px-2"
                         style={{
                             borderRadius: "0.9375rem",
                             border: "2px solid #E9EEF1",
