@@ -35,7 +35,7 @@ export default function WalletSelector() {
 
     if (isOpened) {
         return (
-            <Blur>
+            <Blur onClick={() => setOpened(false)}>
                 <div className="h-full flex items-center justify-center">
                     <div
                         className="grid gap-5 w-full mx-4 py-5 px-2"
