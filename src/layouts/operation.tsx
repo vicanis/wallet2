@@ -49,7 +49,7 @@ export default function OperationLayout({ data }: { data: any }) {
                 <WalletSelector />
             </InputGroup>
 
-            <InputGroup name="Сумма">
+            <InputGroup name="Сумма" py="py-2">
                 <AmountEditor />
             </InputGroup>
 

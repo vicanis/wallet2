@@ -1,6 +1,6 @@
 import Icon from "@mdi/react";
-import { CurrencyIcon } from "./currency/icon";
 import { mdiCalculatorVariant, mdiChevronDown } from "@mdi/js";
+import { CurrencyIcon } from "./currency/icon";
 
 export default function AmountEditor() {
     return (
@@ -20,7 +20,7 @@ export default function AmountEditor() {
             <input
                 type="input"
                 placeholder="Введите сумму"
-                className="w-full mr-10"
+                className="w-full mr-10 p-2"
             />
             <Icon
                 path={mdiCalculatorVariant}
