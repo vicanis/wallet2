@@ -33,11 +33,6 @@ export const handler: Handler = async (event, context) => {
                         body: JSON.stringify(items),
                     };
             }
-
-            return {
-                statusCode: 400,
-                body: "bad request mode",
-            };
         }
 
         const data: WalletSettingsItem[] = [];
