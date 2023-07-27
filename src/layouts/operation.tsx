@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { mdiCalendarMonthOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import RadioGroup from "../components/radiogroup";
-import WalletSelector from "../components/walletselector";
+import WalletSelector from "./wallet/selector";
 import InputGroup from "../components/group";
 import AmountEditor from "../components/amounteditor";
 import CategorySelector from "../components/category/selector";
