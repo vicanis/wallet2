@@ -18,6 +18,9 @@ export const handler: Handler = async (event, context) => {
                     order: 1,
                     name: 1,
                 },
+                projection: {
+                    outcast: 0,
+                },
             }
         );
 
