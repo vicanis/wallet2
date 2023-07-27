@@ -71,7 +71,7 @@ export default function OperationLayout({ data }: { data: any }) {
             </InputGroup>
 
             <InputGroup name="Категория">
-                <CategorySelector />
+                <CategorySelector type={page} />
             </InputGroup>
 
             <div className="text-center">
