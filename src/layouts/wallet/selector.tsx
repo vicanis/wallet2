@@ -40,15 +40,11 @@ function Item({
     currency,
     value,
     picker = false,
-    ...rest
 }: Wallet & {
     picker?: boolean;
 }) {
     return (
-        <div
-            className="flex gap-3 items-center justify-between w-full"
-            {...rest}
-        >
+        <div className="flex gap-3 items-center justify-between w-full">
             <Icon path={mdiWallet} size={1} color="#1F93CE" />
             <div className="flex-grow">
                 <div>{name}</div>
