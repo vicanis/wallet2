@@ -1,34 +1,39 @@
-import { ReactNode, useLayoutEffect, useState } from "react";
-import { WithId } from "mongodb";
+import { ReactNode, useEffect, useState } from "react";
+import { ObjectId, WithId } from "mongodb";
 import Blur from "./blur";
 
 export default function BlurredSelector<T extends WithId<{}>>({
-    header,
     items,
+    selected,
+    header,
     renderer,
+    onChange,
 }: {
     items?: T[];
+    selected?: ObjectId;
     header: ReactNode;
     renderer: (arg: SelectorRendererArgs<T>) => ReactNode;
+    onChange: (id: ObjectId) => void;
 }) {
-    const [selectedItem, setSelectedItem] = useState<T>();
     const [isOpened, setOpened] = useState(false);
 
-    useLayoutEffect(() => {
-        if (typeof items === "undefined") {
-            return;
-        }
-
-        setSelectedItem(items[0]);
+    useEffect(() => {
+        console.log("selector render", items);
     }, [items]);
 
     if (typeof items === "undefined") {
-        return <div>Загрузка ...</div>;
+        return <div className="py-3">Загрузка ...</div>;
     }
 
-    if (typeof selectedItem === "undefined") {
-        return <div>Не выбрано</div>;
-    }
+    const selectedItem = items
+        .filter((item) => {
+            if (typeof selected === "undefined") {
+                return true;
+            }
+
+            return item._id.toString() === selected.toString();
+        })
+        .shift();
 
     if (isOpened) {
         return (
@@ -51,14 +56,15 @@ export default function BlurredSelector<T extends WithId<{}>>({
                                 key={index}
                                 onClick={() => {
                                     setOpened(false);
-                                    setSelectedItem(item);
+                                    onChange(item._id);
                                 }}
                             >
                                 {renderer({
                                     item,
                                     selected:
+                                        typeof selected !== "undefined" &&
                                         item._id.toString() ===
-                                        selectedItem._id.toString(),
+                                            selected.toString(),
                                     picker: true,
                                 })}
                             </div>
@@ -71,7 +77,7 @@ export default function BlurredSelector<T extends WithId<{}>>({
 
     return (
         <div onClick={() => setOpened(true)}>
-            {renderer({ item: selectedItem, picker: false })}
+            {renderer({ item: selectedItem!, picker: false })}
         </div>
     );
 }

@@ -1,19 +1,24 @@
 import Icon from "@mdi/react";
-import { mdiCalculatorVariant, mdiChevronDown } from "@mdi/js";
-import { CurrencyIcon } from "./currency/icon";
+import { mdiCalculatorVariant } from "@mdi/js";
+import { Operation } from "../types/operation";
+import CurrencyMiniSelector from "./currency/miniselector";
 
-export default function AmountEditor() {
+export default function AmountEditor({
+    amount,
+    onChange,
+}: Pick<Operation, "amount"> & {
+    onChange: (amount: Operation["amount"]) => void;
+}) {
     return (
         <div className="flex gap-5 items-center">
-            <div className="relative">
-                <CurrencyIcon type="RUB" />
-                <Icon
-                    path={mdiChevronDown}
-                    size={0.75}
-                    style={{
-                        position: "absolute",
-                        bottom: "-0.5em",
-                        right: "-0.5em",
+            <div className="">
+                <CurrencyMiniSelector
+                    currency={amount.currency}
+                    onChange={(currency) => {
+                        onChange({
+                            ...amount,
+                            currency,
+                        });
                     }}
                 />
             </div>
@@ -21,6 +26,19 @@ export default function AmountEditor() {
                 type="input"
                 placeholder="Введите сумму"
                 className="w-full mr-10 p-2"
+                defaultValue={amount.value}
+                onChange={(event) => {
+                    const value = event.target.value;
+
+                    if (value === null || typeof value === "undefined") {
+                        return;
+                    }
+
+                    onChange({
+                        ...amount,
+                        value: Number(value),
+                    });
+                }}
             />
             <Icon
                 path={mdiCalculatorVariant}

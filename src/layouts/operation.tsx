@@ -1,6 +1,8 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { mdiCalendarMonthOutline } from "@mdi/js";
 import Icon from "@mdi/react";
+import { Operation } from "../types/operation";
 import RadioGroup from "../components/radiogroup";
 import WalletSelector from "./wallet/selector";
 import InputGroup from "../components/group";
@@ -8,11 +10,10 @@ import AmountEditor from "../components/amounteditor";
 import CategorySelector from "../components/category/selector";
 import PrimaryButton from "../components/button/primary";
 
-export default function OperationLayout({ data }: { data: any }) {
-    const location = useLocation();
+export default function OperationLayout({ data }: { data: Operation }) {
     const navigate = useNavigate();
 
-    const page = location.pathname === "/expense" ? "expense" : "income";
+    const [operation, setOperation] = useState<Operation>(data);
 
     return (
         <div className="p-4 grid gap-6 justify-stretch">
@@ -31,26 +32,46 @@ export default function OperationLayout({ data }: { data: any }) {
                         {
                             id: "expense",
                             name: "Расход",
-                            selected: page === "expense",
+                            selected: operation.type === "expense",
                         },
                         {
                             id: "income",
                             name: "Доход",
-                            selected: page === "income",
+                            selected: operation.type === "income",
                         },
                     ]}
                     onChange={(id: string) => {
                         navigate(`/${id}`);
+                        setOperation((operation) => ({
+                            ...operation,
+                            type: id as "expense" | "income",
+                        }));
                     }}
                 />
             </div>
 
-            <InputGroup name="Счет" py="py-3">
-                <WalletSelector />
+            <InputGroup name="Счет">
+                <WalletSelector
+                    selected={operation.wallet}
+                    onChange={(wallet) => {
+                        setOperation((operation) => ({
+                            ...operation,
+                            wallet,
+                        }));
+                    }}
+                />
             </InputGroup>
 
-            <InputGroup name="Сумма" py="py-2">
-                <AmountEditor />
+            <InputGroup name="Сумма">
+                <AmountEditor
+                    amount={operation.amount}
+                    onChange={(amount) => {
+                        setOperation((operation) => ({
+                            ...operation,
+                            amount,
+                        }));
+                    }}
+                />
             </InputGroup>
 
             <InputGroup
@@ -66,16 +87,55 @@ export default function OperationLayout({ data }: { data: any }) {
                 <input
                     type="text"
                     placeholder="Введите текст"
-                    className="w-full"
+                    className="w-full py-2"
+                    defaultValue={operation.comment}
+                    onChange={(event) => {
+                        const comment = event.target.value;
+
+                        if (
+                            comment === null ||
+                            typeof comment === "undefined"
+                        ) {
+                            return;
+                        }
+
+                        if (comment === "") {
+                            setOperation((operation) => {
+                                delete operation.comment;
+                                return { ...operation };
+                            });
+
+                            return;
+                        }
+
+                        setOperation((operation) => ({
+                            ...operation,
+                            comment,
+                        }));
+                    }}
                 />
             </InputGroup>
 
             <InputGroup name="Категория">
-                <CategorySelector type={page} />
+                <CategorySelector
+                    type={operation.type}
+                    selected={operation.category}
+                    onChange={(category) => {
+                        setOperation((operation) => ({
+                            ...operation,
+                            category,
+                        }));
+                    }}
+                />
             </InputGroup>
 
             <div className="text-center">
-                <PrimaryButton title="Сохранить" />
+                <PrimaryButton
+                    title="Сохранить"
+                    onClick={() => {
+                        console.log("save operation", operation);
+                    }}
+                />
             </div>
         </div>
     );

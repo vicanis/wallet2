@@ -10,4 +10,5 @@ export interface Operation {
     };
     comment?: string;
     category?: ObjectId;
+    wallet?: ObjectId;
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { WithId } from "mongodb";
+import { ObjectId, WithId } from "mongodb";
 import { mdiChevronRight } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Category } from "../../types/category";
@@ -9,8 +9,11 @@ import Radio from "../radio";
 
 export default function CategorySelector({
     type,
+    ...props
 }: {
     type: "expense" | "income";
+    selected?: ObjectId;
+    onChange: (id: ObjectId) => void;
 }) {
     const [categories, setCategories] = useState<WithId<Category>[]>();
 
@@ -38,6 +41,7 @@ export default function CategorySelector({
                     <Item {...arg.item} />
                 )
             }
+            {...props}
         />
     );
 }

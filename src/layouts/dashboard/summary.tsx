@@ -1,7 +1,7 @@
 import IconArrowUp from "../../assets/arrow_up.svg";
 import IconArrowDown from "../../assets/arrow_down.svg";
 import Amount from "../../components/amount";
-import { DashboardBalance, DashboardItem } from ".";
+import { DashboardBalance } from ".";
 
 export default function DashboardSummaryLayout({
     balance,

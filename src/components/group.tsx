@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 export default function InputGroup({
     name,
     children,
-    py = "py-5",
+    py = "py-2",
 }: {
     name: ReactNode;
     children: ReactNode;

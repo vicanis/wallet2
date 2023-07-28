@@ -18,7 +18,6 @@ export function OperationPageLoader({ params }: LoaderFunctionArgs) {
                 type: "expense",
                 date: new Date().toString(),
                 amount: {
-                    value: 0,
                     currency: "RUB",
                 },
             };

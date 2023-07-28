@@ -4,9 +4,9 @@ import {
     DashboardBalanceAction,
     DashboardBalanceActionKind,
 } from ".";
-import CurrencySelector from "../../components/currency/selector";
 import Icon from "@mdi/react";
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
+import CurrencySelector from "../../components/currency/selector";
 import { CurrencyIcon } from "../../components/currency/icon";
 import Amount from "../../components/amount";
 

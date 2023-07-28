@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { WithId } from "mongodb";
+import { ObjectId, WithId } from "mongodb";
 import { mdiChevronRight } from "@mdi/js";
 import Icon from "@mdi/react";
 import type { Wallet } from "../../types/wallet";
@@ -7,7 +7,10 @@ import Radio from "../../components/radio";
 import BlurredSelector from "../../components/blurredselector";
 import CategoryIcon from "../../components/category/icon";
 
-export default function WalletSelector() {
+export default function WalletSelector(props: {
+    selected?: ObjectId;
+    onChange: (id: ObjectId) => void;
+}) {
     const [wallets, setWallets] = useState<WithId<Wallet>[]>();
 
     useEffect(() => {
@@ -32,6 +35,7 @@ export default function WalletSelector() {
                     <Item {...arg.item} />
                 )
             }
+            {...props}
         />
     );
 }
