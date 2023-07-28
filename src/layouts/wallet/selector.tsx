@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { WithId } from "mongodb";
-import { mdiChevronRight, mdiWallet } from "@mdi/js";
+import { mdiChevronRight } from "@mdi/js";
 import Icon from "@mdi/react";
 import type { Wallet } from "../../types/wallet";
 import Radio from "../../components/radio";
