@@ -5,6 +5,7 @@ import Icon from "@mdi/react";
 import type { Wallet } from "../../types/wallet";
 import Radio from "../../components/radio";
 import BlurredSelector from "../../components/blurredselector";
+import CategoryIcon from "../../components/category/icon";
 
 export default function WalletSelector() {
     const [wallets, setWallets] = useState<WithId<Wallet>[]>();
@@ -39,13 +40,15 @@ function Item({
     name,
     currency,
     value,
+    icon,
+    color,
     picker = false,
 }: Wallet & {
     picker?: boolean;
 }) {
     return (
         <div className="flex gap-3 items-center justify-between w-full">
-            <Icon path={mdiWallet} size={1} color="#1F93CE" />
+            <CategoryIcon icon={icon} color={color} />
             <div className="flex-grow">
                 <div>{name}</div>
                 {picker && (

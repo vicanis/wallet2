@@ -45,7 +45,7 @@ export default function OperationLayout({ data }: { data: any }) {
                 />
             </div>
 
-            <InputGroup name="Счет">
+            <InputGroup name="Счет" py="py-3">
                 <WalletSelector />
             </InputGroup>
 
