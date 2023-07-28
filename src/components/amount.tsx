@@ -1,5 +1,5 @@
 import { CurrencyIcon } from "./currency/icon";
-import { CurrencyType } from "./currency/selector";
+import { CurrencyType } from "../types/currency";
 
 export default function Amount({
     currency,

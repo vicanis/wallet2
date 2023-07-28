@@ -1,5 +1,5 @@
 import { WithId } from "mongodb";
-import { CurrencyType } from "../components/currency/selector";
+import { CurrencyType } from "./currency";
 
 export interface Wallet {
     name: string;

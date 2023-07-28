@@ -1,3 +1,4 @@
+import { CurrencyType } from "../../types/currency";
 import { CurrencyIcon } from "./icon";
 
 export default function CurrencySelector({
@@ -19,5 +20,3 @@ export default function CurrencySelector({
         </span>
     );
 }
-
-export type CurrencyType = "RUB" | "KZT" | "USD";

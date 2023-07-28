@@ -1,5 +1,5 @@
 import { IconProps } from "@mdi/react/dist/IconProps";
-import { CurrencyType } from "./selector";
+import { CurrencyType } from "../../types/currency";
 import { mdiCurrencyKzt, mdiCurrencyRub, mdiCurrencyUsd } from "@mdi/js";
 import Icon from "@mdi/react";
 

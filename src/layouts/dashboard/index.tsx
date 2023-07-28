@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CurrencyType } from "../../components/currency/selector";
+import { CurrencyType } from "../../types/currency";
 import DashboardBalanceLayout from "./balance";
 import DashboardSummaryLayout from "./summary";
 

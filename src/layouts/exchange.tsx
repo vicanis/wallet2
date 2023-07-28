@@ -3,7 +3,7 @@ import Converter from "../components/exchange/converter";
 import Keyboard, {
     KeyboardButtonHandler,
 } from "../components/exchange/keyboard";
-import { CurrencyType } from "../components/currency/selector";
+import { CurrencyType } from "../types/currency";
 
 export default function Exchange() {
     const [currencyFrom, setCurrencyFrom] = useState<CurrencyType>("RUB");

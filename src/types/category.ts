@@ -1,4 +1,4 @@
-import { CurrencyType } from "../components/currency/selector";
+import { CurrencyType } from "./currency";
 
 export interface Category {
     type: "expense" | "income";

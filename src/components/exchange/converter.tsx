@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import Icon from "@mdi/react";
 import Amount from "../amount";
 import CurrencyFlag from "../currency/flag";
-import { CurrencyType } from "../currency/selector";
+import { CurrencyType } from "../../types/currency";
 import { mdiSwapVertical } from "@mdi/js";
 
 export default function Converter({

@@ -1,4 +1,4 @@
-import { CurrencyType } from "./selector";
+import { CurrencyType } from "../../types/currency";
 
 export default function CurrencyFlag({
     currency,
