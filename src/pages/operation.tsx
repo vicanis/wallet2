@@ -14,7 +14,7 @@ export function OperationPageLoader({ params }: LoaderFunctionArgs) {
         case "new":
             const data: Operation = {
                 type: "expense",
-                date: new Date().toString(),
+                date: new Date(),
                 amount: {
                     currency: "RUB",
                 },

@@ -3,7 +3,7 @@ import { CurrencyType } from "./currency";
 
 export interface Operation {
     type: "expense" | "income";
-    date: string;
+    date: Date;
     amount: {
         value?: number;
         currency: CurrencyType;

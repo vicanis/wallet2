@@ -30,6 +30,16 @@ export const handler: Handler = async (event, context) => {
         };
     }
 
+    for (const field of ["wallet", "category"]) {
+        if (typeof operation[field] === "string") {
+            operation[field] = new ObjectId(operation[field]);
+        }
+    }
+
+    if (typeof operation.date === "string") {
+        operation.date = new Date(operation.date);
+    }
+
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
 
     const conn = mongoclient.connect();
