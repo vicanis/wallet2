@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { ObjectId, WithId } from "mongodb";
 import Blur from "./blur";
 
@@ -16,10 +16,6 @@ export default function BlurredSelector<T extends WithId<{}>>({
     onChange: (id: ObjectId) => void;
 }) {
     const [isOpened, setOpened] = useState(false);
-
-    useEffect(() => {
-        console.log("selector render", items);
-    }, [items]);
 
     if (typeof items === "undefined") {
         return <div className="py-3">Загрузка ...</div>;
