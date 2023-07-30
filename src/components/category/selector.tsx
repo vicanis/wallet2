@@ -20,9 +20,14 @@ export default function CategorySelector({
     useEffect(() => {
         fetch("/.netlify/functions/get_categories")
             .then((resp) => resp.json())
-            .then((list: WithId<Category>[]) =>
-                setCategories(list.filter((item) => item.type === type))
-            );
+            .then((list: WithId<Category>[]) => {
+                const categories = list.filter((item) => item.type === type);
+                setCategories(categories);
+
+                if (typeof props.selected === "undefined") {
+                    props.onChange(categories[0]._id);
+                }
+            });
     }, [type]);
 
     return (

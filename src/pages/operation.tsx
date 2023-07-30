@@ -4,9 +4,7 @@ import LoadablePage from "../components/loadable";
 import { Operation } from "../types/operation";
 
 export default function OperationPage() {
-    return (
-        <LoadablePage renderer={(data) => <OperationLayout data={data} />} />
-    );
+    return <LoadablePage renderer={(data) => <OperationLayout {...data} />} />;
 }
 
 export function OperationPageLoader({ params }: LoaderFunctionArgs) {

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { WithId } from "mongodb";
 import { useNavigate } from "react-router-dom";
 import { mdiCalendarMonthOutline } from "@mdi/js";
 import Icon from "@mdi/react";
@@ -10,10 +11,10 @@ import AmountEditor from "../components/amounteditor";
 import CategorySelector from "../components/category/selector";
 import PrimaryButton from "../components/button/primary";
 
-export default function OperationLayout({ data }: { data: Operation }) {
+export default function OperationLayout({ _id, ...data }: WithId<Operation>) {
     const navigate = useNavigate();
 
-    const [operation, setOperation] = useState<Operation>(data);
+    const [operationData, setOperationData] = useState<Operation>(data);
 
     return (
         <div className="p-4 grid gap-6 justify-stretch">
@@ -32,17 +33,17 @@ export default function OperationLayout({ data }: { data: Operation }) {
                         {
                             id: "expense",
                             name: "Расход",
-                            selected: operation.type === "expense",
+                            selected: operationData.type === "expense",
                         },
                         {
                             id: "income",
                             name: "Доход",
-                            selected: operation.type === "income",
+                            selected: operationData.type === "income",
                         },
                     ]}
                     onChange={(id: string) => {
                         navigate(`/${id}`);
-                        setOperation((operation) => ({
+                        setOperationData((operation) => ({
                             ...operation,
                             type: id as "expense" | "income",
                         }));
@@ -52,9 +53,9 @@ export default function OperationLayout({ data }: { data: Operation }) {
 
             <InputGroup name="Счет">
                 <WalletSelector
-                    selected={operation.wallet}
+                    selected={operationData.wallet}
                     onChange={(wallet) => {
-                        setOperation((operation) => ({
+                        setOperationData((operation) => ({
                             ...operation,
                             wallet,
                         }));
@@ -64,9 +65,9 @@ export default function OperationLayout({ data }: { data: Operation }) {
 
             <InputGroup name="Сумма">
                 <AmountEditor
-                    amount={operation.amount}
+                    amount={operationData.amount}
                     onChange={(amount) => {
-                        setOperation((operation) => ({
+                        setOperationData((operation) => ({
                             ...operation,
                             amount,
                         }));
@@ -88,7 +89,7 @@ export default function OperationLayout({ data }: { data: Operation }) {
                     type="text"
                     placeholder="Введите текст"
                     className="w-full py-2"
-                    defaultValue={operation.comment}
+                    defaultValue={operationData.comment}
                     onChange={(event) => {
                         const comment = event.target.value;
 
@@ -100,7 +101,7 @@ export default function OperationLayout({ data }: { data: Operation }) {
                         }
 
                         if (comment === "") {
-                            setOperation((operation) => {
+                            setOperationData((operation) => {
                                 delete operation.comment;
                                 return { ...operation };
                             });
@@ -108,7 +109,7 @@ export default function OperationLayout({ data }: { data: Operation }) {
                             return;
                         }
 
-                        setOperation((operation) => ({
+                        setOperationData((operation) => ({
                             ...operation,
                             comment,
                         }));
@@ -118,10 +119,10 @@ export default function OperationLayout({ data }: { data: Operation }) {
 
             <InputGroup name="Категория">
                 <CategorySelector
-                    type={operation.type}
-                    selected={operation.category}
+                    type={operationData.type}
+                    selected={operationData.category}
                     onChange={(category) => {
-                        setOperation((operation) => ({
+                        setOperationData((operation) => ({
                             ...operation,
                             category,
                         }));
@@ -132,8 +133,16 @@ export default function OperationLayout({ data }: { data: Operation }) {
             <div className="text-center">
                 <PrimaryButton
                     title="Сохранить"
-                    onClick={() => {
-                        console.log("save operation", operation);
+                    onClick={async () => {
+                        await fetch("/.netlify/functions/set_operation", {
+                            method: "POST",
+                            body: JSON.stringify({
+                                _id,
+                                ...operationData,
+                            }),
+                        });
+
+                        navigate("/");
                     }}
                 />
             </div>

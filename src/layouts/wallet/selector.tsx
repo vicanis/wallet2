@@ -16,7 +16,13 @@ export default function WalletSelector(props: {
     useEffect(() => {
         fetch("/.netlify/functions/get_wallets/?mode=plain")
             .then((resp) => resp.json())
-            .then(setWallets);
+            .then((wallets: WithId<Wallet>[]) => {
+                setWallets(wallets);
+
+                if (typeof props.selected === "undefined") {
+                    props.onChange(wallets[0]._id);
+                }
+            });
     }, []);
 
     return (
