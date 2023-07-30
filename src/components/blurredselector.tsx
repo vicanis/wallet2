@@ -58,9 +58,9 @@ export default function BlurredSelector<T extends WithId<{}>>({
                                 {renderer({
                                     item,
                                     selected:
-                                        typeof selected !== "undefined" &&
+                                        typeof selectedItem !== "undefined" &&
                                         item._id.toString() ===
-                                            selected.toString(),
+                                            selectedItem._id.toString(),
                                     picker: true,
                                 })}
                             </div>
