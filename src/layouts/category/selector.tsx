@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { mdiChevronRight } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Category } from "../../types/category";
-import BlurredSelector from "../blurredselector";
-import CategoryIcon from "./icon";
-import Radio from "../radio";
+import BlurredSelector from "../../components/blurredselector";
+import CategoryIcon from "../../components/category/icon";
+import Radio from "../../components/radio";
 
 export default function CategorySelector({
     type,

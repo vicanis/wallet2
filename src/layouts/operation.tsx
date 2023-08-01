@@ -8,7 +8,7 @@ import RadioGroup from "../components/radiogroup";
 import WalletSelector from "./wallet/selector";
 import InputGroup from "../components/group";
 import AmountEditor from "../components/amounteditor";
-import CategorySelector from "../components/category/selector";
+import CategorySelector from "./category/selector";
 import PrimaryButton from "../components/button/primary";
 
 export default function OperationLayout({ _id, ...data }: WithId<Operation>) {
