@@ -7,12 +7,14 @@ export default function BlurredSelector<T extends WithId<{}>>({
     selected,
     header,
     renderer,
+    createButtonRenderer,
     onChange,
 }: {
     items?: T[];
     selected?: ObjectId;
     header: ReactNode;
     renderer: (arg: SelectorRendererArgs<T>) => ReactNode;
+    createButtonRenderer?: () => ReactNode;
     onChange: (id: ObjectId) => void;
 }) {
     const [isOpened, setOpened] = useState(false);
@@ -65,6 +67,9 @@ export default function BlurredSelector<T extends WithId<{}>>({
                                 })}
                             </div>
                         ))}
+
+                        {typeof createButtonRenderer === "function" &&
+                            createButtonRenderer()}
                     </div>
                 </div>
             </Blur>

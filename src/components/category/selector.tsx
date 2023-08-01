@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ObjectId, WithId } from "mongodb";
+import { Link } from "react-router-dom";
 import { mdiChevronRight } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Category } from "../../types/category";
@@ -46,6 +47,11 @@ export default function CategorySelector({
                     <Item {...arg.item} />
                 )
             }
+            createButtonRenderer={() => (
+                <Link to="/settings/category/new">
+                    Добавить новую категорию
+                </Link>
+            )}
             {...props}
         />
     );

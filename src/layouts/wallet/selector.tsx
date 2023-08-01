@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ObjectId, WithId } from "mongodb";
+import { Link } from "react-router-dom";
 import { mdiChevronRight } from "@mdi/js";
 import Icon from "@mdi/react";
 import type { Wallet } from "../../types/wallet";
@@ -41,6 +42,9 @@ export default function WalletSelector(props: {
                     <Item {...arg.item} />
                 )
             }
+            createButtonRenderer={() => (
+                <Link to="/settings/wallet/new">Добавить новый счет</Link>
+            )}
             {...props}
         />
     );
