@@ -29,6 +29,9 @@ export default function NavBar() {
 
             case "/settings/wallet/new":
                 return "Добавление счета";
+
+            case "/history":
+                return "История операций";
         }
 
         const regexes: [RegExp, string][] = [

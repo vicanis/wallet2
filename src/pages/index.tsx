@@ -24,6 +24,7 @@ import CategorySettingsItemPage, {
 } from "./settings/category/id";
 import CategoryArrangementPage from "./settings/category/arrangement";
 import WalletSettingsItemPage, { WalletItemLoader } from "./settings/wallet/id";
+import HistoryPage from "./history";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -182,6 +183,10 @@ export default function App() {
                             element: <OtherSettingsPage />,
                         },
                     ],
+                },
+                {
+                    path: "history",
+                    element: <HistoryPage />,
                 },
             ],
         },

@@ -9,6 +9,7 @@ import ImageBell from "../../assets/menu/top/bell.svg";
 import ImageCurrency from "../../assets/menu/top/currency.svg";
 import ImageCog from "../../assets/menu/top/cog.svg";
 import ImageLogout from "../../assets/menu/top/logout.svg";
+import ImageHistory from "../../assets/menu/top/history.svg";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -62,6 +63,10 @@ export default function Menu({ menuClose }: { menuClose: () => void }) {
                         <Item icon={ImageMoneyBag} text="Счета" />
                     </Link>
 
+                    <Link to="/history">
+                        <Item icon={ImageHistory} text="История операций" />
+                    </Link>
+
                     <Link to="/settings/payment">
                         <Item icon={ImageBills} text="Регулярные платежи" />
                     </Link>
@@ -78,7 +83,7 @@ export default function Menu({ menuClose }: { menuClose: () => void }) {
                         <Item icon={ImageCog} text="Настройки" />
                     </Link>
 
-                    <br />
+                    <div />
 
                     <Item
                         icon={ImageLogout}
