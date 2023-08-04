@@ -2,6 +2,7 @@ import { Handler } from "@netlify/functions";
 import { MongoClient, WithId } from "mongodb";
 import type { Category } from "../../../src/types/category";
 import type { Wallet } from "../../../src/types/wallet";
+import type { HistoryGroup } from "../../../src/types/history";
 import dayjs from "../../../src/lib/dayjs";
 
 export const handler: Handler = async (event, context) => {
@@ -21,22 +22,14 @@ export const handler: Handler = async (event, context) => {
         const [groups, categories, wallets] = await Promise.all([
             db
                 .collection("operation")
-                .aggregate<{
-                    count: number;
-                    items: {
-                        date: Date;
-                        amount: {
-                            currency: string;
-                            value: number;
-                        };
-                        wallet: string;
-                        category: string;
-                    }[];
-                }>([
+                .aggregate<HistoryGroup>([
                     {
                         $sort: {
                             date: -1,
                         },
+                    },
+                    {
+                        $limit: 100,
                     },
                     {
                         $bucket: {
@@ -44,9 +37,6 @@ export const handler: Handler = async (event, context) => {
                             boundaries,
                             default: "other",
                             output: {
-                                count: {
-                                    $sum: 1,
-                                },
                                 items: {
                                     $push: {
                                         date: "$date",
@@ -60,7 +50,7 @@ export const handler: Handler = async (event, context) => {
                     },
                     {
                         $set: {
-                            day: "$_id",
+                            date: "$_id",
                         },
                     },
                     {
@@ -76,18 +66,25 @@ export const handler: Handler = async (event, context) => {
             for (const item of group.items) {
                 for (const category of categories) {
                     if (item.category.toString() === category._id.toString()) {
-                        item.category = category.name;
+                        item.category = category;
                         break;
                     }
                 }
 
                 for (const wallet of wallets) {
                     if (item.wallet.toString() === wallet._id.toString()) {
-                        item.wallet = wallet.name;
+                        item.wallet = wallet;
                         break;
                     }
                 }
             }
+        }
+
+        // sort list in reverse order
+        for (let i = 0; i < groups.length / 2; i++) {
+            const temp = groups[i];
+            groups[i] = groups[groups.length - i - 1];
+            groups[groups.length - i - 1] = temp;
         }
 
         return {
