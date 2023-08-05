@@ -81,6 +81,10 @@ export default function DashboardBalanceLayout({
         onChangeIndex(dashboard.current);
     }, [dashboard.current]);
 
+    if (!items.length) {
+        return null;
+    }
+
     return (
         <div
             className="text-center text-white pb-4 grid gap-4"

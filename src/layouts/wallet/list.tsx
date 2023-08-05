@@ -25,6 +25,10 @@ export default function WalletSettingsLayout({
     const navigate = useNavigate();
 
     const dashboardItems = useMemo<DashboardItem[]>(() => {
+        if (!fullList.length) {
+            return [];
+        }
+
         return fullList.map(({ currency, wallets }) => ({
             currency,
             value: wallets.reduce((sum, item) => sum + item.value, 0),
@@ -34,6 +38,10 @@ export default function WalletSettingsLayout({
     const [index, setIndex] = useState(0);
 
     const list = useMemo(() => {
+        if (!fullList.length) {
+            return [];
+        }
+
         return fullList[index].wallets;
     }, [fullList, index]);
 
