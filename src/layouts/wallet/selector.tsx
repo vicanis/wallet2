@@ -21,7 +21,10 @@ export default function WalletSelector(props: {
             .then((wallets: WithId<Wallet>[]) => {
                 setWallets(wallets);
 
-                if (typeof props.selected === "undefined") {
+                if (
+                    typeof props.selected === "undefined" &&
+                    wallets.length > 0
+                ) {
                     props.onChange(wallets[0]._id);
                 }
             });
