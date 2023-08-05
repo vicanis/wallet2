@@ -46,3 +46,23 @@ export interface User {
     name: string;
     token: string;
 }
+
+export function ParseUserId(ctx: any): string {
+    if (typeof ctx === "undefined") {
+        throw new Error("no client context");
+    }
+
+    if (typeof ctx.user === "undefined") {
+        throw new Error("no user data");
+    }
+
+    const id = ctx.user.sub;
+
+    if (typeof id === "undefined") {
+        throw new Error("no user id");
+    }
+
+    return id;
+}
+
+export type WithUser<T> = T & { user: string };
