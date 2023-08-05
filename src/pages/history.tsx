@@ -1,4 +1,5 @@
 import { defer } from "react-router-dom";
+import fetcher from "../lib/fetcher";
 import LoadablePage from "../components/loadable";
 import HistoryLayout from "../layouts/history";
 
@@ -13,7 +14,7 @@ export function HistoryLoader() {
 }
 
 async function Loader() {
-    const resp = await fetch("/.netlify/functions/get_history");
+    const resp = await fetcher("get_history");
     const data = await resp.json();
 
     return data;

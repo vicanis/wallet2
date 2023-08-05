@@ -1,4 +1,5 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
+import fetcher from "../lib/fetcher";
 import OperationLayout from "../layouts/operation";
 import LoadablePage from "../components/loadable";
 import { Operation } from "../types/operation";
@@ -29,7 +30,7 @@ export function OperationPageLoader({ params }: LoaderFunctionArgs) {
 }
 
 async function Loader(id: string) {
-    const resp = await fetch("/.netlify/functions/get_operation/?id=" + id);
+    const resp = await fetcher("get_operation/?id=" + id);
     const data = await resp.json();
 
     return data;
