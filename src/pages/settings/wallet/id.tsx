@@ -1,4 +1,5 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
+import fetcher from "../../../lib/fetcher";
 import LoadablePage from "../../../components/loadable";
 import WalletEditor from "../../../layouts/wallet/editor";
 
@@ -33,7 +34,7 @@ export function WalletItemLoader({ params }: LoaderFunctionArgs) {
 }
 
 async function Loader(id: string) {
-    const resp = await fetch("/.netlify/functions/get_wallet/?id=" + id);
+    const resp = await fetcher("get_wallet/?id=" + id);
     const data = await resp.json();
 
     return data;

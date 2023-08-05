@@ -1,6 +1,7 @@
 import { useContext, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { WithId } from "mongodb";
+import fetcher from "../../lib/fetcher";
 import Icon from "@mdi/react";
 import { mdiPlusCircle } from "@mdi/js";
 import Tabs from "../../components/tabs";
@@ -98,9 +99,8 @@ export default function WalletSettingsLayout({
                             return;
                         }
 
-                        await fetch(
-                            "/.netlify/functions/del_wallet/?id=" +
-                                wallet._id.toString()
+                        await fetcher(
+                            "del_wallet/?id=" + wallet._id.toString()
                         );
 
                         navigate(0);
