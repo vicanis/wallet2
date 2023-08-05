@@ -37,10 +37,10 @@ export const handler: Handler = async (event, context) => {
 
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
 
-    const conn = await mongoclient.connect();
+    const conn = mongoclient.connect();
 
     try {
-        const db = conn.db("wallet2");
+        const db = (await conn).db("wallet2");
         const coll = db.collection("category");
 
         if (typeof category.order === "undefined") {

@@ -25,7 +25,7 @@ export const handler: Handler = async (event, context) => {
 
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
 
-    const conn = await mongoclient.connect();
+    const conn = mongoclient.connect();
 
     const session = mongoclient.startSession();
 
@@ -40,7 +40,7 @@ export const handler: Handler = async (event, context) => {
             },
         });
 
-        const db = conn.db("wallet2");
+        const db = (await conn).db("wallet2");
         const coll = db.collection("category");
 
         for (const { _id, order } of updateItems) {
