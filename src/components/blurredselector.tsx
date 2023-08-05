@@ -33,6 +33,14 @@ export default function BlurredSelector<T extends WithId<{}>>({
         })
         .shift();
 
+    if (!items.length) {
+        if (typeof createButtonRenderer !== "undefined") {
+            return <div className="py-3">{createButtonRenderer()}</div>;
+        }
+
+        return <div>Нет доступных элементов</div>;
+    }
+
     if (isOpened) {
         return (
             <Blur onClick={() => setOpened(false)}>
