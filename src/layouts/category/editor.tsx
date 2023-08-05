@@ -1,6 +1,7 @@
 import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { WithId } from "mongodb";
+import fetcher from "../../lib/fetcher";
 import Icon from "@mdi/react";
 import { mdiTagOutline } from "@mdi/js";
 import { Category } from "../../types/category";
@@ -155,13 +156,14 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                         typeof _id === "undefined" ? "Добавить" : "Сохранить"
                     }
                     onClick={async () => {
-                        await fetch("/.netlify/functions/set_category", {
-                            method: "POST",
-                            body: JSON.stringify({
+                        await fetcher(
+                            "set_category",
+                            { method: "POST" },
+                            {
                                 _id,
                                 ...categoryData,
-                            }),
-                        });
+                            }
+                        );
 
                         navigate(-1);
                     }}

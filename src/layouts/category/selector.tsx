@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ObjectId, WithId } from "mongodb";
 import { Link } from "react-router-dom";
+import fetcher from "../../lib/fetcher";
 import { mdiChevronRight } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Category } from "../../types/category";
@@ -19,7 +20,7 @@ export default function CategorySelector({
     const [categories, setCategories] = useState<WithId<Category>[]>();
 
     useEffect(() => {
-        fetch("/.netlify/functions/get_categories")
+        fetcher("get_categories")
             .then((resp) => resp.json())
             .then((list: WithId<Category>[]) => {
                 const categories = list.filter((item) => item.type === type);

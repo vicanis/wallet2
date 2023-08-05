@@ -1,4 +1,5 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
+import fetcher from "../../../lib/fetcher";
 import LoadablePage from "../../../components/loadable";
 import CategoryEditor from "../../../layouts/category/editor";
 
@@ -34,7 +35,7 @@ export function CategoryItemLoader({ params }: LoaderFunctionArgs) {
 }
 
 async function Loader(id: string) {
-    const resp = await fetch("/.netlify/functions/get_category/?id=" + id);
+    const resp = await fetcher("get_category/?id=" + id);
     const data = await resp.json();
 
     return data;

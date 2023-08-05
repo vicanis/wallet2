@@ -1,5 +1,6 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient, ObjectId } from "mongodb";
+import { ParseUserId } from "../../../src/lib/auth";
 
 export const handler: Handler = async (event, context) => {
     if (event.queryStringParameters === null) {
@@ -18,6 +19,8 @@ export const handler: Handler = async (event, context) => {
         };
     }
 
+    const user = ParseUserId(context.clientContext);
+
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
 
     const conn = mongoclient.connect();
@@ -28,6 +31,7 @@ export const handler: Handler = async (event, context) => {
 
         await coll.deleteOne({
             _id: new ObjectId(id),
+            user,
         });
 
         return {

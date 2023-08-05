@@ -1,5 +1,6 @@
 import { ReactNode, useMemo, useState } from "react";
 import { WithId } from "mongodb";
+import fetcher from "../../lib/fetcher";
 import { Draggable } from "react-drag-reorder";
 import { Category } from "../../types/category";
 import CategoryTypeTabs from "./typetabs";
@@ -58,12 +59,10 @@ export default function CategoryArrangementLayout({
                             items[1].order = tmp;
 
                             try {
-                                const response = await fetch(
-                                    "/.netlify/functions/sort_category",
-                                    {
-                                        method: "POST",
-                                        body: JSON.stringify(items),
-                                    }
+                                const response = await fetcher(
+                                    "sort_category",
+                                    { method: "POST" },
+                                    items
                                 );
 
                                 const sorted: WithId<Category>[] =

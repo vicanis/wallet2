@@ -1,6 +1,7 @@
 import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ObjectId, WithId } from "mongodb";
+import fetcher from "../../lib/fetcher";
 import { Category } from "../../types/category";
 import CategoryItem from "./item";
 import CategoryTypeTabs from "./typetabs";
@@ -85,9 +86,8 @@ export default function CategoryList({
                                 return;
                             }
 
-                            await fetch(
-                                "/.netlify/functions/del_category/?id=" +
-                                    category._id.toString()
+                            await fetcher(
+                                "del_category/?id=" + category._id.toString()
                             );
 
                             navigate(0);

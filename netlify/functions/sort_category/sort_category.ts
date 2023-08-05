@@ -1,5 +1,6 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient, ObjectId } from "mongodb";
+import { ParseUserId } from "../../../src/lib/auth";
 
 export const handler: Handler = async (event, context) => {
     if (event.body === null) {
@@ -20,9 +21,11 @@ export const handler: Handler = async (event, context) => {
         };
     }
 
+    const user = ParseUserId(context.clientContext);
+
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
 
-    const conn = mongoclient.connect();
+    const conn = await mongoclient.connect();
 
     const session = mongoclient.startSession();
 
@@ -37,12 +40,12 @@ export const handler: Handler = async (event, context) => {
             },
         });
 
-        const db = (await conn).db("wallet2");
+        const db = conn.db("wallet2");
         const coll = db.collection("category");
 
         for (const { _id, order } of updateItems) {
             await coll.updateOne(
-                { _id: new ObjectId(_id) },
+                { _id: new ObjectId(_id), user },
                 { $set: { order } },
                 { session }
             );
@@ -51,7 +54,7 @@ export const handler: Handler = async (event, context) => {
         await session.commitTransaction();
 
         const list = coll.find(
-            {},
+            { user },
             {
                 sort: {
                     order: 1,
