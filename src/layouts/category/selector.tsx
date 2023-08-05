@@ -26,7 +26,10 @@ export default function CategorySelector({
                 const categories = list.filter((item) => item.type === type);
                 setCategories(categories);
 
-                if (typeof props.selected === "undefined") {
+                if (
+                    typeof props.selected === "undefined" &&
+                    categories.length > 0
+                ) {
                     props.onChange(categories[0]._id);
                 }
             });
