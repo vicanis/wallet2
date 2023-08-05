@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WithId } from "mongodb";
 import { useNavigate } from "react-router-dom";
+import dayjs from "../lib/dayjs";
+import fetcher from "../lib/fetcher";
 import { mdiCalendarMonthOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Operation } from "../types/operation";
@@ -10,10 +12,10 @@ import InputGroup from "../components/group";
 import AmountEditor from "../components/amounteditor";
 import CategorySelector from "./category/selector";
 import PrimaryButton from "../components/button/primary";
+import DatePicker from "../components/datepicker";
 
 export default function OperationLayout({ _id, ...data }: WithId<Operation>) {
     const navigate = useNavigate();
-
     const [operationData, setOperationData] = useState<Operation>(data);
 
     return (
@@ -24,7 +26,25 @@ export default function OperationLayout({ _id, ...data }: WithId<Operation>) {
                     size={1.5}
                     color="#0A90D5"
                 />
-                <span>сегодня</span>
+                <DatePicker
+                    value={dayjs().toString()}
+                    formatter={(date) =>
+                        dayjs(date).calendar(dayjs(), {
+                            sameDay: "[Сегодня в] HH:mm",
+                            nextDay: "[Завтра в] HH:mm",
+                            nextWeek: "[След.] dddd [в] HH:mm",
+                            lastDay: "[Вчера в] HH:mm",
+                            lastWeek: "[Пред.] dddd [в] HH:mm",
+                            sameElse: "DD MMMM YYYY",
+                        })
+                    }
+                    onChange={(date) =>
+                        setOperationData((data) => ({
+                            ...data,
+                            date,
+                        }))
+                    }
+                />
             </div>
 
             <div className="flex justify-center">
@@ -134,13 +154,11 @@ export default function OperationLayout({ _id, ...data }: WithId<Operation>) {
                 <PrimaryButton
                     title="Сохранить"
                     onClick={async () => {
-                        await fetch("/.netlify/functions/set_operation", {
-                            method: "POST",
-                            body: JSON.stringify({
-                                _id,
-                                ...operationData,
-                            }),
-                        });
+                        await fetcher(
+                            "set_operation",
+                            { method: "POST" },
+                            { _id, ...operationData }
+                        );
 
                         navigate("/");
                     }}
