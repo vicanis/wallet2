@@ -15,6 +15,7 @@ import ContextMenuContainer from "../../components/contextmenu";
 import ContextMenuItem from "../../components/contextmenu/item";
 import ConfirmationPopup from "../../components/confirmation/popup";
 import { ConfirmationContext } from "../../context/confirmation";
+import LoadingLayout from "../loading";
 
 export default function WalletSettingsLayout({
     list: fullList,
@@ -37,6 +38,12 @@ export default function WalletSettingsLayout({
     }, [fullList, index]);
 
     const { setState } = useContext(ConfirmationContext);
+
+    const [isReloading, setIsReloading] = useState(false);
+
+    if (isReloading) {
+        return <LoadingLayout />;
+    }
 
     return (
         <div>
@@ -99,11 +106,19 @@ export default function WalletSettingsLayout({
                             return;
                         }
 
-                        await fetcher(
-                            "del_wallet/?id=" + wallet._id.toString()
-                        );
+                        setIsReloading(true);
 
-                        navigate(0);
+                        try {
+                            await fetcher(
+                                "del_wallet/?id=" + wallet._id.toString()
+                            );
+
+                            navigate(0);
+                        } catch (e) {
+                            setIsReloading(false);
+
+                            throw e;
+                        }
                     }}
                 />
             </ContextMenuContainer>
