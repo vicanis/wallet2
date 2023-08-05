@@ -44,7 +44,7 @@ export const handler: Handler = async (event, context) => {
         const coll = db.collection("wallet");
 
         if (typeof wallet.order === "undefined") {
-            wallet.order = await coll.countDocuments();
+            wallet.order = await coll.countDocuments({ user });
         }
 
         if (typeof id === "undefined") {
