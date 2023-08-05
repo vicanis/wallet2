@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ObjectId, WithId } from "mongodb";
 import { Link } from "react-router-dom";
+import fetcher from "../../lib/fetcher";
 import { mdiChevronRight } from "@mdi/js";
 import Icon from "@mdi/react";
 import type { Wallet } from "../../types/wallet";
@@ -15,7 +16,7 @@ export default function WalletSelector(props: {
     const [wallets, setWallets] = useState<WithId<Wallet>[]>();
 
     useEffect(() => {
-        fetch("/.netlify/functions/get_wallets/?mode=plain")
+        fetcher("get_wallets/?mode=plain")
             .then((resp) => resp.json())
             .then((wallets: WithId<Wallet>[]) => {
                 setWallets(wallets);

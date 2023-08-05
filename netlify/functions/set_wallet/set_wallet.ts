@@ -1,6 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient, ObjectId, WithId } from "mongodb";
 import type { Wallet } from "../../../src/types/wallet";
+import { ParseUserId, WithUser } from "../../../src/lib/auth";
 
 export const handler: Handler = async (event, context) => {
     if (event.body === null) {
@@ -10,11 +11,15 @@ export const handler: Handler = async (event, context) => {
         };
     }
 
-    let wallet: Wallet;
+    const user = ParseUserId(context.clientContext);
+
+    let wallet: WithUser<Wallet>;
     let id: ObjectId | undefined;
 
     try {
-        const { _id, ...data } = JSON.parse(event.body) as WithId<Wallet>;
+        const { _id, ...data } = JSON.parse(event.body) as WithUser<
+            WithId<Wallet>
+        >;
 
         if (typeof _id === "string" && _id !== "new") {
             id = new ObjectId(_id);
@@ -43,9 +48,12 @@ export const handler: Handler = async (event, context) => {
         }
 
         if (typeof id === "undefined") {
-            await coll.insertOne(wallet);
+            await coll.insertOne({
+                ...wallet,
+                user,
+            });
         } else {
-            await coll.replaceOne({ _id: id }, wallet);
+            await coll.replaceOne({ _id: id, user }, wallet);
         }
 
         return {

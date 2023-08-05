@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { WithId } from "mongodb";
+import fetcher from "../../lib/fetcher";
 import IconSelector from "../../components/category/icon/selector";
 import ColorSelector from "../../components/colorselector";
 import CurrencyMiniSelector from "../../components/currency/miniselector";
@@ -102,13 +103,14 @@ export default function WalletEditor({ _id, ...data }: WithId<Wallet>) {
                     !walletData.color || !walletData.name || !walletData.icon
                 }
                 onClick={async () => {
-                    await fetch("/.netlify/functions/set_wallet", {
-                        method: "POST",
-                        body: JSON.stringify({
+                    await fetcher(
+                        "set_wallet",
+                        { method: "POST" },
+                        {
                             _id,
                             ...walletData,
-                        }),
-                    });
+                        }
+                    );
 
                     navigate(-1);
                 }}
