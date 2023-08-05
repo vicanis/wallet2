@@ -2,8 +2,8 @@ import Auth from "./auth";
 
 export default function fetcher(
     action: string,
-    params: RequestInit,
-    data: any
+    params: RequestInit = {},
+    data: any = undefined
 ) {
     if (params.method === "POST") {
         params.body = JSON.stringify(data);
