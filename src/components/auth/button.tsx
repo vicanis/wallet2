@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 export default function AuthButton() {
     const navigate = useNavigate();
-    const user = Auth.User();
+    const user = Auth.User;
 
     if (user) {
         return (
             <div className="flex items-center gap-2">
-                <div>{user.user_metadata.full_name}</div>
+                <div>{user.name}</div>
 
                 <a
                     onClick={() => {

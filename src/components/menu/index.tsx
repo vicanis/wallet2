@@ -18,7 +18,7 @@ import LogoutLayout from "../../layouts/logout";
 
 export default function Menu({ menuClose }: { menuClose: () => void }) {
     const navigate = useNavigate();
-    const user = Auth.User();
+    const user = Auth.User;
 
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 

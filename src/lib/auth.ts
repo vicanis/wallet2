@@ -19,11 +19,21 @@ class AuthClass {
     }
 
     public IsAuthenticated() {
-        return this.User() !== null;
+        return this.User !== null;
     }
 
-    public User(): User {
-        return window.netlifyIdentity.currentUser();
+    public get User(): User {
+        const user = window.netlifyIdentity.currentUser();
+
+        return {
+            email: user.email,
+            get name(): string {
+                return user.user_metadata.full_name;
+            },
+            get token(): string {
+                return user.token.access_token;
+            },
+        };
     }
 }
 
@@ -33,7 +43,6 @@ export default Auth;
 
 export interface User {
     email: string;
-    user_metadata: {
-        full_name: string;
-    };
+    name: string;
+    token: string;
 }
