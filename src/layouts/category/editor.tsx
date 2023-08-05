@@ -10,7 +10,6 @@ import PrimaryButton from "../../components/button/primary";
 import ColorSelector from "../../components/colorselector";
 import IconSelector from "../../components/category/icon/selector";
 import CategoryTypeTabs from "../../layouts/category/typetabs";
-import Blur from "../../components/blur";
 import SettingsBlock from "../settings/block";
 import Input from "../../components/input";
 
@@ -36,27 +35,6 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
             }
         }
     }, [categoryData.type]);
-
-    if (_id.toString() === "other") {
-        return (
-            <Blur>
-                <div className="h-screen w-screen flex items-center justify-center">
-                    <div
-                        className="p-4 grid gap-4 justify-center text-center bg-white w-3/4"
-                        style={{
-                            boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.25)",
-                        }}
-                    >
-                        <span>Эта категория не редактируемая</span>
-                        <PrimaryButton
-                            title="OK"
-                            onClick={() => navigate(-1)}
-                        />
-                    </div>
-                </div>
-            </Blur>
-        );
-    }
 
     return (
         <div>

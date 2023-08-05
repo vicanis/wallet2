@@ -63,14 +63,6 @@ export default function CategoryList({
                         ))}
 
                     <CategoryItem
-                        _id={"other" as unknown as ObjectId}
-                        type="expense"
-                        color="#3EC79E"
-                        name="Другое"
-                        plan={{}}
-                    />
-
-                    <CategoryItem
                         _id={"new" as unknown as ObjectId}
                         type="expense"
                         color="#0084C8"

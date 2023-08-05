@@ -16,15 +16,12 @@ export function CategoryItemLoader({ params }: LoaderFunctionArgs) {
 
     switch (id) {
         case "new":
-        case "other":
             return defer({
                 data: {
                     _id: id,
                     type: "expense",
                     name: "",
-                    plan: {
-                        currency: "RUB",
-                    },
+                    plan: {},
                 },
             });
     }

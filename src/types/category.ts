@@ -10,4 +10,5 @@ export interface Category {
         currency?: CurrencyType;
     };
     order?: number;
+    other?: true;
 }

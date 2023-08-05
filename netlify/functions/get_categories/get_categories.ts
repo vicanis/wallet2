@@ -14,7 +14,9 @@ export const handler: Handler = async (event, context) => {
         const coll = db.collection("category");
 
         const list = coll.find(
-            { user },
+            {
+                $or: [{ user }, { other: true }],
+            },
             {
                 sort: {
                     order: 1,
