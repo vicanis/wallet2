@@ -3,8 +3,8 @@ import { WithId } from "mongodb";
 import { Category } from "../../types/category";
 import { Link } from "react-router-dom";
 import CategoryIcon from "../../components/category/icon";
-import Blur from "../../components/blur";
 import PrimaryButton from "../../components/button/primary";
+import Warning from "../../components/warning";
 
 export default function CategoryItem({ _id, name, ...rest }: WithId<Category>) {
     return (
@@ -32,22 +32,10 @@ function Container({
         }
 
         return (
-            <Blur>
-                <div className="h-screen w-screen flex items-center justify-center">
-                    <div
-                        className="p-4 grid gap-4 justify-center text-center bg-white w-3/4"
-                        style={{
-                            boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.25)",
-                        }}
-                    >
-                        <span>Эта категория не редактируемая</span>
-                        <PrimaryButton
-                            title="OK"
-                            onClick={() => setShowError(false)}
-                        />
-                    </div>
-                </div>
-            </Blur>
+            <Warning>
+                <span>Эта категория не редактируемая</span>
+                <PrimaryButton title="OK" onClick={() => setShowError(false)} />
+            </Warning>
         );
     }
 
