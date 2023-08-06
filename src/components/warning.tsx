@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import Blur from "./blur";
+import BoxShadow from "../layouts/boxshadow";
 
 export default function Warning({
     children,
@@ -8,14 +9,9 @@ export default function Warning({
     return (
         <Blur {...rest}>
             <div className="h-screen w-screen flex items-center justify-center">
-                <div
-                    className="p-4 grid gap-4 justify-center text-center bg-white w-3/4"
-                    style={{
-                        boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.25)",
-                    }}
-                >
-                    {children}
-                </div>
+                <BoxShadow>
+                    <div className="text-center">{children}</div>
+                </BoxShadow>
             </div>
         </Blur>
     );
