@@ -1,3 +1,5 @@
+import { User } from "../types/user";
+
 class AuthClass {
     public SignUp(callback: (user: User) => void) {
         window.netlifyIdentity.open("signup");
@@ -26,6 +28,7 @@ class AuthClass {
         const user = window.netlifyIdentity.currentUser();
 
         return {
+            id: user.id,
             email: user.email,
             get name(): string {
                 return user.user_metadata.full_name;
@@ -40,12 +43,6 @@ class AuthClass {
 const Auth = new AuthClass();
 
 export default Auth;
-
-export interface User {
-    email: string;
-    name: string;
-    token: string;
-}
 
 export function ParseUserId(ctx: any): string {
     if (typeof ctx === "undefined") {
