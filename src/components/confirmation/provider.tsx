@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import {
     ConfirmationContext,
     ConfirmationContextType,
@@ -9,13 +9,19 @@ export default function ConfirmationProvider({
 }: {
     children: ReactNode;
 }) {
-    const [state, setState] = useState<ConfirmationContextType>({
-        busy: false,
-        visible: false,
-    });
+    const [confirmationState, setConfirmationState] =
+        useState<ConfirmationContextType>({
+            busy: false,
+            visible: false,
+        });
 
     return (
-        <ConfirmationContext.Provider value={{ state, setState }}>
+        <ConfirmationContext.Provider
+            value={{
+                confirmationState,
+                setConfirmationState,
+            }}
+        >
             {children}
         </ConfirmationContext.Provider>
     );

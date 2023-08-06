@@ -45,7 +45,7 @@ export default function WalletSettingsLayout({
         return fullList[index].wallets;
     }, [fullList, index]);
 
-    const { setState } = useContext(ConfirmationContext);
+    const { setConfirmationState } = useContext(ConfirmationContext);
 
     const [isReloading, setIsReloading] = useState(false);
 
@@ -90,7 +90,7 @@ export default function WalletSettingsLayout({
                                 .filter((item) => item._id.toString() === id)
                                 .shift();
 
-                            setState((state) => ({
+                            setConfirmationState((state) => ({
                                 ...state,
                                 visible: true,
                                 payload: item,

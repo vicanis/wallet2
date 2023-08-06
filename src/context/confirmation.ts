@@ -1,14 +1,16 @@
 import { createContext } from "react";
 
 export const ConfirmationContext = createContext<{
-    state: ConfirmationContextType;
-    setState: React.Dispatch<React.SetStateAction<ConfirmationContextType>>;
+    confirmationState: ConfirmationContextType;
+    setConfirmationState: React.Dispatch<
+        React.SetStateAction<ConfirmationContextType>
+    >;
 }>({
-    state: {
+    confirmationState: {
         busy: false,
         visible: false,
     },
-    setState: () => {},
+    setConfirmationState: () => {},
 });
 
 export type ConfirmationContextType = {

@@ -12,13 +12,14 @@ export default function ConfirmationPopup<T>({
     handler: (payload?: T) => Promise<void>;
     children?: ReactNode;
 }) {
-    const { state, setState } = useContext(ConfirmationContext);
+    const { confirmationState, setConfirmationState } =
+        useContext(ConfirmationContext);
 
-    if (!state.visible) {
+    if (!confirmationState.visible) {
         return null;
     }
 
-    if (state.busy) {
+    if (confirmationState.busy) {
         return (
             <Blur>
                 <LoadingLayout />
@@ -28,7 +29,9 @@ export default function ConfirmationPopup<T>({
 
     return (
         <Blur
-            onClick={() => setState((state) => ({ ...state, visible: false }))}
+            onClick={() =>
+                setConfirmationState((state) => ({ ...state, visible: false }))
+            }
         >
             <div className="flex justify-center items-center h-full w-full">
                 <div
@@ -49,7 +52,7 @@ export default function ConfirmationPopup<T>({
                         <div
                             className="p-4"
                             onClick={() => {
-                                setState((state) => ({
+                                setConfirmationState((state) => ({
                                     ...state,
                                     visible: false,
                                 }));
@@ -60,15 +63,15 @@ export default function ConfirmationPopup<T>({
                         <div
                             className="p-4"
                             onClick={async () => {
-                                setState((state) => ({
+                                setConfirmationState((state) => ({
                                     ...state,
                                     busy: true,
                                 }));
 
                                 try {
-                                    await handler(state.payload);
+                                    await handler(confirmationState.payload);
                                 } finally {
-                                    setState((state) => ({
+                                    setConfirmationState((state) => ({
                                         ...state,
                                         busy: false,
                                     }));

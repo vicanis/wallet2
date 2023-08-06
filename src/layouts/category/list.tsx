@@ -23,7 +23,7 @@ export default function CategoryList({
         return fullList.filter((item) => item.type === type);
     }, [fullList, type]);
 
-    const { setState } = useContext(ConfirmationContext);
+    const { setConfirmationState } = useContext(ConfirmationContext);
 
     return (
         <div className="grid gap-4">
@@ -42,7 +42,7 @@ export default function CategoryList({
                                 .filter((item) => item._id.toString() === id)
                                 .shift();
 
-                            setState((state) => ({
+                            setConfirmationState((state) => ({
                                 ...state,
                                 visible: true,
                                 payload: item,
