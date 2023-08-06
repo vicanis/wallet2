@@ -25,6 +25,7 @@ import CategorySettingsItemPage, {
 import CategoryArrangementPage from "./settings/category/arrangement";
 import WalletSettingsItemPage, { WalletItemLoader } from "./settings/wallet/id";
 import HistoryPage, { HistoryLoader } from "./history";
+import SharePage from "./settings/share";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -131,6 +132,10 @@ export default function App() {
                 {
                     path: "settings",
                     children: [
+                        {
+                            path: "share",
+                            element: <SharePage />,
+                        },
                         {
                             path: "category",
                             children: [

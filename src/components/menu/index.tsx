@@ -52,7 +52,7 @@ export default function Menu({ menuClose }: { menuClose: () => void }) {
 
                 <div className="grid gap-6 px-4" onClick={menuClose}>
                     <div className="w-full py-4 mb-1 border-[1px] text-center">
-                        Совместный доступ
+                        <Link to="/settings/share">Совместный доступ</Link>
                     </div>
 
                     <Link to="/settings/category">

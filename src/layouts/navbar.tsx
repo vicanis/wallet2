@@ -32,6 +32,9 @@ export default function NavBar() {
 
             case "/history":
                 return "История операций";
+
+            case "/settings/share":
+                return "Совместный доступ";
         }
 
         const regexes: [RegExp, string][] = [
