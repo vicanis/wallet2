@@ -19,7 +19,7 @@ class AuthClass {
     }
 
     public IsAuthenticated() {
-        return this.User !== null;
+        return window.netlifyIdentity.currentUser() !== null;
     }
 
     public get User(): User {
