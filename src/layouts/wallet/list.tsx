@@ -16,6 +16,7 @@ import ContextMenuItem from "../../components/contextmenu/item";
 import ConfirmationPopup from "../../components/confirmation/popup";
 import { ConfirmationContext } from "../../context/confirmation";
 import LoadingLayout from "../loading";
+import Warning from "../../components/warning";
 
 export default function WalletSettingsLayout({
     list: fullList,
@@ -45,7 +46,8 @@ export default function WalletSettingsLayout({
         return fullList[index].wallets;
     }, [fullList, index]);
 
-    const { setConfirmationState } = useContext(ConfirmationContext);
+    const { confirmationState, setConfirmationState } =
+        useContext(ConfirmationContext);
 
     const [isReloading, setIsReloading] = useState(false);
 
@@ -107,28 +109,43 @@ export default function WalletSettingsLayout({
                     ))}
                 </div>
 
-                <ConfirmationPopup<WithId<Wallet>>
-                    header="Удалить счет?"
-                    handler={async (wallet) => {
-                        if (typeof wallet === "undefined") {
-                            return;
+                {list.length > 1 && (
+                    <ConfirmationPopup<WithId<Wallet>>
+                        header="Удалить счет?"
+                        handler={async (wallet) => {
+                            if (typeof wallet === "undefined") {
+                                return;
+                            }
+
+                            setIsReloading(true);
+
+                            try {
+                                await fetcher(
+                                    "del_wallet/?id=" + wallet._id.toString()
+                                );
+
+                                navigate(0);
+                            } catch (e) {
+                                setIsReloading(false);
+
+                                throw e;
+                            }
+                        }}
+                    />
+                )}
+
+                {list.length <= 1 && confirmationState.visible && (
+                    <Warning
+                        onClick={() =>
+                            setConfirmationState((state) => ({
+                                ...state,
+                                visible: false,
+                            }))
                         }
-
-                        setIsReloading(true);
-
-                        try {
-                            await fetcher(
-                                "del_wallet/?id=" + wallet._id.toString()
-                            );
-
-                            navigate(0);
-                        } catch (e) {
-                            setIsReloading(false);
-
-                            throw e;
-                        }
-                    }}
-                />
+                    >
+                        Невозможно удалить последний счет.
+                    </Warning>
+                )}
             </ContextMenuContainer>
 
             <div className="flex justify-center">
