@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, ReactNode, useState } from "react";
 import Blur from "../blur";
 import LoadingLayout from "../../layouts/loading";
 
@@ -8,7 +8,7 @@ export default function PrimaryButton({
     onClick,
     style,
 }: {
-    title: string;
+    title: ReactNode;
     disabled?: boolean;
     onClick?: () => void | Promise<void>;
     style?: CSSProperties;

@@ -54,6 +54,7 @@ export default function NavBar() {
             ["/settings/currency", "Валюта"],
             ["/settings/other", "Настройки"],
             ["/settings/share", "Совместный доступ"],
+            ["/invite", "Совместный доступ"],
         ];
 
         for (const [prefix, title] of prefixes) {

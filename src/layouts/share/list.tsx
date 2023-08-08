@@ -6,13 +6,24 @@ import dayjs from "../../lib/dayjs";
 import type { Invitation } from "../../types/invitation";
 import PrimaryButton from "../../components/button/primary";
 import LoadingLayout from "../loading";
+import ShareDialog from "./dialog";
 
 export default function ShareList({ invitation }: { invitation?: Invitation }) {
     const navigate = useNavigate();
     const [busy, setBusy] = useState(false);
+    const [isShareDialogOpened, setIsShareDialogOpened] = useState(false);
 
     if (busy) {
-        return <LoadingLayout />;
+        return <LoadingLayout>Пожалуйста, подождите ...</LoadingLayout>;
+    }
+
+    if (typeof invitation !== "undefined" && isShareDialogOpened) {
+        return (
+            <ShareDialog
+                token={invitation.token}
+                onClick={() => setIsShareDialogOpened(false)}
+            />
+        );
     }
 
     return (
@@ -65,20 +76,7 @@ export default function ShareList({ invitation }: { invitation?: Invitation }) {
             ) : (
                 <PrimaryButton
                     title={"Пригласить пользователей"}
-                    onClick={async () => {
-                        if (!navigator.share) {
-                            alert(
-                                "Отправка приглашения не поддерживается вашим браузером"
-                            );
-                            return;
-                        }
-
-                        navigator.share({
-                            title: "Приглашение для доступа к совместному счету",
-                            text: "Вас пригласили для ведения совместного учета расходов и доходов. Пройдите по ссылке для подключения к совместному доступу",
-                            url: `${window.location.origin}/invite/${Auth.User.id}`,
-                        });
-                    }}
+                    onClick={() => setIsShareDialogOpened(true)}
                 />
             )}
 

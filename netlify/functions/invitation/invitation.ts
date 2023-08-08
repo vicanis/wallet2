@@ -1,11 +1,11 @@
 import { Handler } from "@netlify/functions";
-import { MongoClient } from "mongodb";
-import crypto from "crypto";
-import { ParseUserId } from "../../../src/lib/auth";
+import { Filter, MongoClient } from "mongodb";
+import crypto, { UUID } from "crypto";
+import { ParseUserId, ParseUserName } from "../../../src/lib/auth";
 import type { Invitation } from "../../../src/types/invitation";
 
 export const handler: Handler = async (event, context) => {
-    const author = ParseUserId(context.clientContext);
+    const user = ParseUserId(context.clientContext);
 
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
     const conn = mongoclient.connect();
@@ -13,10 +13,37 @@ export const handler: Handler = async (event, context) => {
     const db = (await conn).db("wallet2");
     const coll = db.collection<Invitation>("invitation");
 
+    const qsa = event.queryStringParameters ?? {};
+
+    const { token } = qsa as {
+        token?: UUID;
+    };
+
     switch (event.httpMethod) {
         case "GET":
+            const filter: Filter<Invitation> = {};
+
+            if (typeof token !== "undefined") {
+                filter.token = token;
+            } else {
+                filter["author.id"] = user;
+            }
+
             try {
-                const item = await coll.findOne();
+                const item = await coll.findOne(filter);
+
+                if (typeof token !== "undefined" && item !== null) {
+                    const { token, author, users } = item;
+
+                    return {
+                        statusCode: 200,
+                        body: JSON.stringify({
+                            token,
+                            author,
+                            joined: users.indexOf(user) !== -1,
+                        }),
+                    };
+                }
 
                 return {
                     statusCode: 200,
@@ -34,8 +61,13 @@ export const handler: Handler = async (event, context) => {
 
         case "POST":
             try {
+                const name = ParseUserName(context.clientContext);
+
                 const invitation: Invitation = {
-                    author,
+                    author: {
+                        id: user,
+                        name,
+                    },
                     token: crypto.randomUUID(),
                     created: new Date(),
                     users: [],
@@ -56,23 +88,35 @@ export const handler: Handler = async (event, context) => {
             }
             break;
 
+        case "PATCH":
+            try {
+                await coll.updateOne(
+                    { token },
+                    {
+                        $push: {
+                            users: user,
+                        },
+                    }
+                );
+
+                return {
+                    statusCode: 200,
+                };
+            } catch (e) {
+                return {
+                    statusCode: 500,
+                    body: e.toString(),
+                };
+            } finally {
+                mongoclient.close();
+            }
+            break;
+
         case "DELETE":
             try {
-                const item = await coll.findOne();
-
-                if (item === null) {
-                    return {
-                        statusCode: 404,
-                    };
-                }
-
-                const { _id } = item;
-
-                console.log("found item", _id.toString());
-
-                await coll.deleteOne({ _id });
-
-                console.log("deleted");
+                await coll.deleteOne({
+                    "author.id": user,
+                });
 
                 return {
                     statusCode: 200,

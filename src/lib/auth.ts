@@ -63,4 +63,28 @@ export function ParseUserId(ctx: any): UUID {
     return id;
 }
 
+export function ParseUserName(ctx: any): string {
+    if (typeof ctx === "undefined") {
+        throw new Error("no client context");
+    }
+
+    if (typeof ctx.user === "undefined") {
+        throw new Error("no user data");
+    }
+
+    const metadata = ctx.user.user_metadata;
+
+    if (typeof metadata === "undefined") {
+        throw new Error("no user metadata");
+    }
+
+    const name = metadata.full_name;
+
+    if (typeof name === "undefined") {
+        throw new Error("no user name");
+    }
+
+    return name;
+}
+
 export type WithUser<T> = T & { user: string };

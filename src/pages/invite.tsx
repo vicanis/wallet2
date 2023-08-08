@@ -4,7 +4,7 @@ import LoadablePage from "../components/loadable";
 import InviteLayout from "../layouts/invite";
 
 export default function InvitePage() {
-    return <LoadablePage renderer={(data) => <InviteLayout {...data} />} />;
+    return <LoadablePage renderer={(data) => <InviteLayout data={data} />} />;
 }
 
 export function InviteLoader({ params }: LoaderFunctionArgs) {
@@ -16,7 +16,7 @@ export function InviteLoader({ params }: LoaderFunctionArgs) {
 }
 
 async function Loader(token: string) {
-    const resp = await fetcher("get_invitation/?token=" + token);
+    const resp = await fetcher("invitation/?token=" + token);
     const data = await resp.json();
 
     return data;
