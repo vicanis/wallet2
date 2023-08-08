@@ -1,3 +1,4 @@
+import { UUID } from "crypto";
 import { User } from "../types/user";
 
 class AuthClass {
@@ -44,7 +45,7 @@ const Auth = new AuthClass();
 
 export default Auth;
 
-export function ParseUserId(ctx: any): string {
+export function ParseUserId(ctx: any): UUID {
     if (typeof ctx === "undefined") {
         throw new Error("no client context");
     }
