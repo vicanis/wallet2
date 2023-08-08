@@ -32,9 +32,6 @@ export default function NavBar() {
 
             case "/history":
                 return "История операций";
-
-            case "/settings/share":
-                return "Совместный доступ";
         }
 
         const regexes: [RegExp, string][] = [
@@ -56,6 +53,7 @@ export default function NavBar() {
             ["/settings/notification", "Уведомления"],
             ["/settings/currency", "Валюта"],
             ["/settings/other", "Настройки"],
+            ["/settings/share", "Совместный доступ"],
         ];
 
         for (const [prefix, title] of prefixes) {
