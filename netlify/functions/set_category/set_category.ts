@@ -33,13 +33,12 @@ export const handler: Handler = async (event, context) => {
         };
     }
 
-    const user = ParseUserId(context.clientContext);
-
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
-
     const conn = mongoclient.connect();
 
     try {
+        const user = ParseUserId(context.clientContext);
+
         const db = (await conn).db("wallet2");
         const coll = db.collection("category");
 
