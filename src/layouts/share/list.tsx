@@ -1,12 +1,19 @@
-import PrimaryButton from "../../components/button/primary";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Auth from "../../lib/auth";
 import fetcher from "../../lib/fetcher";
-import type { Invitation } from "../../types/invitation";
 import dayjs from "../../lib/dayjs";
-import { useNavigate } from "react-router-dom";
+import type { Invitation } from "../../types/invitation";
+import PrimaryButton from "../../components/button/primary";
+import LoadingLayout from "../loading";
 
 export default function ShareList({ invitation }: { invitation?: Invitation }) {
     const navigate = useNavigate();
+    const [busy, setBusy] = useState(false);
+
+    if (busy) {
+        return <LoadingLayout />;
+    }
 
     return (
         <div className="p-5 grid gap-2">
@@ -46,6 +53,8 @@ export default function ShareList({ invitation }: { invitation?: Invitation }) {
                 <PrimaryButton
                     title={"Создать ключ доступа"}
                     onClick={async () => {
+                        setBusy(true);
+
                         await fetcher("invitation", {
                             method: "POST",
                         });
@@ -81,6 +90,8 @@ export default function ShareList({ invitation }: { invitation?: Invitation }) {
                     <a
                         className="text-[#1F93CE]"
                         onClick={async () => {
+                            setBusy(true);
+
                             await fetcher("invitation", {
                                 method: "DELETE",
                             });
