@@ -33,8 +33,11 @@ export default function InviteLayout({
     }
 
     return (
-        <Warning>
-            <div className="grid gap-3 py-2">
+        <Warning onClick={() => navigate("/")}>
+            <div
+                className="grid gap-3 py-2"
+                onClick={(event) => event.stopPropagation()}
+            >
                 <span className="text-left">
                     Пользователь <b>{data.author}</b> пригласил Вас для доступа
                     к совместному учету доходов и расходов
