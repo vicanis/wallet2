@@ -7,15 +7,17 @@ export default function PrimaryButton({
     disabled = false,
     onClick,
     style,
+    spinner = false,
 }: {
     title: ReactNode;
     disabled?: boolean;
     onClick?: () => void | Promise<void>;
     style?: CSSProperties;
+    spinner?: boolean;
 }) {
     const [busy, setBusy] = useState(false);
 
-    if (busy) {
+    if (busy && spinner) {
         return (
             <Blur>
                 <LoadingLayout />
