@@ -4,12 +4,12 @@ import fetcher from "../lib/fetcher";
 import PrimaryButton from "../components/button/primary";
 import Warning from "../components/warning";
 import Spinner from "../components/spinner";
-import { Invitation } from "../types/invitation";
+import type { Invitation } from "../types/invitation";
 
 export default function InviteLayout({
     data,
 }: {
-    data: Pick<Invitation, "token" | "author"> & { joined: boolean };
+    data: Pick<Invitation<string>, "token" | "author"> & { joined: boolean };
 }) {
     const navigate = useNavigate();
     const [isJoining, setIsJoining] = useState(false);
@@ -24,46 +24,48 @@ export default function InviteLayout({
         );
     }
 
+    if (data.joined) {
+        return (
+            <Warning onClick={() => navigate("/settings/share")}>
+                Вы уже присоединились к совместному доступу
+            </Warning>
+        );
+    }
+
     return (
         <Warning>
             <div className="grid gap-3 py-2">
                 <span className="text-left">
-                    Пользователь <b>{data.author.name}</b> пригласил Вас для
-                    доступа к совместному учету доходов и расходов
+                    Пользователь <b>{data.author}</b> пригласил Вас для доступа
+                    к совместному учету доходов и расходов
                 </span>
 
-                {!data.joined ? (
-                    isJoining ? (
-                        <Spinner />
-                    ) : (
-                        <PrimaryButton
-                            title="Присоединиться"
-                            onClick={async () => {
-                                setIsJoining(true);
+                <PrimaryButton
+                    title={
+                        <div className="flex items-center gap-3">
+                            {isJoining && <Spinner size={6} />}
+                            <span>
+                                {!isJoining
+                                    ? "Присоединиться"
+                                    : "Присоединение ..."}
+                            </span>
+                        </div>
+                    }
+                    disabled={isJoining}
+                    spinner={false}
+                    onClick={async () => {
+                        setIsJoining(true);
 
-                                await fetcher(
-                                    "invitation/?token=" + data.token,
-                                    {
-                                        method: "PATCH",
-                                    }
-                                );
+                        await fetcher("invitation/?token=" + data.token, {
+                            method: "PATCH",
+                        });
 
-                                setIsJoining(false);
-                            }}
-                            style={{
-                                padding: "1em",
-                            }}
-                        />
-                    )
-                ) : (
-                    <PrimaryButton
-                        title="Вы уже присоединились"
-                        disabled
-                        style={{
-                            padding: "1em",
-                        }}
-                    />
-                )}
+                        navigate("/settings/share");
+                    }}
+                    style={{
+                        padding: "1em",
+                    }}
+                />
             </div>
         </Warning>
     );

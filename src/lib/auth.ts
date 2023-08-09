@@ -29,7 +29,7 @@ class AuthClass {
         const user = window.netlifyIdentity.currentUser();
 
         return {
-            id: user.id,
+            user: user.id,
             email: user.email,
             get name(): string {
                 return user.user_metadata.full_name;

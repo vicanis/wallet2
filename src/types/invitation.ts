@@ -1,11 +1,10 @@
 import { UUID } from "crypto";
+import { User } from "./user";
 
-export interface Invitation {
-    author: {
-        id: UUID;
-        name: string;
-    };
+export interface Invitation<T extends string = UUID> {
+    author: T;
     token: UUID;
     created: Date;
-    users: UUID[];
+    users: T[];
+    my?: boolean;
 }

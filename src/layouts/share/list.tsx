@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Auth from "../../lib/auth";
 import fetcher from "../../lib/fetcher";
-import dayjs from "../../lib/dayjs";
 import type { Invitation } from "../../types/invitation";
 import PrimaryButton from "../../components/button/primary";
 import LoadingLayout from "../loading";
 import ShareDialog from "./dialog";
 
-export default function ShareList({ invitation }: { invitation?: Invitation }) {
+export default function ShareList({ invitation }: { invitation: Invitation }) {
     const navigate = useNavigate();
     const [busy, setBusy] = useState(false);
     const [isShareDialogOpened, setIsShareDialogOpened] = useState(false);
@@ -26,43 +24,68 @@ export default function ShareList({ invitation }: { invitation?: Invitation }) {
         );
     }
 
-    return (
-        <div className="p-5 grid gap-2">
-            <div className="text-[#7B8083]">Ключ доступа</div>
-
-            {!invitation ? (
-                <span>не создан</span>
-            ) : (
+    if (invitation !== null && !invitation.my) {
+        return (
+            <div className="p-5 grid gap-4">
                 <div>
-                    <b>
-                        *
-                        {invitation.token.substring(
-                            invitation.token.length - 4
+                    Вы присоединились к совместному доступу, открытому{" "}
+                    <b>{invitation.author}</b>
+                </div>
+
+                {invitation && (
+                    <span className="text-center">
+                        <a
+                            className="text-[#1F93CE]"
+                            onClick={async () => {
+                                setBusy(true);
+
+                                await fetcher("invitation/?action=drop", {
+                                    method: "PATCH",
+                                });
+
+                                navigate(0);
+                            }}
+                        >
+                            Отказаться от совместного доступа
+                        </a>
+                    </span>
+                )}
+            </div>
+        );
+    }
+
+    return (
+        <div className="p-5 grid gap-5">
+            {invitation && (
+                <div className="grid gap-3">
+                    <div className="text-[#7B8083]">
+                        Совместный доступ открыт
+                    </div>
+
+                    <div>
+                        {invitation.users.length > 0 && (
+                            <div className="grid gap-3">
+                                <div>Доступ предоставлен пользователям:</div>
+
+                                <ol className="list-decimal ml-4">
+                                    {invitation.users.map((id) => (
+                                        <li key={id}>{id}</li>
+                                    ))}
+                                </ol>
+                            </div>
                         )}
-                    </b>
-                    {", "}
-                    создан {dayjs(invitation.created).fromNow()}
-                    {", "}
-                    {invitation.users.length > 0 && (
-                        <div>
-                            <span>Доступ предоставлен пользователям:</span>
-                            Всего <b>{invitation.users.length}</b> шт.
-                            {invitation.users.map((id) => (
-                                <span key={id}>{id}</span>
-                            ))}
-                        </div>
-                    )}
-                    {invitation.users.length === 0 && (
-                        <span>нет добавленных пользователей</span>
-                    )}
+                        {invitation.users.length === 0 && (
+                            <span className="text-[#7B8083]">
+                                Нет добавленных пользователей
+                            </span>
+                        )}
+                    </div>
                 </div>
             )}
 
-            <br />
-
             {!invitation ? (
                 <PrimaryButton
-                    title={"Создать ключ доступа"}
+                    title={"Открыть совместный доступ"}
                     onClick={async () => {
                         setBusy(true);
 
@@ -80,7 +103,6 @@ export default function ShareList({ invitation }: { invitation?: Invitation }) {
                 />
             )}
 
-            <br />
             <br />
 
             {invitation && (
