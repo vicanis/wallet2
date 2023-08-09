@@ -1,4 +1,5 @@
-import { CurrencyType } from "./currency";
+import type { UUID } from "crypto";
+import type { CurrencyType } from "./currency";
 
 export interface Category {
     type: "expense" | "income";
@@ -11,4 +12,5 @@ export interface Category {
     };
     order?: number;
     other?: true;
+    user?: UUID;
 }

@@ -20,7 +20,7 @@ export default function CategorySelector({
     const [categories, setCategories] = useState<WithId<Category>[]>();
 
     useEffect(() => {
-        fetcher("get_categories")
+        fetcher("get_categories/?mode=plain")
             .then((resp) => resp.json())
             .then((list: WithId<Category>[]) => {
                 const categories = list.filter((item) => item.type === type);
