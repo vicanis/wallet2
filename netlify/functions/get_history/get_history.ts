@@ -4,6 +4,8 @@ import type { Category } from "../../../src/types/category";
 import type { Wallet } from "../../../src/types/wallet";
 import type { HistoryGroup } from "../../../src/types/history";
 import dayjs from "../../../src/lib/dayjs";
+import { ParseUserId } from "../../../src/lib/auth";
+import GetSharedUsers from "../../../src/lib/user";
 
 export const handler: Handler = async (event, context) => {
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
@@ -11,6 +13,9 @@ export const handler: Handler = async (event, context) => {
     const conn = mongoclient.connect();
 
     try {
+        const user = ParseUserId(context.clientContext);
+        const sharedUsers = await GetSharedUsers(user);
+
         const db = (await conn).db("wallet2");
 
         const boundaries: Date[] = [];
@@ -23,6 +28,13 @@ export const handler: Handler = async (event, context) => {
             db
                 .collection("operation")
                 .aggregate<HistoryGroup>([
+                    {
+                        $match: {
+                            user: {
+                                $in: [...sharedUsers, user],
+                            },
+                        },
+                    },
                     {
                         $sort: {
                             date: -1,
