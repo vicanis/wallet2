@@ -42,12 +42,11 @@ export const handler: Handler = async (event, context) => {
         if (event.queryStringParameters !== null) {
             const { mode } = event.queryStringParameters;
 
-            switch (mode) {
-                case "plain":
-                    return {
-                        statusCode: 200,
-                        body: JSON.stringify(items),
-                    };
+            if (mode === "plain") {
+                return {
+                    statusCode: 200,
+                    body: JSON.stringify(items),
+                };
             }
         }
 
