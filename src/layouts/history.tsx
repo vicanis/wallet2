@@ -29,12 +29,19 @@ function Group({ date, items }: HistoryGroup) {
     );
 }
 
-function Item({ category, amount, wallet }: HistoryItem) {
+function Item({ category, amount, wallet, user }: HistoryItem) {
     return (
         <div className="flex items-center justify-between">
             <div className="flex gap-2 items-center">
                 <CategoryIcon icon={category.icon} color={category.color} />
-                <div className="flex-grow">{category.name}</div>
+                <div className="flex-grow">
+                    <div className="flex flex-col">
+                        <span>{category.name}</span>
+                        {typeof user !== "undefined" && (
+                            <span className="text-xs">{user}</span>
+                        )}
+                    </div>
+                </div>
             </div>
             <div className="flex flex-col items-end">
                 <Amount {...amount} iconSize={0.7} />

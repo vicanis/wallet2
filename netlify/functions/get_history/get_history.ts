@@ -1,11 +1,13 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient, WithId } from "mongodb";
+import type { Operation } from "../../../src/types/operation";
 import type { Category } from "../../../src/types/category";
 import type { Wallet } from "../../../src/types/wallet";
 import type { HistoryGroup } from "../../../src/types/history";
 import dayjs from "../../../src/lib/dayjs";
 import { ParseUserId } from "../../../src/lib/auth";
 import GetSharedUsers from "../../../src/lib/user";
+import { User } from "../../../src/types/user";
 
 export const handler: Handler = async (event, context) => {
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
@@ -24,9 +26,9 @@ export const handler: Handler = async (event, context) => {
             boundaries.push(dayjs().startOf("day").subtract(i, "day").toDate());
         }
 
-        const [groups, categories, wallets] = await Promise.all([
+        const [groups, categories, wallets, users] = await Promise.all([
             db
-                .collection("operation")
+                .collection<Operation>("operation")
                 .aggregate<HistoryGroup>([
                     {
                         $match: {
@@ -55,6 +57,7 @@ export const handler: Handler = async (event, context) => {
                                         amount: "$amount",
                                         wallet: "$wallet",
                                         category: "$category",
+                                        user: "$user",
                                     },
                                 },
                             },
@@ -72,10 +75,22 @@ export const handler: Handler = async (event, context) => {
                 .toArray(),
             db.collection<WithId<Category>>("category").find().toArray(),
             db.collection<WithId<Wallet>>("wallet").find().toArray(),
+            db.collection<WithId<User>>("users").find().toArray(),
         ]);
 
         for (const group of groups) {
             for (const item of group.items) {
+                if (item.user !== user) {
+                    for (const user of users) {
+                        if (item.user === user.user) {
+                            item.user = user.name;
+                            break;
+                        }
+                    }
+                } else {
+                    delete item.user;
+                }
+
                 for (const category of categories) {
                     if (item.category.toString() === category._id.toString()) {
                         item.category = category;

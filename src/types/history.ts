@@ -16,4 +16,5 @@ export interface HistoryItem {
     };
     wallet: Wallet;
     category: Category;
+    user?: string;
 }
