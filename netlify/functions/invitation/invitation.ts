@@ -11,6 +11,8 @@ export const handler: Handler = async (event, context) => {
     const response = await router(event, context);
 
     if (!response) {
+        console.error("no response");
+
         return {
             statusCode: 500,
         };
@@ -33,8 +35,6 @@ const router = async (event: Event, context: Context) => {
             const { action = "join" } = qsa as {
                 action: "join" | "drop";
             };
-
-            console.log("invitation action", action);
 
             switch (action) {
                 case "join":
@@ -129,6 +129,8 @@ const getInvitation: Handler = async (event, context) => {
             body: JSON.stringify(invitation),
         };
     } catch (e) {
+        console.error("get invitation failed", e);
+
         return {
             statusCode: 500,
             body: e.toString,
