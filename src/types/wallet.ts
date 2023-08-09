@@ -1,5 +1,6 @@
 import { WithId } from "mongodb";
-import { CurrencyType } from "./currency";
+import type { CurrencyType } from "./currency";
+import type { UUID } from "crypto";
 
 export interface Wallet {
     name: string;
@@ -9,6 +10,7 @@ export interface Wallet {
     value: number;
     outcast?: boolean;
     order?: number;
+    user: UUID;
 }
 
 export interface WalletSettingsItem {
