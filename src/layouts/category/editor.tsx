@@ -12,11 +12,14 @@ import IconSelector from "../../components/category/icon/selector";
 import CategoryTypeTabs from "../../layouts/category/typetabs";
 import SettingsBlock from "../settings/block";
 import Input from "../../components/input";
+import Blur from "../../components/blur";
+import LoadingLayout from "../loading";
 
 export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
     const navigate = useNavigate();
 
     const [categoryData, setCategoryData] = useState<Category>(data);
+    const [busy, setBusy] = useState(false);
 
     useLayoutEffect(() => {
         const isIncome = (icon: string) =>
@@ -35,6 +38,14 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
             }
         }
     }, [categoryData.type]);
+
+    if (busy) {
+        return (
+            <Blur>
+                <LoadingLayout>Сохранение данных ...</LoadingLayout>
+            </Blur>
+        );
+    }
 
     return (
         <div>
@@ -134,6 +145,8 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
                         typeof _id === "undefined" ? "Добавить" : "Сохранить"
                     }
                     onClick={async () => {
+                        setBusy(true);
+
                         await fetcher(
                             "set_category",
                             { method: "POST" },
@@ -145,6 +158,7 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
 
                         navigate(-1);
                     }}
+                    spinner={false}
                 />
             </div>
         </div>
