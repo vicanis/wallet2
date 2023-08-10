@@ -18,7 +18,7 @@ export default function ShareDialog({
     }, [token]);
 
     useEffect(() => {
-        setHasSharing(typeof navigator === "function");
+        setHasSharing(typeof navigator.share === "function");
     }, []);
 
     const shareLink = useCallback(() => {
