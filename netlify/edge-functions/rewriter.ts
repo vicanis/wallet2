@@ -7,7 +7,5 @@ export default async (request: Request, context: Context) => {
         return;
     }
 
-    console.log("pathname", pathname);
-
     return new URL("/", request.url);
 };
