@@ -27,7 +27,7 @@ export default function PrimaryButton({
 
     return (
         <div
-            className={`w-max mx-auto px-8 py-4 rounded-xl font-semibold bg-[#1F93CE] text-[#F6FCFF] ${
+            className={`w-max mx-auto px-8 py-4 rounded-xl font-semibold select-none bg-[#1F93CE] text-[#F6FCFF] ${
                 disabled ? "opacity-50" : ""
             }`}
             onClick={async () => {
