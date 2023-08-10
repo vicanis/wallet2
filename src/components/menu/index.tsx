@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Icon from "@mdi/react";
 import { mdiAccountCircleOutline } from "@mdi/js";
 import Auth from "../../lib/auth";
@@ -10,9 +12,6 @@ import ImageCurrency from "../../assets/menu/top/currency.svg";
 import ImageCog from "../../assets/menu/top/cog.svg";
 import ImageLogout from "../../assets/menu/top/logout.svg";
 import ImageHistory from "../../assets/menu/top/history.svg";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { useState } from "react";
 import Blur from "../blur";
 import LogoutLayout from "../../layouts/logout";
 
@@ -36,7 +35,7 @@ export default function Menu({ menuClose }: { menuClose: () => void }) {
                 <div className="flex items-center gap-4 pt-2 px-4">
                     <Icon path={mdiAccountCircleOutline} size={1.5} />
                     <div>
-                        <div>{user.email}</div>
+                        <div>{user.name}</div>
                         <div className="flex items-center gap-2">
                             Остаток:{" "}
                             <Amount
