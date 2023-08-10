@@ -9,6 +9,8 @@ import ContextMenuContainer from "../../components/contextmenu";
 import ContextMenuItem from "../../components/contextmenu/item";
 import { ConfirmationContext } from "../../context/confirmation";
 import ConfirmationPopup from "../../components/confirmation/popup";
+import LoadingLayout from "../loading";
+import Blur from "../../components/blur";
 
 export default function CategoryList({
     list: fullList,
@@ -18,12 +20,21 @@ export default function CategoryList({
     const navigate = useNavigate();
 
     const [type, setType] = useState<"expense" | "income">("expense");
+    const [busy, setBusy] = useState(false);
 
     const list = useMemo(() => {
         return fullList.filter((item) => item.type === type);
     }, [fullList, type]);
 
     const { setConfirmationState } = useContext(ConfirmationContext);
+
+    if (busy) {
+        return (
+            <Blur>
+                <LoadingLayout />
+            </Blur>
+        );
+    }
 
     return (
         <div className="grid gap-4">
@@ -77,6 +88,8 @@ export default function CategoryList({
                             if (typeof category === "undefined") {
                                 return;
                             }
+
+                            setBusy(true);
 
                             await fetcher(
                                 "del_category/?id=" + category._id.toString()
