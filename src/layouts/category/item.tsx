@@ -11,7 +11,7 @@ export default function CategoryItem({ _id, name, ...rest }: WithId<Category>) {
         <Container item={{ _id, ...rest }}>
             <div className="grid gap-3 justify-items-center">
                 <CategoryIcon size={1.5} {...rest} />
-                <div>{name}</div>
+                <div className="text-center">{name}</div>
             </div>
         </Container>
     );
