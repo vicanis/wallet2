@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { Category } from "./category";
 import { CurrencyType } from "./currency";
 import { Wallet } from "./wallet";
@@ -9,6 +10,7 @@ export interface HistoryGroup {
 }
 
 export interface HistoryItem {
+    id: ObjectId;
     date: Date;
     amount: {
         currency: CurrencyType;

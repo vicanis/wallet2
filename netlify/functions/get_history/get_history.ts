@@ -53,6 +53,7 @@ export const handler: Handler = async (event, context) => {
                             output: {
                                 items: {
                                     $push: {
+                                        id: "$_id",
                                         date: "$date",
                                         amount: "$amount",
                                         wallet: "$wallet",

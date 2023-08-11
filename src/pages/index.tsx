@@ -206,8 +206,18 @@ export default function App() {
                 },
                 {
                     path: "history",
-                    element: <HistoryPage />,
-                    loader: HistoryLoader,
+                    children: [
+                        {
+                            path: ":id",
+                            element: <OperationPage />,
+                            loader: OperationPageLoader,
+                        },
+                        {
+                            element: <HistoryPage />,
+                            index: true,
+                            loader: HistoryLoader,
+                        },
+                    ],
                 },
                 {
                     path: "invite/:token",
