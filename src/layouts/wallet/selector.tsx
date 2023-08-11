@@ -11,7 +11,7 @@ import CategoryIcon from "../../components/category/icon";
 
 export default function WalletSelector(props: {
     selected?: ObjectId;
-    onChange: (id: ObjectId) => void;
+    onChange: (id: ObjectId, items?: ObjectId[]) => void;
 }) {
     const [wallets, setWallets] = useState<WithId<Wallet>[]>();
 
@@ -21,11 +21,15 @@ export default function WalletSelector(props: {
             .then((wallets: WithId<Wallet>[]) => {
                 setWallets(wallets);
 
-                if (
-                    typeof props.selected === "undefined" &&
-                    wallets.length > 0
-                ) {
-                    props.onChange(wallets[0]._id);
+                if (typeof props.selected === "undefined") {
+                    return;
+                }
+
+                if (wallets.length > 0) {
+                    props.onChange(
+                        wallets[0]._id,
+                        wallets.map((item) => item._id)
+                    );
                 }
             });
     }, []);
