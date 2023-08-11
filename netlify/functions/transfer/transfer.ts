@@ -113,7 +113,10 @@ const getTransferHistory: Handler = async (event, context) => {
 
             if (typeof transfer.user !== "undefined") {
                 for (const user of users) {
-                    if (user.user === transfer.user) {
+                    if (
+                        user.user !== sessionUser &&
+                        user.user === transfer.user
+                    ) {
                         item.user = user.name;
                         break;
                     }
