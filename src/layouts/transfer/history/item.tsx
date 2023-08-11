@@ -24,7 +24,7 @@ export default function TransferHistoryItem({
                     <WalletItem {...src} />
                     <WalletItem {...dst} />
                 </div>
-                <div className="text-center">
+                <div className="text-right">
                     <Amount iconSize={0.7} {...amount} />
                     {typeof user !== "undefined" && (
                         <span className="text-sm">{user}</span>
