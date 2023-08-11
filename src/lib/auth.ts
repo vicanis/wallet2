@@ -86,5 +86,3 @@ export function ParseUserName(ctx: any): string {
 
     return name;
 }
-
-export type WithUser<T> = T & { user: string };
