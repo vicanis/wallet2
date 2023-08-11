@@ -1,5 +1,5 @@
 import { Handler } from "@netlify/functions";
-import { MongoClient, ObjectId, WithId } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { Context } from "@netlify/functions/dist/function/context";
 import { Event } from "@netlify/functions/dist/function/event";
 import type { Transfer, TransferItem } from "../../../src/types/transfer";
@@ -8,6 +8,7 @@ import { Wallet } from "../../../src/types/wallet";
 import { Amount } from "../../../src/types/amount";
 import { User } from "../../../src/types/user";
 import GetSharedUsers from "../../../src/lib/user";
+import { DefaultTransactionOptions } from "../../../src/lib/transaction";
 
 export const handler: Handler = async (event, context) => {
     const response = await router(event, context);
@@ -173,11 +174,35 @@ const createTransfer: Handler = async (event, context) => {
     const conn = mongoclient.connect();
 
     const db = (await conn).db("wallet2");
-    const coll = db.collection<Transfer>("transfer");
+
+    const session = mongoclient.startSession();
 
     try {
-        await coll.insertOne(item);
+        session.startTransaction(DefaultTransactionOptions);
+
+        const src = item.src!;
+        const dst = item.dst!;
+
+        const value = item.amount.value!;
+
+        await db
+            .collection<Wallet>("wallet")
+            .updateOne({ _id: src }, { $inc: { value: -value } }, { session });
+
+        await db
+            .collection<Wallet>("wallet")
+            .updateOne({ _id: dst }, { $inc: { value } }, { session });
+
+        await db.collection<Transfer>("transfer").insertOne(item, { session });
+
+        await session.commitTransaction();
+
+        return {
+            statusCode: 200,
+        };
     } catch (e) {
+        await session.abortTransaction();
+
         return {
             statusCode: 500,
             body: e.toString(),
