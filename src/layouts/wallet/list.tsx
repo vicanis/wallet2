@@ -62,26 +62,16 @@ export default function WalletSettingsLayout({
                 onChangeIndex={setIndex}
             />
 
-            <div className="h-2 bg-[#0084C8]" />
-
-            <Tabs
-                tabs={[
-                    {
-                        id: "history",
-                        icon: ImageHistory,
-                        name: "История переводов",
-                    },
-                    {
-                        id: "transfer",
-                        icon: ImageExchange,
-                        name: "Создать перевод",
-                    },
-                ]}
-                onSelect={() => {
-                    //
-                }}
-                selected=""
-            />
+            <div className="flex justify-around items-center p-4 text-center bg-[#0084c8] text-white text-sm rounded-b-lg">
+                <Link to="history" className="flex flex-col gap-2">
+                    <img src={ImageHistory} className="mx-auto h-5" />
+                    <div>История переводов</div>
+                </Link>
+                <Link to="transfer" className="flex flex-col gap-2">
+                    <img src={ImageExchange} className="mx-auto h-5" />
+                    <div>Создать перевод</div>
+                </Link>
+            </div>
 
             <ContextMenuContainer
                 items={[

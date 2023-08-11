@@ -27,6 +27,8 @@ import WalletSettingsItemPage, { WalletItemLoader } from "./settings/wallet/id";
 import HistoryPage, { HistoryLoader } from "./history";
 import SharePage, { ShareListLoader } from "./settings/share";
 import InvitePage, { InviteLoader } from "./invite";
+import TransferHistoryPage from "./settings/wallet/history";
+import CreateTransferPage from "./settings/wallet/transfer";
 
 export default function App() {
     const router = createBrowserRouter([
@@ -161,6 +163,14 @@ export default function App() {
                         {
                             path: "wallet",
                             children: [
+                                {
+                                    path: "history",
+                                    element: <TransferHistoryPage />,
+                                },
+                                {
+                                    path: "transfer",
+                                    element: <CreateTransferPage />,
+                                },
                                 {
                                     path: ":id",
                                     element: <WalletSettingsItemPage />,

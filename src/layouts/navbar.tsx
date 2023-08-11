@@ -30,6 +30,12 @@ export default function NavBar() {
             case "/settings/wallet/new":
                 return "Добавление счета";
 
+            case "/settings/wallet/history":
+                return "История переводов";
+
+            case "/settings/wallet/transfer":
+                return "Создать перевод";
+
             case "/history":
                 return "История операций";
         }
