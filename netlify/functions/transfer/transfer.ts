@@ -7,6 +7,7 @@ import { ParseUserId } from "../../../src/lib/auth";
 import { Wallet } from "../../../src/types/wallet";
 import { Amount } from "../../../src/types/amount";
 import { User } from "../../../src/types/user";
+import GetSharedUsers from "../../../src/lib/user";
 
 export const handler: Handler = async (event, context) => {
     const response = await router(event, context);
@@ -57,13 +58,20 @@ const getTransferHistory: Handler = async (event, context) => {
     const db = (await conn).db("wallet2");
 
     try {
+        const sessionUser = ParseUserId(context.clientContext);
+        const sharedUsers = await GetSharedUsers(sessionUser);
+
         const data: TransferItem[] = [];
 
         const [transfers, wallets, users] = await Promise.all([
             db
                 .collection<Transfer>("transfer")
                 .find(
-                    {},
+                    {
+                        user: {
+                            $in: [...sharedUsers, sessionUser],
+                        },
+                    },
                     {
                         sort: {
                             date: -1,
@@ -71,8 +79,22 @@ const getTransferHistory: Handler = async (event, context) => {
                     }
                 )
                 .toArray(),
-            db.collection<Wallet>("wallet").find({}).toArray(),
-            db.collection<User>("users").find({}).toArray(),
+            db
+                .collection<Wallet>("wallet")
+                .find({
+                    user: {
+                        $in: [...sharedUsers, sessionUser],
+                    },
+                })
+                .toArray(),
+            db
+                .collection<User>("users")
+                .find({
+                    user: {
+                        $in: [...sharedUsers, sessionUser],
+                    },
+                })
+                .toArray(),
         ]);
 
         for (const transfer of transfers) {
