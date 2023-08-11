@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { Amount } from "./amount";
+import { UUID } from "crypto";
 
 export interface Operation {
     type: "expense" | "income";
@@ -8,4 +9,5 @@ export interface Operation {
     comment?: string;
     category?: ObjectId;
     wallet?: ObjectId;
+    user?: UUID;
 }
