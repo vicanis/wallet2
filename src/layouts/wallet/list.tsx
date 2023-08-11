@@ -17,6 +17,7 @@ import ConfirmationPopup from "../../components/confirmation/popup";
 import { ConfirmationContext } from "../../context/confirmation";
 import LoadingLayout from "../loading";
 import Warning from "../../components/warning";
+import ButtonTabsLayout from "../buttontabs";
 
 export default function WalletSettingsLayout({
     list: fullList,
@@ -62,16 +63,24 @@ export default function WalletSettingsLayout({
                 onChangeIndex={setIndex}
             />
 
-            <div className="flex justify-around items-center p-4 text-center bg-[#0084c8] text-white text-sm rounded-b-lg">
-                <Link to="history" className="flex flex-col gap-2">
-                    <img src={ImageHistory} className="mx-auto h-5" />
-                    <div>История переводов</div>
-                </Link>
-                <Link to="transfer" className="flex flex-col gap-2">
-                    <img src={ImageExchange} className="mx-auto h-5" />
-                    <div>Создать перевод</div>
-                </Link>
-            </div>
+            <ButtonTabsLayout
+                items={[
+                    {
+                        link: "history",
+                        icon: (
+                            <img src={ImageHistory} className="mx-auto h-5" />
+                        ),
+                        text: "История переводов",
+                    },
+                    {
+                        link: "transfer",
+                        icon: (
+                            <img src={ImageExchange} className="mx-auto h-5" />
+                        ),
+                        text: "Создать перевод",
+                    },
+                ]}
+            />
 
             <ContextMenuContainer
                 items={[
