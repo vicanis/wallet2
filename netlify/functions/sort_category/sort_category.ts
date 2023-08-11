@@ -1,6 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient, ObjectId } from "mongodb";
 import { ParseUserId } from "../../../src/lib/auth";
+import { DefaultTransactionOptions } from "../../../src/lib/transaction";
 
 export const handler: Handler = async (event, context) => {
     if (event.body === null) {
@@ -30,15 +31,7 @@ export const handler: Handler = async (event, context) => {
     const session = mongoclient.startSession();
 
     try {
-        session.startTransaction({
-            readPreference: "primary",
-            readConcern: {
-                level: "local",
-            },
-            writeConcern: {
-                w: "majority",
-            },
-        });
+        session.startTransaction(DefaultTransactionOptions);
 
         const db = (await conn).db("wallet2");
         const coll = db.collection("category");
