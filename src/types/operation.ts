@@ -1,13 +1,10 @@
 import { ObjectId } from "mongodb";
-import { CurrencyType } from "./currency";
+import { Amount } from "./amount";
 
 export interface Operation {
     type: "expense" | "income";
     date: Date;
-    amount: {
-        value?: number;
-        currency: CurrencyType;
-    };
+    amount: Amount;
     comment?: string;
     category?: ObjectId;
     wallet?: ObjectId;
