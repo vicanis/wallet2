@@ -27,7 +27,9 @@ import WalletSettingsItemPage, { WalletItemLoader } from "./settings/wallet/id";
 import HistoryPage, { HistoryLoader } from "./history";
 import SharePage, { ShareListLoader } from "./settings/share";
 import InvitePage, { InviteLoader } from "./invite";
-import TransferHistoryPage from "./settings/wallet/history";
+import TransferHistoryPage, {
+    TransferHistoryLoader,
+} from "./settings/wallet/history";
 import CreateTransferPage from "./settings/wallet/transfer";
 
 export default function App() {
@@ -166,6 +168,7 @@ export default function App() {
                                 {
                                     path: "history",
                                     element: <TransferHistoryPage />,
+                                    loader: TransferHistoryLoader,
                                 },
                                 {
                                     path: "transfer",

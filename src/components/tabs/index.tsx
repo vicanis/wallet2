@@ -7,10 +7,14 @@ export default function Tabs({
     onSelect,
 }: {
     tabs: Omit<Tab, "selected">[];
-    selected: string;
+    selected?: string;
     onSelect: (tab: Omit<Tab, "selected">) => void;
 }) {
     const [selected, setSelected] = useState<string>(() => {
+        if (typeof initSelected === "undefined") {
+            return "";
+        }
+
         for (const { id } of tabs) {
             if (initSelected === id) {
                 return id;
