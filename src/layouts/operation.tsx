@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { WithId } from "mongodb";
 import { useNavigate } from "react-router-dom";
 import dayjs from "../lib/dayjs";
@@ -28,16 +28,6 @@ export default function OperationLayout({ _id, ...data }: WithId<Operation>) {
                 />
                 <DatePicker
                     value={dayjs().toString()}
-                    formatter={(date) =>
-                        dayjs(date).calendar(dayjs(), {
-                            sameDay: "[Сегодня в] HH:mm",
-                            nextDay: "[Завтра в] HH:mm",
-                            nextWeek: "[След.] dddd [в] HH:mm",
-                            lastDay: "[Вчера в] HH:mm",
-                            lastWeek: "[Пред.] dddd [в] HH:mm",
-                            sameElse: "DD MMMM YYYY",
-                        })
-                    }
                     onChange={(date) =>
                         setOperationData((data) => ({
                             ...data,

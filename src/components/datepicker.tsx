@@ -3,11 +3,11 @@ import dayjs from "../lib/dayjs";
 
 export default function DatePicker({
     value: initValue,
-    formatter,
+    formatter = DefaultFormatter,
     onChange,
 }: {
     value: string;
-    formatter: (date: dayjs.Dayjs) => string;
+    formatter?: (date: Date) => string;
     onChange: (date: Date) => void;
 }) {
     const ref = useRef<HTMLInputElement>(null);
@@ -25,7 +25,7 @@ export default function DatePicker({
                 }}
                 className="first-letter:uppercase"
             >
-                {formatter(dayjs(date))}
+                {formatter(date)}
             </span>
             <input
                 ref={ref}
@@ -47,4 +47,15 @@ export default function DatePicker({
             />
         </Fragment>
     );
+}
+
+function DefaultFormatter(date: Date) {
+    return dayjs(date).calendar(dayjs(), {
+        sameDay: "[Сегодня в] HH:mm",
+        nextDay: "[Завтра в] HH:mm",
+        nextWeek: "[След.] dddd [в] HH:mm",
+        lastDay: "[Вчера в] HH:mm",
+        lastWeek: "[Пред.] dddd [в] HH:mm",
+        sameElse: "DD MMMM YYYY",
+    });
 }
