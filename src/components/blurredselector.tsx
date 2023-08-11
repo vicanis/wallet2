@@ -1,6 +1,8 @@
 import { ReactNode, useState } from "react";
 import { ObjectId, WithId } from "mongodb";
 import Blur from "./blur";
+import Icon from "@mdi/react";
+import { mdiChevronRight } from "@mdi/js";
 
 export default function BlurredSelector<T extends WithId<{}>>({
     items,
@@ -26,7 +28,7 @@ export default function BlurredSelector<T extends WithId<{}>>({
     const selectedItem = items
         .filter((item) => {
             if (typeof selected === "undefined") {
-                return true;
+                return false;
             }
 
             return item._id.toString() === selected.toString();
@@ -86,7 +88,14 @@ export default function BlurredSelector<T extends WithId<{}>>({
 
     return (
         <div onClick={() => setOpened(true)}>
-            {renderer({ item: selectedItem!, picker: false })}
+            {typeof selectedItem === "undefined" ? (
+                <div className="flex items-center h-12">
+                    <span className="flex-grow">Выберите из списка</span>
+                    <Icon path={mdiChevronRight} size={1} />
+                </div>
+            ) : (
+                renderer({ item: selectedItem, picker: false })
+            )}
         </div>
     );
 }
