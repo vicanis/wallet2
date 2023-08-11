@@ -9,6 +9,8 @@ import SettingsBlock from "../../../layouts/settings/block";
 import WalletSelector from "../../../layouts/wallet/selector";
 import PrimaryButton from "../../../components/button/primary";
 import fetcher from "../../../lib/fetcher";
+import LoadingLayout from "../../../layouts/loading";
+import Blur from "../../../components/blur";
 
 export default function CreateTransferPage() {
     const navigate = useNavigate();
@@ -18,10 +20,15 @@ export default function CreateTransferPage() {
             currency: "RUB",
         },
     });
+    const [busy, setBusy] = useState(false);
 
-    useEffect(() => {
-        console.log("transfer data?", transferData);
-    }, []);
+    if (busy) {
+        return (
+            <Blur>
+                <LoadingLayout>Сохранение данных ...</LoadingLayout>
+            </Blur>
+        );
+    }
 
     return (
         <div className="grid gap-8 p-6">
@@ -147,10 +154,13 @@ export default function CreateTransferPage() {
             <PrimaryButton
                 title="Добавить"
                 onClick={async () => {
+                    setBusy(true);
+
                     await fetcher("transfer", { method: "POST" }, transferData);
 
                     navigate(-1);
                 }}
+                spinner={false}
             />
         </div>
     );
