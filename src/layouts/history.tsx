@@ -6,6 +6,10 @@ import CategoryIcon from "../components/category/icon";
 export default function HistoryLayout({ list }: { list: HistoryGroup[] }) {
     return (
         <div className="py-2 grid gap-4 pt-4">
+            {list.length === 0 && (
+                <div className="px-4 text-[#8A8181]">Нет операций</div>
+            )}
+
             {list.map((group, index) => (
                 <Group key={index} {...group} />
             ))}
