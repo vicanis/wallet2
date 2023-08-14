@@ -8,10 +8,12 @@ import type { Wallet } from "../../types/wallet";
 import Radio from "../../components/radio";
 import BlurredSelector from "../../components/blurredselector";
 import CategoryIcon from "../../components/category/icon";
+import Amount from "../../components/amount";
 
 export default function WalletSelector(props: {
     selected?: ObjectId;
     onChange: (id: ObjectId, items?: ObjectId[]) => void;
+    withBalance?: boolean;
 }) {
     const [wallets, setWallets] = useState<WithId<Wallet>[]>();
 
@@ -47,7 +49,7 @@ export default function WalletSelector(props: {
                         </div>
                     </div>
                 ) : (
-                    <Item {...arg.item} />
+                    <Item {...arg.item} withBalance={props.withBalance} />
                 )
             }
             createButtonRenderer={() => (
@@ -65,8 +67,10 @@ function Item({
     icon,
     color,
     picker = false,
+    withBalance = false,
 }: Wallet & {
     picker?: boolean;
+    withBalance?: boolean;
 }) {
     return (
         <div className="flex gap-3 items-center justify-between w-full">
@@ -79,6 +83,9 @@ function Item({
                     </span>
                 )}
             </div>
+            {withBalance && (
+                <Amount currency={currency} value={value} iconSize={0.7} />
+            )}
             <Icon path={mdiChevronRight} size={1} />
         </div>
     );

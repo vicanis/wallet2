@@ -63,6 +63,7 @@ export default function CreateTransferPage() {
                         });
                     }}
                     selected={transferData.src}
+                    withBalance
                 />
             </SettingsBlock>
 
@@ -96,6 +97,7 @@ export default function CreateTransferPage() {
                         });
                     }}
                     selected={transferData.dst}
+                    withBalance
                 />
             </SettingsBlock>
 
