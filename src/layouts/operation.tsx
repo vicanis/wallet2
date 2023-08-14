@@ -13,10 +13,21 @@ import AmountEditor from "../components/amounteditor";
 import CategorySelector from "./category/selector";
 import PrimaryButton from "../components/button/primary";
 import DatePicker from "../components/datepicker";
+import Blur from "../components/blur";
+import LoadingLayout from "./loading";
 
 export default function OperationLayout({ _id, ...data }: WithId<Operation>) {
     const navigate = useNavigate();
     const [operationData, setOperationData] = useState<Operation>(data);
+    const [busy, setBusy] = useState(false);
+
+    if (busy) {
+        return (
+            <Blur>
+                <LoadingLayout>Сохранение данных ...</LoadingLayout>
+            </Blur>
+        );
+    }
 
     return (
         <div className="p-4 grid gap-6 justify-stretch">
@@ -144,6 +155,8 @@ export default function OperationLayout({ _id, ...data }: WithId<Operation>) {
                 <PrimaryButton
                     title="Сохранить"
                     onClick={async () => {
+                        setBusy(true);
+
                         await fetcher(
                             "set_operation",
                             { method: "POST" },
