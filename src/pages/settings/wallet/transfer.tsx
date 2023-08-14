@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "../../../lib/dayjs";
+import fetcher from "../../../lib/fetcher";
 import type { Transfer } from "../../../types/transfer";
 import CurrencyMiniSelector from "../../../components/currency/miniselector";
 import DatePicker from "../../../components/datepicker";
@@ -8,9 +9,9 @@ import Input from "../../../components/input";
 import SettingsBlock from "../../../layouts/settings/block";
 import WalletSelector from "../../../layouts/wallet/selector";
 import PrimaryButton from "../../../components/button/primary";
-import fetcher from "../../../lib/fetcher";
 import LoadingLayout from "../../../layouts/loading";
 import Blur from "../../../components/blur";
+import ExchangeLayout from "../../../layouts/transfer/exchange";
 
 export default function CreateTransferPage() {
     const navigate = useNavigate();
@@ -125,6 +126,14 @@ export default function CreateTransferPage() {
                     />
                 </div>
             </SettingsBlock>
+
+            {typeof transferData.src !== "undefined" &&
+                typeof transferData.dst !== "undefined" && (
+                    <ExchangeLayout
+                        src={transferData.src}
+                        dst={transferData.dst}
+                    />
+                )}
 
             <SettingsBlock title="Дата перевода">
                 <span className="text-[#0084C8] font-semibold">
