@@ -11,7 +11,7 @@ export default function RoundedAmount({
 }) {
     const rate = useMemo(() => RoundValue({ value, digits, strict }), [value]);
 
-    return <span>{rate}</span>;
+    return <span>{rate.toFixed(digits)}</span>;
 }
 
 export function RoundValue({
