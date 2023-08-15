@@ -1,9 +1,9 @@
-import { useMemo } from "react";
 import Icon from "@mdi/react";
 import Amount from "../amount";
 import CurrencyFlag from "../currency/flag";
 import { CurrencyType } from "../../types/currency";
 import { mdiSwapVertical } from "@mdi/js";
+import RoundedAmount, { RoundValue } from "../rounded";
 
 export default function Converter({
     value,
@@ -18,11 +18,6 @@ export default function Converter({
     rate: number;
     onChangeCurrency: (from: CurrencyType, to: CurrencyType) => void;
 }) {
-    const valueTo = useMemo(() => {
-        const converted = Math.trunc(100 * (value / rate));
-        return converted / 100;
-    }, [value, rate]);
-
     return (
         <div
             className="rounded-xl py-4 grid gap-4 text-white"
@@ -44,7 +39,13 @@ export default function Converter({
                 <Rate from={from} to={to} rate={rate} />
             </div>
 
-            <Line currency={to} value={valueTo} />
+            <Line
+                currency={to}
+                value={RoundValue({
+                    value: rate * value,
+                    strict: true,
+                })}
+            />
         </div>
     );
 }
@@ -70,7 +71,7 @@ function Rate({
 }) {
     return (
         <span>
-            1 {to} = {rate} {from}
+            1 {to} = <RoundedAmount value={rate} /> {from}
         </span>
     );
 }
