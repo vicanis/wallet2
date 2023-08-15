@@ -7,8 +7,8 @@ export default function withExchange({
     src,
     dst,
 }: {
-    src: CurrencyType;
-    dst: CurrencyType;
+    src?: CurrencyType;
+    dst?: CurrencyType;
 }) {
     const [rates, setRates] = useState<ExchangeRates>();
 
@@ -21,14 +21,16 @@ export default function withExchange({
     const rate = useMemo(() => {
         if (
             typeof rates === "undefined" ||
+            typeof src === "undefined" ||
             typeof rates[src] === "undefined" ||
+            typeof dst === "undefined" ||
             typeof rates[dst] === "undefined"
         ) {
             return;
         }
 
         return rates[src][dst];
-    }, [src, dst]);
+    }, [rates, src, dst]);
 
     return rate;
 }
