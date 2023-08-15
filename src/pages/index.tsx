@@ -5,7 +5,7 @@ import ErrorPage from "./error";
 import Home from "./home";
 import OperationPage, { OperationPageLoader } from "./operation";
 import NavBar from "../layouts/navbar";
-import ExchangePage from "./exchange";
+import ExchangePage, { ExchangePageLoader } from "./exchange";
 import StatsPage from "./stats";
 import CategoryPage from "./stats/category";
 import StatisticsPage from "./stats/statistics";
@@ -133,6 +133,7 @@ export default function App() {
                 {
                     path: "exchange",
                     element: <ExchangePage />,
+                    loader: ExchangePageLoader,
                 },
                 {
                     path: "settings",

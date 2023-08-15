@@ -4,16 +4,26 @@ import Keyboard, {
     KeyboardButtonHandler,
 } from "../components/exchange/keyboard";
 import { CurrencyType } from "../types/currency";
+import { ExchangeRates } from "../types/exchange";
+import Blur from "../components/blur";
+import LoadingLayout from "./loading";
 
-export default function Exchange() {
+export default function Exchange({ rates }: { rates: ExchangeRates }) {
     const [currencyFrom, setCurrencyFrom] = useState<CurrencyType>("RUB");
     const [currencyTo, setCurrencyTo] = useState<CurrencyType>("USD");
 
     const exchangeRate = useMemo(() => {
-        return Rates[currencyFrom][currencyTo];
+        if (
+            typeof rates[currencyFrom] === "undefined" ||
+            typeof rates[currencyTo] === "undefined"
+        ) {
+            return;
+        }
+
+        return rates[currencyFrom][currencyTo];
     }, [currencyFrom, currencyTo]);
 
-    const [value, setValue] = useState<number>(1000);
+    const [value, setValue] = useState<number>(0);
 
     const keyboardHandler = useCallback<KeyboardButtonHandler>((arg) => {
         switch (arg.type) {
@@ -40,6 +50,14 @@ export default function Exchange() {
         }
     }, []);
 
+    if (typeof exchangeRate === "undefined") {
+        return (
+            <Blur>
+                <LoadingLayout>Загрузка данных ...</LoadingLayout>
+            </Blur>
+        );
+    }
+
     return (
         <div className="grid gap-4">
             <Converter
@@ -56,21 +74,3 @@ export default function Exchange() {
         </div>
     );
 }
-
-const Rates = {
-    RUB: {
-        RUB: 1,
-        USD: 80,
-        KZT: 5.5,
-    },
-    KZT: {
-        KZT: 1,
-        USD: 480,
-        RUB: 0.18,
-    },
-    USD: {
-        USD: 1,
-        RUB: 0.0125,
-        KZT: 0.002083333,
-    },
-};
