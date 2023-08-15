@@ -107,7 +107,7 @@ export default function CreateTransferPage() {
                     <Input
                         type="number"
                         placeholder="не задано"
-                        defaultValue={transferData.amount.value}
+                        defaultValue={transferData.amount.value ?? undefined}
                         onChange={(value) => {
                             setTransferData((data) => {
                                 data.amount.value = Number(value);
@@ -130,6 +130,7 @@ export default function CreateTransferPage() {
             {typeof transferData.src !== "undefined" &&
                 typeof transferData.dst !== "undefined" && (
                     <ExchangeLayout
+                        value={Math.max(transferData.amount.value ?? 1, 1)}
                         src={transferData.src}
                         dst={transferData.dst}
                     />
