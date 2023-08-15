@@ -9,6 +9,7 @@ import { Amount } from "../../../src/types/amount";
 import { User } from "../../../src/types/user";
 import GetSharedUsers from "../../../src/lib/user";
 import { DefaultTransactionOptions } from "../../../src/lib/transaction";
+import { GetExchangeRate } from "../../../src/lib/exchange";
 
 export const handler: Handler = async (event, context) => {
     const response = await router(event, context);
@@ -183,17 +184,56 @@ const createTransfer: Handler = async (event, context) => {
         const src = item.src!;
         const dst = item.dst!;
 
-        const value = item.amount.value!;
+        const [walletSrc, walletDst] = await Promise.all([
+            db
+                .collection<Wallet>("wallet")
+                .findOne({ _id: src }, { projection: { currency: 1 } }),
+            db
+                .collection<Wallet>("wallet")
+                .findOne({ _id: dst }, { projection: { currency: 1 } }),
+        ]);
 
-        await db
-            .collection<Wallet>("wallet")
-            .updateOne({ _id: src }, { $inc: { value: -value } }, { session });
+        if (walletSrc === null || walletDst === null) {
+            throw new Error("no wallet data");
+        }
 
-        await db
-            .collection<Wallet>("wallet")
-            .updateOne({ _id: dst }, { $inc: { value } }, { session });
+        const { currency: currencySrc } = walletSrc;
+        const { currency: currencyDst } = walletDst;
 
-        await db.collection<Transfer>("transfer").insertOne(item, { session });
+        const valueSrc = item.amount.value!;
+        let valueDst = valueSrc;
+
+        // if currency exchange
+        if (currencySrc !== currencyDst) {
+            const exchangeRate = await GetExchangeRate({
+                src: currencySrc,
+                dst: currencyDst,
+            });
+
+            if (typeof exchangeRate === "undefined") {
+                throw new Error("no exchange rate");
+            }
+
+            valueDst = Math.round(100 * valueSrc * exchangeRate) / 100;
+        }
+
+        await Promise.all([
+            db
+                .collection<Wallet>("wallet")
+                .updateOne(
+                    { _id: src },
+                    { $inc: { value: -valueSrc } },
+                    { session }
+                ),
+            db
+                .collection<Wallet>("wallet")
+                .updateOne(
+                    { _id: dst },
+                    { $inc: { value: valueDst } },
+                    { session }
+                ),
+            db.collection<Transfer>("transfer").insertOne(item, { session }),
+        ]);
 
         await session.commitTransaction();
 
