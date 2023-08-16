@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import dayjs from "../../../lib/dayjs";
 import Icon from "@mdi/react";
 import { mdiArrowDown } from "@mdi/js";
 import { TransferItem } from "../../../types/transfer";
