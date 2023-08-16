@@ -5,15 +5,11 @@ import { AuthError, ParseUserId } from "../../../src/lib/auth";
 import GetSharedUsers from "../../../src/lib/user";
 
 export const handler: Handler = async (event, context) => {
-    console.log("connect mongoclient");
-
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
 
     const conn = mongoclient.connect();
 
     try {
-        console.log("get user data");
-
         const user = ParseUserId(context.clientContext);
         const sharedUsers = await GetSharedUsers(user);
 
@@ -82,16 +78,15 @@ export const handler: Handler = async (event, context) => {
         };
     } catch (e) {
         if (e instanceof AuthError) {
-            console.error("auth error, code", e.code);
             return {
                 statusCode: 302,
                 headers: {
-                    Location: "/",
+                    Location: "/login",
                 },
             };
-        } else {
-            console.log(e.toString());
         }
+
+        console.error(e.toString());
 
         return {
             statusCode: 500,
