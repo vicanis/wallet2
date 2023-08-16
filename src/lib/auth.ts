@@ -47,17 +47,17 @@ export default Auth;
 
 export function ParseUserId(ctx: any): UUID {
     if (typeof ctx === "undefined") {
-        throw new Error("no client context");
+        throw new AuthError(AuthErrorCode.NoClientContext);
     }
 
     if (typeof ctx.user === "undefined") {
-        throw new Error("no user data");
+        throw new AuthError(AuthErrorCode.NoUserData);
     }
 
     const id = ctx.user.sub;
 
     if (typeof id === "undefined") {
-        throw new Error("no user id");
+        throw new AuthError(AuthErrorCode.NoUserId);
     }
 
     return id;
@@ -65,24 +65,41 @@ export function ParseUserId(ctx: any): UUID {
 
 export function ParseUserName(ctx: any): string {
     if (typeof ctx === "undefined") {
-        throw new Error("no client context");
+        throw new AuthError(AuthErrorCode.NoClientContext);
     }
 
     if (typeof ctx.user === "undefined") {
-        throw new Error("no user data");
+        throw new AuthError(AuthErrorCode.NoUserData);
     }
 
     const metadata = ctx.user.user_metadata;
 
     if (typeof metadata === "undefined") {
-        throw new Error("no user metadata");
+        throw new AuthError(AuthErrorCode.NoUserMetadata);
     }
 
     const name = metadata.full_name;
 
     if (typeof name === "undefined") {
-        throw new Error("no user name");
+        throw new AuthError(AuthErrorCode.NoUserName);
     }
 
     return name;
+}
+
+export class AuthError extends Error {
+    public code: AuthErrorCode;
+
+    public constructor(code: AuthErrorCode) {
+        super(`auth error ${code}`);
+        this.code = code;
+    }
+}
+
+export enum AuthErrorCode {
+    NoClientContext = 0,
+    NoUserData,
+    NoUserId,
+    NoUserMetadata,
+    NoUserName,
 }
