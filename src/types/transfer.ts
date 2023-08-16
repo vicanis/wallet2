@@ -6,7 +6,8 @@ import { Wallet } from "./wallet";
 export interface Transfer {
     src?: ObjectId;
     dst?: ObjectId;
-    amount: Amount;
+    amount: Required<Amount>;
+    amountDst?: Required<Amount>;
     date: Date;
     comment?: string;
     user?: UUID;
@@ -17,5 +18,6 @@ export interface TransferItem {
     src: Pick<Wallet, "name" | "icon" | "color">;
     dst: Pick<Wallet, "name" | "icon" | "color">;
     amount: Required<Amount>;
+    amountDst?: Required<Amount>;
     user?: string;
 }

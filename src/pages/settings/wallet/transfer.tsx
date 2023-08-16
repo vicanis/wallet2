@@ -19,6 +19,7 @@ export default function CreateTransferPage() {
         date: dayjs().toDate(),
         amount: {
             currency: "RUB",
+            value: 0,
         },
     });
     const [busy, setBusy] = useState(false);

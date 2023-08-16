@@ -5,12 +5,14 @@ import { TransferItem } from "../../../types/transfer";
 import { Wallet } from "../../../types/wallet";
 import Amount from "../../../components/amount";
 import CategoryIcon from "../../../components/category/icon";
+import { Fragment } from "react";
 
 export default function TransferHistoryItem({
     date,
     src,
     dst,
     amount,
+    amountDst,
     user,
 }: TransferItem) {
     return (
@@ -25,7 +27,15 @@ export default function TransferHistoryItem({
                     <WalletItem {...dst} />
                 </div>
                 <div className="text-right">
-                    <Amount iconSize={0.7} {...amount} />
+                    <div className="flex flex-col items-end">
+                        <Amount iconSize={0.7} {...amount} />
+                        {typeof amountDst !== "undefined" && (
+                            <Fragment>
+                                <Icon path={mdiArrowDown} size={1} />
+                                <Amount iconSize={0.7} {...amountDst} />
+                            </Fragment>
+                        )}
+                    </div>
                     {typeof user !== "undefined" && (
                         <span className="text-sm">{user}</span>
                     )}

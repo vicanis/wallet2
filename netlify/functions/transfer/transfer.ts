@@ -126,7 +126,12 @@ const getTransferHistory: Handler = async (event, context) => {
             }
 
             item.date = transfer.date;
-            item.amount = transfer.amount as Required<Amount>;
+
+            for (const k of ["amount", "amountDst"]) {
+                if (typeof transfer[k] !== "undefined") {
+                    item[k] = transfer[k] as Required<Amount>;
+                }
+            }
 
             data.push(item as TransferItem);
         }
@@ -215,6 +220,11 @@ const createTransfer: Handler = async (event, context) => {
             }
 
             valueDst = Math.round(100 * valueSrc * exchangeRate) / 100;
+
+            item.amountDst = {
+                currency: currencyDst,
+                value: valueDst,
+            };
         }
 
         await Promise.all([
