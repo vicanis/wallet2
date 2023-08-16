@@ -77,6 +77,8 @@ export const handler: Handler = async (event, context) => {
             body: JSON.stringify(data),
         };
     } catch (e) {
+        console.log(e.toString());
+
         return {
             statusCode: 500,
             body: e.toString(),
