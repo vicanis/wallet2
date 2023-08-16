@@ -2,9 +2,9 @@ import Tabs from "../../components/tabs";
 import ImageFilter from "../../assets/menu/top/filter.svg";
 import ImageMoneyBag from "../../assets/menu/top/moneybag.svg";
 import TransferHistoryLayout from "./history";
-import { TransferItem } from "../../types/transfer";
+import { TransferGroup } from "../../types/transfer";
 
-export default function TransferLayout({ data }: { data: TransferItem[] }) {
+export default function TransferLayout({ data }: { data: TransferGroup[] }) {
     return (
         <div>
             <Tabs
@@ -25,7 +25,7 @@ export default function TransferLayout({ data }: { data: TransferItem[] }) {
                 }}
             />
 
-            <TransferHistoryLayout items={data} />
+            <TransferHistoryLayout groups={data} />
         </div>
     );
 }

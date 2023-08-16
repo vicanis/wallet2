@@ -13,8 +13,12 @@ export interface Transfer {
     user?: UUID;
 }
 
-export interface TransferItem {
+export interface TransferGroup {
     date: Date;
+    items: TransferItem[];
+}
+
+export interface TransferItem {
     src: Pick<Wallet, "name" | "icon" | "color">;
     dst: Pick<Wallet, "name" | "icon" | "color">;
     amount: Required<Amount>;

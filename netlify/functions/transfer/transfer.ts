@@ -1,11 +1,15 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient, ObjectId } from "mongodb";
+import dayjs from "../../../src/lib/dayjs";
 import { Context } from "@netlify/functions/dist/function/context";
 import { Event } from "@netlify/functions/dist/function/event";
-import type { Transfer, TransferItem } from "../../../src/types/transfer";
+import type {
+    Transfer,
+    TransferGroup,
+    TransferItem,
+} from "../../../src/types/transfer";
 import { ParseUserId } from "../../../src/lib/auth";
 import { Wallet } from "../../../src/types/wallet";
-import { Amount } from "../../../src/types/amount";
 import { User } from "../../../src/types/user";
 import GetSharedUsers from "../../../src/lib/user";
 import { DefaultTransactionOptions } from "../../../src/lib/transaction";
@@ -63,23 +67,59 @@ const getTransferHistory: Handler = async (event, context) => {
         const sessionUser = ParseUserId(context.clientContext);
         const sharedUsers = await GetSharedUsers(sessionUser);
 
-        const data: TransferItem[] = [];
+        const boundaries: Date[] = [];
 
-        const [transfers, wallets, users] = await Promise.all([
+        for (let i = 12; i >= -2; i--) {
+            boundaries.push(dayjs().startOf("day").subtract(i, "day").toDate());
+        }
+
+        let [groups, wallets, users] = await Promise.all([
             db
-                .collection<Transfer>("transfer")
-                .find(
+                .collection("transfer")
+                .aggregate<TransferGroup>([
                     {
-                        user: {
-                            $in: [...sharedUsers, sessionUser],
+                        $match: {
+                            user: {
+                                $in: [...sharedUsers, sessionUser],
+                            },
                         },
                     },
                     {
-                        sort: {
+                        $sort: {
                             date: -1,
                         },
-                    }
-                )
+                    },
+                    {
+                        $limit: 100,
+                    },
+                    {
+                        $bucket: {
+                            groupBy: "$date",
+                            boundaries,
+                            default: "other",
+                            output: {
+                                items: {
+                                    $push: {
+                                        id: "$_id",
+                                        src: "$src",
+                                        dst: "$dst",
+                                        amount: "$amount",
+                                        amountDst: "$amountDst",
+                                        user: "$user",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    {
+                        $set: {
+                            date: "$_id",
+                        },
+                    },
+                    {
+                        $unset: "_id",
+                    },
+                ])
                 .toArray(),
             db
                 .collection<Wallet>("wallet")
@@ -99,46 +139,52 @@ const getTransferHistory: Handler = async (event, context) => {
                 .toArray(),
         ]);
 
-        for (const transfer of transfers) {
-            const item: Partial<TransferItem> = {};
+        for (const group of groups) {
+            const items: TransferItem[] = [];
 
-            for (const { _id, name, icon, color } of wallets) {
-                for (const key of ["src", "dst"]) {
-                    if (typeof transfer[key] !== "undefined") {
-                        if (transfer[key].toString() === _id.toString()) {
-                            item[key] = { name, icon, color };
+            for (const transfer of group.items) {
+                const item: Partial<TransferItem> = {};
+
+                for (const { _id, name, icon, color } of wallets) {
+                    for (const key of ["src", "dst"]) {
+                        if (typeof transfer[key] !== "undefined") {
+                            if (transfer[key].toString() === _id.toString()) {
+                                item[key] = { name, icon, color };
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (typeof transfer.user !== "undefined") {
+                    for (const user of users) {
+                        if (
+                            user.user !== sessionUser &&
+                            user.user === transfer.user
+                        ) {
+                            item.user = user.name;
                             break;
                         }
                     }
                 }
+
+                const { amount, amountDst } = transfer;
+                item.amount = amount;
+                item.amountDst = amountDst;
+
+                items.push(item as TransferItem);
             }
 
-            if (typeof transfer.user !== "undefined") {
-                for (const user of users) {
-                    if (
-                        user.user !== sessionUser &&
-                        user.user === transfer.user
-                    ) {
-                        item.user = user.name;
-                        break;
-                    }
-                }
-            }
-
-            item.date = transfer.date;
-
-            for (const k of ["amount", "amountDst"]) {
-                if (typeof transfer[k] !== "undefined") {
-                    item[k] = transfer[k] as Required<Amount>;
-                }
-            }
-
-            data.push(item as TransferItem);
+            group.items = items;
         }
+
+        groups = groups.sort((a, b) =>
+            dayjs(a.date).unix() > dayjs(b.date).unix() ? -1 : 1
+        );
 
         return {
             statusCode: 200,
-            body: JSON.stringify(data),
+            body: JSON.stringify(groups),
         };
     } catch (e) {
         return {

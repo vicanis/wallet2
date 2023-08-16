@@ -8,7 +8,6 @@ import Amount from "../../../components/amount";
 import CategoryIcon from "../../../components/category/icon";
 
 export default function TransferHistoryItem({
-    date,
     src,
     dst,
     amount,
@@ -17,12 +16,11 @@ export default function TransferHistoryItem({
 }: TransferItem) {
     return (
         <div className="grid gap-2">
-            <div className="border-b-[1px] px-4">
-                {dayjs(date).format("DD MMMM, dddd")}
-                {typeof user !== "undefined" && (
+            {typeof user !== "undefined" && (
+                <div className="border-b-[1px] px-4">
                     <span className="text-sm">{user}</span>
-                )}
-            </div>
+                </div>
+            )}
             <div
                 className="px-4 gap-3 grid items-center"
                 style={{
