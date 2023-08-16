@@ -83,6 +83,12 @@ export const handler: Handler = async (event, context) => {
     } catch (e) {
         if (e instanceof AuthError) {
             console.error("auth error, code", e.code);
+            return {
+                statusCode: 302,
+                headers: {
+                    Location: "/",
+                },
+            };
         } else {
             console.log(e.toString());
         }
