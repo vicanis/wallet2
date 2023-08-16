@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { Category } from "./category";
-import { CurrencyType } from "./currency";
 import { Wallet } from "./wallet";
+import { Amount } from "./amount";
 
 export interface HistoryGroup {
     count: number;
@@ -12,10 +12,7 @@ export interface HistoryGroup {
 export interface HistoryItem {
     id: ObjectId;
     date: Date;
-    amount: {
-        currency: CurrencyType;
-        value: number;
-    };
+    amount: Required<Amount>;
     wallet: Wallet;
     category: Category;
     user?: string;
