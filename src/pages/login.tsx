@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../components/button/primary";
 import Auth from "../lib/auth";
@@ -8,6 +9,14 @@ import Button from "../components/button";
 
 export default function LoginPage() {
     const navigate = useNavigate();
+
+    const isAuthenticated = Auth.IsAuthenticated();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/");
+        }
+    }, [isAuthenticated]);
 
     return (
         <div className="h-screen flex items-center p-10">
