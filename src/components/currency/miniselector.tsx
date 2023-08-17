@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { mdiChevronDown } from "@mdi/js";
 import Icon from "@mdi/react";
 import { CurrencyType } from "../../types/currency";
-import { useState } from "react";
 
 export default function CurrencyMiniSelector({
     currency,
