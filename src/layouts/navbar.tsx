@@ -61,6 +61,7 @@ export default function NavBar() {
             ["/settings/other", "Настройки"],
             ["/settings/share", "Совместный доступ"],
             ["/invite", "Совместный доступ"],
+            ["/history", "Редактирование операции"],
         ];
 
         for (const [prefix, title] of prefixes) {
