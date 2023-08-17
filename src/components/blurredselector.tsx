@@ -60,7 +60,7 @@ export default function BlurredSelector<T extends WithId<{}>>({
                     >
                         {header}
 
-                        <div className="overflow-auto">
+                        <div className="overflow-auto grid gap-2">
                             {items.map((item, index) => (
                                 <div
                                     key={index}
