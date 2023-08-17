@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import dayjs from "./dayjs";
 import { CurrencyType } from "../types/currency";
 import { ExchangeRates, ExchangeResponse } from "../types/exchange";
 import GetCurrency from "./apilayer/currency";
@@ -63,7 +64,10 @@ async function FetchExchangeRates(): Promise<ExchangeResponse> {
         const db = (await conn).db("wallet2");
         const coll = db.collection<ExchangeResponse>("rate");
 
-        const lastRates = await coll.findOne({}, { sort: { timestamp: -1 } });
+        const lastRates = await coll.findOne(
+            { timestamp: { $gte: dayjs().subtract(1, "day").toDate() } },
+            { sort: { timestamp: -1 } }
+        );
 
         if (lastRates !== null) {
             return lastRates;
