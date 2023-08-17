@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import dayjs from "../../../lib/dayjs";
 import fetcher from "../../../lib/fetcher";
 import type { Transfer } from "../../../types/transfer";
-import CurrencyMiniSelector from "../../../components/currency/miniselector";
 import DatePicker from "../../../components/datepicker";
 import Input from "../../../components/input";
 import SettingsBlock from "../../../layouts/settings/block";
