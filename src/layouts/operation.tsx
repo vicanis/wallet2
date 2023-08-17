@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { WithId } from "mongodb";
 import { useNavigate } from "react-router-dom";
-import dayjs from "../lib/dayjs";
 import fetcher from "../lib/fetcher";
 import { mdiCalendarMonthOutline } from "@mdi/js";
 import Icon from "@mdi/react";
@@ -38,7 +37,7 @@ export default function OperationLayout({ _id, ...data }: WithId<Operation>) {
                     color="#0A90D5"
                 />
                 <DatePicker
-                    value={dayjs().toString()}
+                    value={data.date.toString()}
                     onChange={(date) =>
                         setOperationData((data) => ({
                             ...data,
