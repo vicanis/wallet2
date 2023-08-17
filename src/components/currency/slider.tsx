@@ -1,7 +1,7 @@
 import { CurrencyType } from "../../types/currency";
 import { CurrencyIcon } from "./icon";
 
-export default function CurrencySelector({
+export default function CurrencySlider({
     list,
     selected,
 }: {

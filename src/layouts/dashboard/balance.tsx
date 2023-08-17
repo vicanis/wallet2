@@ -6,7 +6,7 @@ import {
 } from ".";
 import Icon from "@mdi/react";
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
-import CurrencySelector from "../../components/currency/selector";
+import CurrencySlider from "../../components/currency/slider";
 import { CurrencyIcon } from "../../components/currency/icon";
 import Amount from "../../components/amount";
 
@@ -90,7 +90,7 @@ export default function DashboardBalanceLayout({
             className="text-center text-white pb-4 grid gap-4"
             style={{ backgroundColor: "#0084C8" }}
         >
-            <CurrencySelector
+            <CurrencySlider
                 list={currencyList}
                 selected={items[dashboard.current].currency}
             />
