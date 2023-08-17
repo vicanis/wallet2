@@ -5,7 +5,6 @@ import fetcher from "../../lib/fetcher";
 import Icon from "@mdi/react";
 import { mdiTagOutline } from "@mdi/js";
 import { Category } from "../../types/category";
-import CurrencyMiniSelector from "../../components/currency/miniselector";
 import PrimaryButton from "../../components/button/primary";
 import ColorSelector from "../../components/colorselector";
 import IconSelector from "../../components/category/icon/selector";
@@ -14,6 +13,7 @@ import SettingsBlock from "../settings/block";
 import Input from "../../components/input";
 import Blur from "../../components/blur";
 import LoadingLayout from "../loading";
+import AmountEditor from "../../components/amounteditor";
 
 export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
     const navigate = useNavigate();
@@ -77,35 +77,28 @@ export default function CategoryEditor({ _id, ...data }: WithId<Category>) {
 
                 <SettingsBlock
                     title={
-                        categoryData.type === "expense"
-                            ? "Планирую тратить"
-                            : "Планирую получать"
+                        <div className="flex justify-between">
+                            {categoryData.type === "expense"
+                                ? "Планирую тратить"
+                                : "Планирую получать"}
+                            <span className="text-[#161414]">в месяц</span>
+                        </div>
                     }
                 >
                     <div className="flex items-center gap-4">
-                        <Input
-                            type="number"
-                            placeholder="не задано"
-                            defaultValue={categoryData.plan.value ?? 0}
-                            onChange={(value) =>
-                                setCategoryData((data) => {
-                                    const plan = data.plan;
-                                    plan.value = Number(value);
-                                    return { ...data, plan };
-                                })
-                            }
+                        <AmountEditor
+                            amount={{
+                                currency: "RUB",
+                                ...categoryData.plan,
+                            }}
+                            onChange={(plan) => {
+                                setCategoryData((data) => ({
+                                    ...data,
+                                    plan,
+                                }));
+                            }}
+                            noBorder
                         />
-                        <CurrencyMiniSelector
-                            currency={categoryData.plan.currency ?? "RUB"}
-                            onChange={(currency) =>
-                                setCategoryData((data) => {
-                                    const plan = data.plan;
-                                    plan.currency = currency;
-                                    return { ...data, plan };
-                                })
-                            }
-                        />
-                        <div className="text-[#161414]">в месяц</div>
                     </div>
                 </SettingsBlock>
 

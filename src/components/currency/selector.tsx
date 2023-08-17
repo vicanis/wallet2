@@ -13,7 +13,7 @@ export default function CurrencySelector({
     mini,
 }: {
     currency?: CurrencyType;
-    value: number;
+    value?: number;
     onChange: (code: CurrencyType) => void;
     mini?: boolean;
 }) {
@@ -24,14 +24,14 @@ export default function CurrencySelector({
             _id: ObjectId;
             currency: CurrencyType;
             title: string;
-            value: number;
+            value?: number;
         }[]
     >(() => {
         const items: {
             _id: ObjectId;
             currency: CurrencyType;
             title: string;
-            value: number;
+            value?: number;
         }[] = [];
 
         for (const currency of Object.keys(currencyList) as CurrencyType[]) {
@@ -67,7 +67,7 @@ function CurrencyItem({
     mini,
 }: {
     currency: CurrencyType;
-    value: number;
+    value?: number;
     title: string;
     picker?: boolean;
     mini?: boolean;
@@ -89,11 +89,12 @@ function CurrencyItem({
         >
             <CurrencyFlag currency={currency} />
             <span className="flex-grow">{title}</span>
-            {picker ? (
-                <span className="text-sm">{currency}</span>
-            ) : (
-                <Amount currency={currency} value={value} iconSize={0.7} />
-            )}
+            {typeof value !== "undefined" &&
+                (picker ? (
+                    <span className="text-sm">{currency}</span>
+                ) : (
+                    <Amount currency={currency} value={value} iconSize={0.7} />
+                ))}
         </div>
     );
 }

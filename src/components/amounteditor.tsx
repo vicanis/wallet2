@@ -40,8 +40,7 @@ export default function AmountEditor({
             <div className="flex gap-5 items-center">
                 <div>
                     <CurrencySelector
-                        currency={amount.currency}
-                        value={amount.value ?? 0}
+                        {...amount}
                         onChange={(currency) => {
                             onChange({
                                 ...amount,
