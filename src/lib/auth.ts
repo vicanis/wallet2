@@ -103,3 +103,7 @@ export enum AuthErrorCode {
     NoUserMetadata,
     NoUserName,
 }
+
+export type AuthErrorResponse = {
+    code: AuthErrorCode;
+};
