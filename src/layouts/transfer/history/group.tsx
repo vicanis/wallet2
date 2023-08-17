@@ -9,7 +9,7 @@ export default function TransferHistoryGroup({ date, items }: TransferGroup) {
                 {dayjs(date).format("DD MMMM, dddd")}
             </div>
             <hr className="my-1" />
-            <div className="grid gap-2 mt-2 px-4">
+            <div className="grid gap-4 mt-2 px-4">
                 {items.map((item, index) => (
                     <TransferHistoryItem key={index} {...item} />
                 ))}
