@@ -22,7 +22,6 @@ export function WalletItemLoader({ params }: LoaderFunctionArgs) {
                     _id: id,
                     name: "",
                     currency: "RUB",
-                    value: 0,
                     icon: "",
                 },
             });

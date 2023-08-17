@@ -18,19 +18,6 @@ export default function WalletEditor({ _id, ...data }: WithId<Wallet>) {
 
     return (
         <div className="grid gap-8 p-4">
-            <SettingsBlock>
-                <AmountEditor
-                    amount={{ ...walletData }}
-                    onChange={(amount) => {
-                        setWalletData((operation) => ({
-                            ...operation,
-                            ...amount,
-                        }));
-                    }}
-                    noBorder
-                />
-            </SettingsBlock>
-
             <SettingsBlock title="Имя счета">
                 <Input
                     placeholder="Введите имя счета"
@@ -41,6 +28,19 @@ export default function WalletEditor({ _id, ...data }: WithId<Wallet>) {
                             name,
                         }));
                     }}
+                />
+            </SettingsBlock>
+
+            <SettingsBlock title="Баланс">
+                <AmountEditor
+                    amount={{ ...walletData }}
+                    onChange={(amount) => {
+                        setWalletData((operation) => ({
+                            ...operation,
+                            ...amount,
+                        }));
+                    }}
+                    noBorder
                 />
             </SettingsBlock>
 
