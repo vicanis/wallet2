@@ -8,6 +8,7 @@ import type {
     TransferGroup,
     TransferItem,
 } from "../../../src/types/transfer";
+import withAuth from "../../../src/hooks/auth";
 import { ParseUserId } from "../../../src/lib/auth";
 import { Wallet } from "../../../src/types/wallet";
 import { User } from "../../../src/types/user";
@@ -15,7 +16,7 @@ import GetSharedUsers from "../../../src/lib/user";
 import { DefaultTransactionOptions } from "../../../src/lib/transaction";
 import { GetExchangeRate } from "../../../src/lib/exchange";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = withAuth(async (event, context) => {
     const response = await router(event, context);
 
     if (!response) {
@@ -27,7 +28,7 @@ export const handler: Handler = async (event, context) => {
     }
 
     return response;
-};
+});
 
 const router = async (event: Event, context: Context) => {
     const qsa = event.queryStringParameters;

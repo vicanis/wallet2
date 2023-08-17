@@ -1,7 +1,8 @@
 import { Handler } from "@netlify/functions";
+import withAuth from "../../../src/hooks/auth";
 import { GetExchangeRates } from "../../../src/lib/exchange";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = withAuth(async (event, context) => {
     try {
         const rates = await GetExchangeRates();
 
@@ -15,4 +16,4 @@ export const handler: Handler = async (event, context) => {
             body: e.toString(),
         };
     }
-};
+});

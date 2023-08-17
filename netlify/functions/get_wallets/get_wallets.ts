@@ -1,10 +1,11 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient } from "mongodb";
 import { Wallet, WalletSettingsItem } from "../../../src/types/wallet";
-import { AuthError, ParseUserId } from "../../../src/lib/auth";
+import { ParseUserId } from "../../../src/lib/auth";
+import withAuth from "../../../src/hooks/auth";
 import GetSharedUsers from "../../../src/lib/user";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = withAuth(async (event, context) => {
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
 
     const conn = mongoclient.connect();
@@ -76,23 +77,7 @@ export const handler: Handler = async (event, context) => {
             statusCode: 200,
             body: JSON.stringify(data),
         };
-    } catch (e) {
-        if (e instanceof AuthError) {
-            return {
-                statusCode: 302,
-                headers: {
-                    Location: "/login",
-                },
-            };
-        }
-
-        console.error(e.toString());
-
-        return {
-            statusCode: 500,
-            body: e.toString(),
-        };
     } finally {
         mongoclient.close();
     }
-};
+});

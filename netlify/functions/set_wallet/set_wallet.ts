@@ -1,9 +1,10 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient, ObjectId, WithId } from "mongodb";
 import type { Wallet } from "../../../src/types/wallet";
-import { ParseUserId, WithUser } from "../../../src/lib/auth";
+import withAuth from "../../../src/hooks/auth";
+import { ParseUserId } from "../../../src/lib/auth";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = withAuth(async (event, context) => {
     if (event.body === null) {
         return {
             statusCode: 400,
@@ -13,14 +14,11 @@ export const handler: Handler = async (event, context) => {
 
     const user = ParseUserId(context.clientContext);
 
-    let wallet: WithUser<Wallet>;
+    let wallet: Wallet;
     let id: ObjectId | undefined;
 
     try {
-        const { _id, ...data } = JSON.parse(event.body) as WithUser<
-            WithId<Wallet>
-        >;
-
+        const { _id, ...data } = JSON.parse(event.body) as WithId<Wallet>;
         if (typeof _id === "string" && _id !== "new") {
             id = new ObjectId(_id);
         }
@@ -67,4 +65,4 @@ export const handler: Handler = async (event, context) => {
     } finally {
         mongoclient.close();
     }
-};
+});

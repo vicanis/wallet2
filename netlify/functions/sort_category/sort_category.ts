@@ -1,9 +1,10 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient, ObjectId } from "mongodb";
+import withAuth from "../../../src/hooks/auth";
 import { ParseUserId } from "../../../src/lib/auth";
 import { DefaultTransactionOptions } from "../../../src/lib/transaction";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = withAuth(async (event, context) => {
     if (event.body === null) {
         return {
             statusCode: 403,
@@ -74,7 +75,7 @@ export const handler: Handler = async (event, context) => {
     } finally {
         mongoclient.close();
     }
-};
+});
 
 interface SortItem {
     _id: ObjectId;

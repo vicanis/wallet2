@@ -2,10 +2,11 @@ import { Handler } from "@netlify/functions";
 import { MongoClient, ObjectId, WithId } from "mongodb";
 import type { Operation } from "../../../src/types/operation";
 import type { Wallet } from "../../../src/types/wallet";
+import withAuth from "../../../src/hooks/auth";
 import { ParseUserId } from "../../../src/lib/auth";
 import { DefaultTransactionOptions } from "../../../src/lib/transaction";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = withAuth(async (event, context) => {
     if (event.body === null) {
         return {
             statusCode: 400,
@@ -120,4 +121,4 @@ export const handler: Handler = async (event, context) => {
     } finally {
         mongoclient.close();
     }
-};
+});

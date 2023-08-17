@@ -1,9 +1,10 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient, ObjectId, WithId } from "mongodb";
 import type { Category } from "../../../src/types/category";
-import { ParseUserId, WithUser } from "../../../src/lib/auth";
+import withAuth from "../../../src/hooks/auth";
+import { ParseUserId } from "../../../src/lib/auth";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = withAuth(async (event, context) => {
     if (event.body === null) {
         return {
             statusCode: 400,
@@ -11,14 +12,11 @@ export const handler: Handler = async (event, context) => {
         };
     }
 
-    let category: WithUser<Category>;
+    let category: Category;
     let id: ObjectId | undefined;
 
     try {
-        const { _id, ...data } = JSON.parse(event.body) as WithUser<
-            WithId<Category>
-        >;
-
+        const { _id, ...data } = JSON.parse(event.body) as WithId<Category>;
         if (typeof _id === "string" && _id !== "new") {
             id = new ObjectId(_id);
         }
@@ -69,4 +67,4 @@ export const handler: Handler = async (event, context) => {
     } finally {
         mongoclient.close();
     }
-};
+});

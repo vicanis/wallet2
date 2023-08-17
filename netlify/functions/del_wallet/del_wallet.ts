@@ -1,8 +1,9 @@
 import { Handler } from "@netlify/functions";
 import { MongoClient, ObjectId } from "mongodb";
+import withAuth from "../../../src/hooks/auth";
 import { ParseUserId } from "../../../src/lib/auth";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = withAuth(async (event, context) => {
     if (event.queryStringParameters === null) {
         return {
             statusCode: 403,
@@ -45,4 +46,4 @@ export const handler: Handler = async (event, context) => {
     } finally {
         mongoclient.close();
     }
-};
+});

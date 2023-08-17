@@ -6,10 +6,11 @@ import type { Wallet } from "../../../src/types/wallet";
 import type { HistoryGroup } from "../../../src/types/history";
 import dayjs from "../../../src/lib/dayjs";
 import { ParseUserId } from "../../../src/lib/auth";
+import withAuth from "../../../src/hooks/auth";
 import GetSharedUsers from "../../../src/lib/user";
 import { User } from "../../../src/types/user";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = withAuth(async (event, context) => {
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
 
     const conn = mongoclient.connect();
@@ -130,4 +131,4 @@ export const handler: Handler = async (event, context) => {
     } finally {
         mongoclient.close();
     }
-};
+});
