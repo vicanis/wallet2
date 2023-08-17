@@ -1,4 +1,5 @@
 import { useContext, useMemo } from "react";
+import { ObjectId } from "mongodb";
 import Icon from "@mdi/react";
 import { mdiSwapVertical } from "@mdi/js";
 import { CurrencyType } from "../../types/currency";
@@ -6,7 +7,6 @@ import Amount from "../amount";
 import CurrencyFlag from "../currency/flag";
 import RoundedAmount, { RoundValue } from "../rounded";
 import BlurredSelector from "../blurredselector";
-import { ObjectId } from "mongodb";
 import { CurrencyContext } from "../../context/currency";
 
 export default function Converter({
@@ -134,9 +134,10 @@ function CurrencyItem({
             } h-10 flex gap-4 items-center justify-between`}
         >
             <CurrencyFlag currency={currency} />
-            <span className="uppercase flex-grow">{currency}</span>
-            {picker && <span className="text-right text-sm">{title}</span>}
-            {!picker && (
+            <span className="flex-grow">{title}</span>
+            {picker ? (
+                <span className="text-sm">{currency}</span>
+            ) : (
                 <Amount currency={currency} value={value} iconSize={0.7} />
             )}
         </div>
