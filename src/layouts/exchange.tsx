@@ -8,7 +8,7 @@ import { ExchangeRates } from "../types/exchange";
 import Blur from "../components/blur";
 import LoadingLayout from "./loading";
 
-export default function Exchange({ rates }: { rates: ExchangeRates }) {
+export default function ExchangeLayout({ rates }: { rates: ExchangeRates }) {
     const [currencyFrom, setCurrencyFrom] = useState<CurrencyType>("RUB");
     const [currencyTo, setCurrencyTo] = useState<CurrencyType>("USD");
 

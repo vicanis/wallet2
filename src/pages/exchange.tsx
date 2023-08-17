@@ -1,12 +1,14 @@
 import { defer } from "react-router-dom";
-import Exchange from "../layouts/exchange";
+import ExchangeLayout from "../layouts/exchange";
 import fetcher from "../lib/fetcher";
 import LoadablePage from "../components/loadable";
 
 export default function ExchangePage() {
     return (
         <div className="py-4">
-            <LoadablePage renderer={(data) => <Exchange rates={data} />} />
+            <LoadablePage
+                renderer={(data) => <ExchangeLayout rates={data} />}
+            />
         </div>
     );
 }
