@@ -128,10 +128,10 @@ function CurrencyItem({
     picker?: boolean;
 }) {
     return (
-        <div className="px-6 h-10 flex gap-4 items-center justify-between">
+        <div className="px-2 h-10 flex gap-4 items-center justify-between">
             <CurrencyFlag currency={currency} />
             <span className="uppercase flex-grow">{currency}</span>
-            {picker && <span>{title}</span>}
+            {picker && <span className="text-right text-sm">{title}</span>}
             {!picker && (
                 <Amount currency={currency} value={value} iconSize={0.7} />
             )}

@@ -48,35 +48,39 @@ export default function BlurredSelector<T extends WithId<{}>>({
             <Blur onClick={() => setOpened(false)}>
                 <div className="h-full flex items-center justify-center">
                     <div
-                        className="grid gap-5 w-full mx-4 py-5 px-2 overflow-auto max-h-[80vh] text-black"
+                        className="grid gap-5 grid-rows-2 w-full mx-4 py-5 px-2 max-h-[80vh] text-black"
                         style={{
                             borderRadius: "0.9375rem",
                             border: "2px solid #E9EEF1",
                             background: "#FAFAFA",
                             boxShadow:
                                 "4px 4px 20px 0px rgba(31, 147, 206, 0.30)",
+                            gridTemplateRows: "max-content 1fr",
                         }}
                     >
                         {header}
 
-                        {items.map((item, index) => (
-                            <div
-                                key={index}
-                                onClick={() => {
-                                    setOpened(false);
-                                    onChange(item._id);
-                                }}
-                            >
-                                {renderer({
-                                    item,
-                                    selected:
-                                        typeof selectedItem !== "undefined" &&
-                                        item._id.toString() ===
-                                            selectedItem._id.toString(),
-                                    picker: true,
-                                })}
-                            </div>
-                        ))}
+                        <div className="overflow-auto">
+                            {items.map((item, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() => {
+                                        setOpened(false);
+                                        onChange(item._id);
+                                    }}
+                                >
+                                    {renderer({
+                                        item,
+                                        selected:
+                                            typeof selectedItem !==
+                                                "undefined" &&
+                                            item._id.toString() ===
+                                                selectedItem._id.toString(),
+                                        picker: true,
+                                    })}
+                                </div>
+                            ))}
+                        </div>
 
                         {typeof createButtonRenderer === "function" &&
                             createButtonRenderer()}
