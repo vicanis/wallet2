@@ -57,7 +57,7 @@ const flags: {
     AFN: "af",
     ALL: "al",
     DZD: "dz",
-    USD: "vi",
+    USD: "us",
     AOA: "ao",
     XCD: "vc",
     ARS: "ar",
