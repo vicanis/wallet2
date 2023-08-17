@@ -9,11 +9,17 @@ import Blur from "../components/blur";
 import LoadingLayout from "./loading";
 
 export default function ExchangeLayout({ rates }: { rates: ExchangeRates }) {
-    const [currencyFrom, setCurrencyFrom] = useState<CurrencyType>("RUB");
-    const [currencyTo, setCurrencyTo] = useState<CurrencyType>("USD");
+    const [currencyFrom, setCurrencyFrom] = useState<CurrencyType | undefined>(
+        "RUB"
+    );
+    const [currencyTo, setCurrencyTo] = useState<CurrencyType | undefined>(
+        "USD"
+    );
 
     const exchangeRate = useMemo(() => {
         if (
+            typeof currencyFrom === "undefined" ||
+            typeof currencyTo === "undefined" ||
             typeof rates[currencyFrom] === "undefined" ||
             typeof rates[currencyTo] === "undefined"
         ) {
@@ -65,7 +71,7 @@ export default function ExchangeLayout({ rates }: { rates: ExchangeRates }) {
                 from={currencyFrom}
                 to={currencyTo}
                 rate={exchangeRate}
-                onChangeCurrency={(from: CurrencyType, to: CurrencyType) => {
+                onChangeCurrency={(from?: CurrencyType, to?: CurrencyType) => {
                     setCurrencyFrom(from);
                     setCurrencyTo(to);
                 }}

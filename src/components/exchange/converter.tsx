@@ -1,9 +1,12 @@
+import { useMemo } from "react";
 import Icon from "@mdi/react";
 import { mdiSwapVertical } from "@mdi/js";
-import { CurrencyType } from "../../types/currency";
+import { CurrencySet, CurrencyType } from "../../types/currency";
 import Amount from "../amount";
 import CurrencyFlag from "../currency/flag";
 import RoundedAmount, { RoundValue } from "../rounded";
+import BlurredSelector from "../blurredselector";
+import { ObjectId } from "mongodb";
 
 export default function Converter({
     value,
@@ -13,10 +16,10 @@ export default function Converter({
     onChangeCurrency,
 }: {
     value: number;
-    from: CurrencyType;
-    to: CurrencyType;
+    from?: CurrencyType;
+    to?: CurrencyType;
     rate: number;
-    onChangeCurrency: (from: CurrencyType, to: CurrencyType) => void;
+    onChangeCurrency: (from?: CurrencyType, to?: CurrencyType) => void;
 }) {
     return (
         <div
@@ -25,7 +28,13 @@ export default function Converter({
                 backgroundColor: "#0A90D5",
             }}
         >
-            <Line currency={from} value={value} />
+            <CurrencyBlock
+                currency={from}
+                value={value}
+                onChange={(code) => {
+                    onChangeCurrency(code, code === to ? undefined : to);
+                }}
+            />
 
             <div className="text-center relative">
                 <div
@@ -36,26 +45,87 @@ export default function Converter({
                 >
                     <Icon path={mdiSwapVertical} size={1} />
                 </div>
-                <Rate from={from} to={to} rate={rate} />
+                {typeof from !== "undefined" && typeof to !== "undefined" && (
+                    <Rate from={from} to={to} rate={rate} />
+                )}
             </div>
 
-            <Line
+            <CurrencyBlock
                 currency={to}
                 value={RoundValue({
                     value: rate * value,
                     strict: true,
                 })}
+                onChange={(code) => {
+                    onChangeCurrency(code === from ? undefined : from, code);
+                }}
             />
         </div>
     );
 }
 
-function Line({ currency, value }: { currency: CurrencyType; value: number }) {
+function CurrencyBlock({
+    currency,
+    value,
+    onChange,
+}: {
+    currency?: CurrencyType;
+    value: number;
+    onChange: (code: CurrencyType) => void;
+}) {
+    const currencies = useMemo<
+        {
+            _id: ObjectId;
+            currency: CurrencyType;
+            value: number;
+        }[]
+    >(() => {
+        const items: {
+            _id: ObjectId;
+            currency: CurrencyType;
+            value: number;
+        }[] = [];
+
+        for (const currency of CurrencySet) {
+            items.push({
+                _id: currency as unknown as ObjectId,
+                currency,
+                value,
+            });
+        }
+
+        return items;
+    }, [currency, value]);
+
+    return (
+        <BlurredSelector
+            header="Выберите валюту"
+            items={currencies}
+            selected={currency as unknown as ObjectId}
+            onChange={(code) => onChange(code as unknown as CurrencyType)}
+            renderer={({ item, picker }) => (
+                <CurrencyItem {...item} picker={picker} />
+            )}
+        />
+    );
+}
+
+function CurrencyItem({
+    currency,
+    value,
+    picker,
+}: {
+    currency: CurrencyType;
+    value: number;
+    picker?: boolean;
+}) {
     return (
         <div className="px-6 h-10 flex gap-4 items-center justify-between">
             <CurrencyFlag currency={currency} />
             <span className="uppercase flex-grow">{currency}</span>
-            <Amount currency={currency} value={value} iconSize={0.7} />
+            {!picker && (
+                <Amount currency={currency} value={value} iconSize={0.7} />
+            )}
         </div>
     );
 }

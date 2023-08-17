@@ -48,7 +48,7 @@ export default function BlurredSelector<T extends WithId<{}>>({
             <Blur onClick={() => setOpened(false)}>
                 <div className="h-full flex items-center justify-center">
                     <div
-                        className="grid gap-5 w-full mx-4 py-5 px-2"
+                        className="grid gap-5 w-full mx-4 py-5 px-2 overflow-auto max-h-[80vh] text-black"
                         style={{
                             borderRadius: "0.9375rem",
                             border: "2px solid #E9EEF1",
