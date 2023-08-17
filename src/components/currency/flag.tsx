@@ -7,21 +7,17 @@ export default function CurrencyFlag({
     currency: CurrencyType;
     className?: string;
 }) {
-    let country: string = "";
+    const flags: {
+        [code: string]: string;
+    } = {
+        AED: "ae",
+        KGS: "kg",
+        KZT: "kz",
+        RUB: "ru",
+        USD: "us",
+    };
 
-    switch (currency) {
-        case "RUB":
-            country = "ru";
-            break;
-
-        case "KZT":
-            country = "kz";
-            break;
-
-        case "USD":
-            country = "us";
-            break;
-    }
+    const country = flags[currency] ?? "";
 
     return (
         <div className={className}>

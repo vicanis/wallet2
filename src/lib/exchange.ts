@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import dayjs from "./dayjs";
 import { CurrencyType } from "../types/currency";
 import { ExchangeRates, ExchangeResponse } from "../types/exchange";
-import GetCurrency from "./apilayer/currency";
+import FetchCurrency from "./apilayer/currency";
 import { UpdateExchangeRates } from "./apilayer/update";
 
 export async function GetExchangeRates(): Promise<ExchangeRates> {
@@ -24,7 +24,7 @@ async function ParseExchangeRates(
         usdRates[code] = rawRates[key];
     }
 
-    const currencyListRaw = await GetCurrency();
+    const currencyListRaw = await FetchCurrency();
 
     const currencyList = Object.keys(currencyListRaw) as CurrencyType[];
 

@@ -1,12 +1,13 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import Icon from "@mdi/react";
 import { mdiSwapVertical } from "@mdi/js";
-import { CurrencySet, CurrencyType } from "../../types/currency";
+import { CurrencyType } from "../../types/currency";
 import Amount from "../amount";
 import CurrencyFlag from "../currency/flag";
 import RoundedAmount, { RoundValue } from "../rounded";
 import BlurredSelector from "../blurredselector";
 import { ObjectId } from "mongodb";
+import { CurrencyContext } from "../../context/currency";
 
 export default function Converter({
     value,
@@ -73,29 +74,34 @@ function CurrencyBlock({
     value: number;
     onChange: (code: CurrencyType) => void;
 }) {
+    const currencyList = useContext(CurrencyContext);
+
     const currencies = useMemo<
         {
             _id: ObjectId;
             currency: CurrencyType;
+            title: string;
             value: number;
         }[]
     >(() => {
         const items: {
             _id: ObjectId;
             currency: CurrencyType;
+            title: string;
             value: number;
         }[] = [];
 
-        for (const currency of CurrencySet) {
+        for (const currency of Object.keys(currencyList) as CurrencyType[]) {
             items.push({
                 _id: currency as unknown as ObjectId,
                 currency,
+                title: currencyList[currency],
                 value,
             });
         }
 
         return items;
-    }, [currency, value]);
+    }, [currency, value, currencyList]);
 
     return (
         <BlurredSelector
@@ -113,16 +119,19 @@ function CurrencyBlock({
 function CurrencyItem({
     currency,
     value,
+    title,
     picker,
 }: {
     currency: CurrencyType;
     value: number;
+    title: string;
     picker?: boolean;
 }) {
     return (
         <div className="px-6 h-10 flex gap-4 items-center justify-between">
             <CurrencyFlag currency={currency} />
             <span className="uppercase flex-grow">{currency}</span>
+            {picker && <span>{title}</span>}
             {!picker && (
                 <Amount currency={currency} value={value} iconSize={0.7} />
             )}

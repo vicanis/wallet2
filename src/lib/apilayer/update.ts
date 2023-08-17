@@ -2,14 +2,14 @@ import { MongoClient } from "mongodb";
 import dayjs from "../../lib/dayjs";
 import type { CurrencyResponse } from "../../types/currency";
 import type { ExchangeResponse } from "../../types/exchange";
-import GetCurrency from "./currency";
+import FetchCurrency from "./currency";
 import GetExchangeRates from "./exchange";
 
 export default async function UpdateCurrencyData() {
     await Promise.all([UpdateCurrencyList(), UpdateExchangeRates()]);
 }
 
-async function UpdateCurrencyList() {
+export async function UpdateCurrencyList() {
     const mongoclient = new MongoClient(process.env.MONGODB_URI!);
 
     const conn = mongoclient.connect();
@@ -25,7 +25,7 @@ async function UpdateCurrencyList() {
         );
 
         if (lastCurrencyList === null) {
-            const list = await GetCurrency();
+            const list = await FetchCurrency();
 
             await coll.insertOne({
                 timestamp: dayjs().toDate(),
