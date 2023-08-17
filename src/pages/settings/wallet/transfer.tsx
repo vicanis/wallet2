@@ -12,6 +12,8 @@ import PrimaryButton from "../../../components/button/primary";
 import LoadingLayout from "../../../layouts/loading";
 import Blur from "../../../components/blur";
 import ExchangeLayout from "../../../layouts/transfer/exchange";
+import AmountEditor from "../../../components/amounteditor";
+import { Amount } from "../../../types/amount";
 
 export default function CreateTransferPage() {
     const navigate = useNavigate();
@@ -104,28 +106,15 @@ export default function CreateTransferPage() {
             </SettingsBlock>
 
             <SettingsBlock title={"Сумма перевода"}>
-                <div className="flex items-center gap-4">
-                    <Input
-                        type="number"
-                        placeholder="не задано"
-                        defaultValue={transferData.amount.value ?? undefined}
-                        onChange={(value) => {
-                            setTransferData((data) => {
-                                data.amount.value = Number(value);
-                                return { ...data };
-                            });
-                        }}
-                    />
-                    <CurrencyMiniSelector
-                        currency={transferData.amount.currency}
-                        onChange={(currency) => {
-                            setTransferData((data) => {
-                                data.amount.currency = currency;
-                                return { ...data };
-                            });
-                        }}
-                    />
-                </div>
+                <AmountEditor
+                    amount={transferData.amount}
+                    onChange={(amount) => {
+                        setTransferData((data) => ({
+                            ...data,
+                            amount: amount as Required<Amount>,
+                        }));
+                    }}
+                />
             </SettingsBlock>
 
             {typeof transferData.src !== "undefined" &&

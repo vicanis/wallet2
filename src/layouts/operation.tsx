@@ -92,6 +92,7 @@ export default function OperationLayout({ _id, ...data }: WithId<Operation>) {
                             amount,
                         }));
                     }}
+                    noBorder
                 />
             </InputGroup>
 
