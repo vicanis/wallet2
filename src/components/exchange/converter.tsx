@@ -150,7 +150,7 @@ function Rate({
 }) {
     return (
         <span>
-            1 {to} = <RoundedAmount value={rate} /> {from}
+            1 {from} = <RoundedAmount value={rate} /> {to}
         </span>
     );
 }
