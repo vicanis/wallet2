@@ -1,4 +1,4 @@
-import { defer, redirect } from "react-router-dom";
+import { defer } from "react-router-dom";
 import fetcher from "../../../lib/fetcher";
 import WalletSettingsLayout from "../../../layouts/wallet/list";
 import LoadablePage from "../../../components/loadable";
@@ -24,11 +24,6 @@ export function WalletListLoader() {
 
 async function Loader() {
     const resp = await fetcher("get_wallets");
-    if (!resp.ok) {
-        const location = resp.headers.get("Location");
-        return redirect(location ?? "/");
-    }
-
     const data = await resp.json();
 
     return data;
