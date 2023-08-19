@@ -13,7 +13,7 @@ export default function CurrencySlider({
             {list.map((type) => (
                 <CurrencyIcon
                     key={type}
-                    type={type as CurrencyType}
+                    type={type}
                     className={selected !== type ? "opacity-50" : ""}
                 />
             ))}
