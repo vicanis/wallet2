@@ -63,7 +63,7 @@ export default function BlurredSelector<T extends WithId<{}>>({
                         <div className="overflow-auto grid gap-2">
                             {items.map((item, index) => (
                                 <div
-                                    key={index}
+                                    key={item._id.toString()}
                                     onClick={() => {
                                         setOpened(false);
                                         onChange(item._id);
