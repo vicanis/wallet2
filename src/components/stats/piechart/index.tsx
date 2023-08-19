@@ -9,7 +9,7 @@ export default function PieChart({ items }: { items: PieChartItemData[] }) {
     return (
         <div className="relative aspect-square w-32">
             {items.map((item, index) => (
-                <PieChartItem key={index} {...item} />
+                <PieChartItem key={item.name} {...item} />
             ))}
             <div
                 className="absolute aspect-square bg-white"

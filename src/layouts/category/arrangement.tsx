@@ -76,7 +76,7 @@ export default function CategoryArrangementLayout({
                     >
                         {list.length > 0 &&
                             list.map((item, index) => (
-                                <ItemContainer key={index}>
+                                <ItemContainer key={item._id.toString()}>
                                     <CategoryItem {...item} />
                                 </ItemContainer>
                             ))}

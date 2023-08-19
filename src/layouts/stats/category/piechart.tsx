@@ -11,7 +11,7 @@ export default function PieChartLayout({
 
             <div className="flex-grow grid gap-3">
                 {items.map((item, index) => (
-                    <ListItem key={index} {...item} />
+                    <ListItem key={item.name} {...item} />
                 ))}
             </div>
         </div>

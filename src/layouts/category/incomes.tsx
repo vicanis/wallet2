@@ -22,7 +22,7 @@ export default function CategoryIncomes() {
 
             <div className="grid gap-2 p-4 bg-white">
                 {list.map((expense, index) => (
-                    <Income key={index} {...expense} />
+                    <Income key={`${expense.name}`} {...expense} />
                 ))}
             </div>
         </div>

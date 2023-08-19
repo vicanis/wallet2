@@ -42,7 +42,10 @@ export default function CategoryExpenses() {
 
             <div className="grid gap-2 p-4 bg-white">
                 {list.map((expense, index) => (
-                    <Expense key={index} {...expense} />
+                    <Expense
+                        key={`${expense.order}-${expense.name}`}
+                        {...expense}
+                    />
                 ))}
             </div>
         </div>
