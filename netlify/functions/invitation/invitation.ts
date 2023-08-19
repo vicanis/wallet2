@@ -1,5 +1,5 @@
 import { Handler } from "@netlify/functions";
-import { MongoClient, TransactionOptions } from "mongodb";
+import { MongoClient } from "mongodb";
 import crypto, { UUID } from "crypto";
 import { Event } from "@netlify/functions/dist/function/event";
 import { Context } from "@netlify/functions/dist/function/context";
@@ -7,6 +7,7 @@ import withAuth from "../../../src/hooks/auth";
 import { ParseUserId, ParseUserName } from "../../../src/lib/auth";
 import type { Invitation } from "../../../src/types/invitation";
 import type { User } from "../../../src/types/user";
+import { DefaultTransactionOptions } from "../../../src/lib/transaction";
 
 export const handler: Handler = withAuth(async (event, context) => {
     const response = await router(event, context);
@@ -151,7 +152,7 @@ const createInvitation: Handler = async (event, context) => {
     const session = mongoclient.startSession();
 
     try {
-        session.startTransaction(TransactionOptions);
+        session.startTransaction(DefaultTransactionOptions);
 
         const user = ParseUserId(context.clientContext);
         const name = ParseUserName(context.clientContext);
@@ -206,7 +207,7 @@ const joinInvitation: Handler = async (event, context) => {
     const session = mongoclient.startSession({});
 
     try {
-        session.startTransaction(TransactionOptions);
+        session.startTransaction(DefaultTransactionOptions);
 
         const user = ParseUserId(context.clientContext);
         const name = ParseUserName(context.clientContext);
@@ -322,14 +323,4 @@ const deleteInvitation: Handler = async (event, context) => {
     } finally {
         mongoclient.close();
     }
-};
-
-const TransactionOptions: TransactionOptions = {
-    readPreference: "primary",
-    readConcern: {
-        level: "local",
-    },
-    writeConcern: {
-        w: "majority",
-    },
 };
