@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import Icon from "@mdi/react";
 import { mdiCurrencyBtc, mdiCurrencyEur, mdiGold, mdiHelp } from "@mdi/js";
 import { CurrencyType } from "../../types/currency";
@@ -10,35 +9,25 @@ export default function CurrencyFlag({
     currency: CurrencyType;
     className?: string;
 }) {
-    const Container = ({ children }: { children: ReactNode }) => (
-        <div className={className}>{children}</div>
-    );
-
-    const IconItem = ({ icon }: { icon: string }) => (
-        <Container>
-            <Icon path={icon} size={1} />
-        </Container>
-    );
-
     switch (currency) {
         case "EUR":
-            return <IconItem icon={mdiCurrencyEur} />;
+            return <IconItem className={className} icon={mdiCurrencyEur} />;
 
         case "BTC":
-            return <IconItem icon={mdiCurrencyBtc} />;
+            return <IconItem className={className} icon={mdiCurrencyBtc} />;
 
         case "XAG":
         case "XAU":
-            return <IconItem icon={mdiGold} />;
+            return <IconItem className={className} icon={mdiGold} />;
 
         case "XDR":
-            return <IconItem icon={mdiHelp} />;
+            return <IconItem className={className} icon={mdiHelp} />;
     }
 
     const country = flags[currency] ?? "";
 
     return (
-        <Container>
+        <div className={className}>
             <span
                 className={`fi fi-${country} fis`}
                 style={{
@@ -47,7 +36,15 @@ export default function CurrencyFlag({
                     borderRadius: "50%",
                 }}
             ></span>
-        </Container>
+        </div>
+    );
+}
+
+function IconItem({ className, icon }: { className: string; icon: string }) {
+    return (
+        <div className={className}>
+            <Icon path={icon} size={1} />
+        </div>
     );
 }
 
