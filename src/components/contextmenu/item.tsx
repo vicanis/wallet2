@@ -8,7 +8,7 @@ export default function ContextMenuItem({
     item: ItemData;
     children: ReactNode;
 }) {
-    const { data, setData } = useContext(ContextMenuContext);
+    const { setData } = useContext(ContextMenuContext);
 
     return (
         <div
