@@ -14,7 +14,7 @@ export default function ButtonTabsLayout({
         <div className="flex justify-around items-center p-4 text-center bg-[#0084c8] text-white text-sm rounded-b-lg">
             {items.map((item, index) => (
                 <Link
-                    key={index}
+                    key={item.link}
                     to={item.link}
                     className="flex flex-col gap-2"
                 >

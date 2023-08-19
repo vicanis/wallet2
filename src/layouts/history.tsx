@@ -12,7 +12,7 @@ export default function HistoryLayout({ list }: { list: HistoryGroup[] }) {
             )}
 
             {list.map((group, index) => (
-                <Group key={index} {...group} />
+                <Group key={group.date.toString()} {...group} />
             ))}
         </div>
     );
@@ -27,7 +27,7 @@ function Group({ date, items }: HistoryGroup) {
             <hr className="my-1" />
             <div className="grid gap-2 mt-2 px-4">
                 {items.map((item, index) => (
-                    <Item key={index} {...item} />
+                    <Item key={item.id.toString()} {...item} />
                 ))}
             </div>
         </div>

@@ -66,7 +66,7 @@ export default function CategoryList({
                     {list.length > 0 &&
                         list.map((item, index) => (
                             <ContextMenuItem
-                                key={index}
+                                key={item._id.toString()}
                                 item={{ id: item._id }}
                             >
                                 <CategoryItem {...item} />
