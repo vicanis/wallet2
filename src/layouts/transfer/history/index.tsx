@@ -13,7 +13,7 @@ export default function TransferHistoryLayout({
             )}
 
             {groups.map((group, index) => (
-                <TransferHistoryGroup key={index} {...group} />
+                <TransferHistoryGroup key={group.date.toString()} {...group} />
             ))}
         </div>
     );

@@ -4,7 +4,6 @@ import { WithId } from "mongodb";
 import fetcher from "../../lib/fetcher";
 import Icon from "@mdi/react";
 import { mdiPlusCircle } from "@mdi/js";
-import Tabs from "../../components/tabs";
 import WalletItem from "../../components/wallet/item";
 import { Wallet, WalletSettingsItem } from "../../types/wallet";
 import DashboardBalanceLayout from "../dashboard/balance";
@@ -102,7 +101,10 @@ export default function WalletSettingsLayout({
             >
                 <div className="relative grid gap-6 px-8 py-6 text-lg">
                     {list.map((wallet, index) => (
-                        <ContextMenuItem key={index} item={{ id: wallet._id }}>
+                        <ContextMenuItem
+                            key={wallet._id.toString()}
+                            item={{ id: wallet._id }}
+                        >
                             <WalletItem {...wallet} />
                         </ContextMenuItem>
                     ))}
