@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useState } from "react";
+import { Fragment, ReactNode, useMemo, useState } from "react";
 import {
     ContextMenuContext,
     MenuData,
@@ -16,8 +16,16 @@ export default function ContextMenuContainer({
 }) {
     const [data, setData] = useState<MenuData>(ContextMenuDefault);
 
+    const mdata = useMemo(
+        () => ({
+            data,
+            setData,
+        }),
+        [data, setData]
+    );
+
     return (
-        <ContextMenuContext.Provider value={{ data, setData }}>
+        <ContextMenuContext.Provider value={mdata}>
             {children}
 
             {data.visible && (
