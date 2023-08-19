@@ -3,7 +3,7 @@ import { MongoClient, WithId } from "mongodb";
 import type { Operation } from "../../../src/types/operation";
 import type { Category } from "../../../src/types/category";
 import type { Wallet } from "../../../src/types/wallet";
-import type { HistoryGroup } from "../../../src/types/history";
+import type { HistoryGroup, HistoryItem } from "../../../src/types/history";
 import dayjs from "../../../src/lib/dayjs";
 import { ParseUserId } from "../../../src/lib/auth";
 import withAuth from "../../../src/hooks/auth";
@@ -16,8 +16,8 @@ export const handler: Handler = withAuth(async (event, context) => {
     const conn = mongoclient.connect();
 
     try {
-        const user = ParseUserId(context.clientContext);
-        const sharedUsers = await GetSharedUsers(user);
+        const sessionUser = ParseUserId(context.clientContext);
+        const sharedUsers = await GetSharedUsers(sessionUser);
 
         const db = (await conn).db("wallet2");
 
@@ -34,7 +34,7 @@ export const handler: Handler = withAuth(async (event, context) => {
                     {
                         $match: {
                             user: {
-                                $in: [...sharedUsers, user],
+                                $in: [...sharedUsers, sessionUser],
                             },
                         },
                     },
@@ -80,32 +80,43 @@ export const handler: Handler = withAuth(async (event, context) => {
             db.collection<WithId<User>>("users").find().toArray(),
         ]);
 
+        const push_users = (item: HistoryItem) => {
+            if (item.user === sessionUser) {
+                delete item.user;
+                return item;
+            }
+
+            for (const user of users) {
+                if (item.user === user.user) {
+                    item.user = user.name;
+                    break;
+                }
+            }
+        };
+
+        const push_categories = (item: HistoryItem) => {
+            for (const category of categories) {
+                if (item.category.toString() === category._id.toString()) {
+                    item.category = category;
+                    break;
+                }
+            }
+        };
+
+        const push_wallets = (item: HistoryItem) => {
+            for (const wallet of wallets) {
+                if (item.wallet.toString() === wallet._id.toString()) {
+                    item.wallet = wallet;
+                    break;
+                }
+            }
+        };
+
         for (const group of groups) {
-            for (const item of group.items) {
-                if (item.user !== user) {
-                    for (const user of users) {
-                        if (item.user === user.user) {
-                            item.user = user.name;
-                            break;
-                        }
-                    }
-                } else {
-                    delete item.user;
-                }
-
-                for (const category of categories) {
-                    if (item.category.toString() === category._id.toString()) {
-                        item.category = category;
-                        break;
-                    }
-                }
-
-                for (const wallet of wallets) {
-                    if (item.wallet.toString() === wallet._id.toString()) {
-                        item.wallet = wallet;
-                        break;
-                    }
-                }
+            for (let item of group.items) {
+                push_users(item);
+                push_categories(item);
+                push_wallets(item);
             }
         }
 
