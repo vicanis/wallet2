@@ -9,7 +9,7 @@ export default function CategoryListLayout({
     return (
         <div className="grid gap-4 px-4 mt-2">
             {items.map((item, index) => (
-                <CategoryBar key={index} item={item} />
+                <CategoryBar key={item.name} item={item} />
             ))}
         </div>
     );
