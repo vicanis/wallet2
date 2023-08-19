@@ -60,8 +60,8 @@ export default function BalanceChart() {
 
     data.labels = labels;
 
-    for (let i = 0; i < data.datasets.length; i++) {
-        data.datasets[i].data = labels.map(() =>
+    for (const item of data.datasets) {
+        item.data = labels.map(() =>
             faker.number.float({ min: 0, max: 100000 })
         );
     }
