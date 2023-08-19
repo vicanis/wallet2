@@ -100,30 +100,38 @@ const getInvitation: Handler = async (event, context) => {
             delete invitation.users;
         }
 
-        const cursor = db.collection<User>("users").find({
-            user: {
-                $in: [...item.users, item.author],
-            },
-        });
+        if (typeof invitation.users === "undefined") {
+            return {
+                statusCode: 200,
+                body: JSON.stringify(invitation),
+            };
+        }
 
-        while (true) {
-            const item = await cursor.next();
-            if (item === null) {
-                break;
+        const userData = await db
+            .collection<User>("users")
+            .find({
+                user: {
+                    $in: [...item.users, item.author],
+                },
+            })
+            .toArray();
+
+        const userHash = new Map<string, string>();
+
+        for (const user of userData) {
+            userHash.set(user._id.toString(), user.name);
+        }
+
+        for (let i = 0; i < invitation.users.length; i++) {
+            const id = invitation.users[i];
+
+            const name = userHash.get(id);
+
+            if (typeof name === "undefined") {
+                continue;
             }
 
-            if (item.user === invitation.author) {
-                invitation.author = item.name;
-            }
-
-            if (typeof invitation.users !== "undefined") {
-                for (let i = 0; i < invitation.users.length; i++) {
-                    if (item.user === invitation.users[i]) {
-                        invitation.users[i] = item.name;
-                        break;
-                    }
-                }
-            }
+            invitation.users[i] = name;
         }
 
         return {
