@@ -12,9 +12,7 @@ import StatisticsPage from "./stats/statistics";
 import LoginWrapper from "../layouts/wrapper/login";
 import WelcomePage from "./welcome";
 import LoginPage from "./login";
-import CategoryListPage, {
-    CategoryListLoader as CategoryListLoader,
-} from "./settings/category";
+import CategoryListPage, { CategoryListLoader } from "./settings/category";
 import WalletSettingsPage, { WalletListLoader } from "./settings/wallet";
 import PaymentSettingsPage from "./settings/payment";
 import NotificationSettingsPage from "./settings/notification";
