@@ -53,18 +53,24 @@ export const handler: Handler = withAuth(async (event, context) => {
 
         const data: WalletSettingsItem[] = [];
 
-        itemloop: for (const item of items) {
+        for (const item of items) {
             if (!item.own) {
                 continue;
             }
 
             delete item.own;
 
+            let next = false;
             for (const wallet of data) {
                 if (wallet.currency === item.currency) {
                     wallet.wallets.push(item);
-                    continue itemloop;
+                    next = true;
+                    break;
                 }
+            }
+
+            if (next) {
+                continue;
             }
 
             data.push({
