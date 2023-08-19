@@ -11,7 +11,7 @@ export function WalletItemLoader({ params }: LoaderFunctionArgs) {
     const { id } = params;
 
     if (typeof id === "undefined") {
-        return Promise.reject();
+        throw new Error("no wallet id");
     }
 
     switch (id) {

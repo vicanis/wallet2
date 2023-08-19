@@ -11,19 +11,18 @@ export function CategoryItemLoader({ params }: LoaderFunctionArgs) {
     const { id } = params;
 
     if (typeof id === "undefined") {
-        return Promise.reject();
+        throw new Error("no id");
     }
 
-    switch (id) {
-        case "new":
-            return defer({
-                data: {
-                    _id: id,
-                    type: "expense",
-                    name: "",
-                    plan: {},
-                },
-            });
+    if (id === "new") {
+        return defer({
+            data: {
+                _id: id,
+                type: "expense",
+                name: "",
+                plan: {},
+            },
+        });
     }
 
     return defer({
