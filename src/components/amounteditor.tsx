@@ -7,7 +7,7 @@ import CurrencySelector from "./currency/selector";
 import type { CurrencyList } from "../types/currency";
 import Blur from "./blur";
 import LoadingLayout from "../layouts/loading";
-import { CurrencyContext } from "../context/currency";
+import { CurrencyProvider } from "../context/currency";
 
 export default function AmountEditor({
     amount,
@@ -36,7 +36,7 @@ export default function AmountEditor({
     }
 
     return (
-        <CurrencyContext.Provider value={currency}>
+        <CurrencyProvider value={currency}>
             <div className="flex gap-5 items-center">
                 <div>
                     <CurrencySelector
@@ -82,6 +82,6 @@ export default function AmountEditor({
                     />
                 </div>
             </div>
-        </CurrencyContext.Provider>
+        </CurrencyProvider>
     );
 }

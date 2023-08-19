@@ -2,16 +2,16 @@ import { defer } from "react-router-dom";
 import ExchangeLayout from "../layouts/exchange";
 import fetcher from "../lib/fetcher";
 import LoadablePage from "../components/loadable";
-import { CurrencyContext } from "../context/currency";
+import { CurrencyProvider } from "../context/currency";
 
 export default function ExchangePage() {
     return (
         <div className="py-4">
             <LoadablePage
                 renderer={(data) => (
-                    <CurrencyContext.Provider value={data.currency}>
+                    <CurrencyProvider value={data.currency}>
                         <ExchangeLayout rates={data.rates} />
-                    </CurrencyContext.Provider>
+                    </CurrencyProvider>
                 )}
             />
         </div>

@@ -1,4 +1,9 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { CurrencyList } from "../types/currency";
 
-export const CurrencyContext = createContext<CurrencyList>({});
+const CurrencyContext = createContext<CurrencyList>({});
+
+export const CurrencyProvider = CurrencyContext.Provider;
+
+export const useCurrencyContext = () =>
+    useContext<CurrencyList>(CurrencyContext);

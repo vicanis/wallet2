@@ -1,7 +1,7 @@
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 import { ObjectId } from "mongodb";
 import { CurrencyType } from "../../types/currency";
-import { CurrencyContext } from "../../context/currency";
+import { useCurrencyContext } from "../../context/currency";
 import BlurredSelector from "../blurredselector";
 import CurrencyFlag from "./flag";
 import Amount from "../amount";
@@ -17,7 +17,7 @@ export default function CurrencySelector({
     onChange: (code: CurrencyType) => void;
     mini?: boolean;
 }) {
-    const currencyList = useContext(CurrencyContext);
+    const currencyList = useCurrencyContext();
 
     const currencies = useMemo<
         {
