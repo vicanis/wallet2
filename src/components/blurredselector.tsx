@@ -9,14 +9,14 @@ export default function BlurredSelector<T extends WithId<{}>>({
     selected,
     header,
     renderer,
-    createButtonRenderer,
+    createButton,
     onChange,
 }: {
     items?: T[];
     selected?: ObjectId;
     header: ReactNode;
     renderer: (arg: SelectorRendererArgs<T>) => ReactNode;
-    createButtonRenderer?: () => ReactNode;
+    createButton?: ReactNode;
     onChange: (id: ObjectId) => void;
 }) {
     const [isOpened, setOpened] = useState(false);
@@ -36,8 +36,8 @@ export default function BlurredSelector<T extends WithId<{}>>({
         .shift();
 
     if (!items.length) {
-        if (typeof createButtonRenderer !== "undefined") {
-            return <div className="py-3">{createButtonRenderer()}</div>;
+        if (typeof createButton !== "undefined") {
+            return <div className="py-3">{createButton}</div>;
         }
 
         return <div>Нет доступных элементов</div>;
@@ -82,8 +82,7 @@ export default function BlurredSelector<T extends WithId<{}>>({
                             ))}
                         </div>
 
-                        {typeof createButtonRenderer === "function" &&
-                            createButtonRenderer()}
+                        {typeof createButton === "function" && createButton}
                     </div>
                 </div>
             </Blur>

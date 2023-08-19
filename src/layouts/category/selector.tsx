@@ -51,11 +51,7 @@ export default function CategorySelector({
                     <Item {...arg.item} />
                 )
             }
-            createButtonRenderer={() => (
-                <Link to="/settings/category/new">
-                    Добавить новую категорию
-                </Link>
-            )}
+            createButton={<CreateCategoryButton />}
             {...props}
         />
     );
@@ -77,3 +73,7 @@ function Item({
         </div>
     );
 }
+
+const CreateCategoryButton: React.FC = () => (
+    <Link to="/settings/category/new">Добавить новую категорию</Link>
+);

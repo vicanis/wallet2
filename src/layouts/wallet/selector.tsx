@@ -52,9 +52,7 @@ export default function WalletSelector(props: {
                     <Item {...arg.item} withBalance={props.withBalance} />
                 )
             }
-            createButtonRenderer={() => (
-                <Link to="/settings/wallet/new">Добавить новый счет</Link>
-            )}
+            createButton={<CreateWalletButton />}
             {...props}
         />
     );
@@ -90,3 +88,7 @@ function Item({
         </div>
     );
 }
+
+const CreateWalletButton: React.FC = () => (
+    <Link to="/settings/wallet/new">Добавить новый счет</Link>
+);
