@@ -195,10 +195,6 @@ const getTransferHistory: Handler = async (event, context) => {
     } finally {
         mongoclient.close();
     }
-
-    return {
-        statusCode: 200,
-    };
 };
 
 const getTransfer: Handler = async (event, context) => {
@@ -307,8 +303,4 @@ const createTransfer: Handler = async (event, context) => {
     } finally {
         mongoclient.close();
     }
-
-    return {
-        statusCode: 200,
-    };
 };
