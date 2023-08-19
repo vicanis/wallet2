@@ -9,19 +9,22 @@ export default function OperationPage() {
 }
 
 export function OperationPageLoader({ params }: LoaderFunctionArgs) {
-    const { id = "new" } = params;
+    const { id } = params;
 
-    switch (id) {
-        case "new":
-            const data: Operation = {
-                type: "expense",
-                date: new Date(),
-                amount: {
-                    currency: "RUB",
-                },
-            };
+    if (typeof id === "undefined") {
+        throw new Error("no id");
+    }
 
-            return defer({ data });
+    if (id === "new") {
+        const data: Operation = {
+            type: "expense",
+            date: new Date(),
+            amount: {
+                currency: "RUB",
+            },
+        };
+
+        return defer({ data });
     }
 
     return defer({
