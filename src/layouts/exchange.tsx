@@ -71,7 +71,13 @@ export default function ExchangeLayout({ rates }: { rates: ExchangeRates }) {
                 from={currencyFrom}
                 to={currencyTo}
                 rate={exchangeRate}
-                onChangeCurrency={(from?: CurrencyType, to?: CurrencyType) => {
+                onChangeCurrency={({
+                    from,
+                    to,
+                }: {
+                    from?: CurrencyType;
+                    to?: CurrencyType;
+                }) => {
                     setCurrencyFrom(from);
                     setCurrencyTo(to);
                 }}

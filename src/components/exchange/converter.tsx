@@ -15,7 +15,7 @@ export default function Converter({
     from?: CurrencyType;
     to?: CurrencyType;
     rate: number;
-    onChangeCurrency: (from?: CurrencyType, to?: CurrencyType) => void;
+    onChangeCurrency: (arg: { from?: CurrencyType; to?: CurrencyType }) => void;
 }) {
     return (
         <div
@@ -28,7 +28,10 @@ export default function Converter({
                 currency={from}
                 value={value}
                 onChange={(code) => {
-                    onChangeCurrency(code, code === to ? undefined : to);
+                    onChangeCurrency({
+                        from: code,
+                        to: code === to ? undefined : to,
+                    });
                 }}
             />
 
@@ -36,7 +39,7 @@ export default function Converter({
                 <div
                     className="absolute left-10"
                     onClick={() => {
-                        onChangeCurrency(to, from);
+                        onChangeCurrency({ from: to, to: from });
                     }}
                 >
                     <Icon path={mdiSwapVertical} size={1} />
@@ -53,7 +56,10 @@ export default function Converter({
                     strict: true,
                 })}
                 onChange={(code) => {
-                    onChangeCurrency(code === from ? undefined : from, code);
+                    onChangeCurrency({
+                        from: code === from ? undefined : from,
+                        to: code,
+                    });
                 }}
             />
         </div>
