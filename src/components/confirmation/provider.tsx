@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import {
     ConfirmationContext,
     ConfirmationContextType,
@@ -15,13 +15,13 @@ export default function ConfirmationProvider({
             visible: false,
         });
 
+    const mdata = useMemo(
+        () => ({ confirmationState, setConfirmationState }),
+        [confirmationState, setConfirmationState]
+    );
+
     return (
-        <ConfirmationContext.Provider
-            value={{
-                confirmationState,
-                setConfirmationState,
-            }}
-        >
+        <ConfirmationContext.Provider value={mdata}>
             {children}
         </ConfirmationContext.Provider>
     );
