@@ -43,7 +43,7 @@ export default function ContextMenuContainer({
                     <ContextMenu position={data}>
                         {items.map((item, index) => (
                             <div
-                                key={index}
+                                key={item.title}
                                 onClick={() => {
                                     if (typeof data.id === "undefined") {
                                         return;
