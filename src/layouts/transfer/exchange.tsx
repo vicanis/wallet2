@@ -5,7 +5,7 @@ import fetcher from "../../lib/fetcher";
 import Icon from "@mdi/react";
 import { mdiArrowRight } from "@mdi/js";
 import { CurrencyIcon } from "../../components/currency/icon";
-import withExchange from "../../hooks/exchange";
+import useExchangeRate from "../../hooks/exchange";
 import RoundedAmount from "../../components/rounded";
 
 export default function ExchangeLayout({
@@ -21,7 +21,7 @@ export default function ExchangeLayout({
     const [walletSrc, setWalletSrc] = useState<Wallet>();
     const [walletDst, setWalletDst] = useState<Wallet>();
 
-    const exchangeRate = withExchange({
+    const exchangeRate = useExchangeRate({
         src: walletSrc?.currency,
         dst: walletDst?.currency,
     });

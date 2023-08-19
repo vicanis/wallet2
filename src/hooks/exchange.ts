@@ -3,7 +3,7 @@ import { CurrencyType } from "../types/currency";
 import { ExchangeRates } from "../types/exchange";
 import fetcher from "../lib/fetcher";
 
-export default function withExchange({
+export default function useExchangeRate({
     src,
     dst,
 }: {
