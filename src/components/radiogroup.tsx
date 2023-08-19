@@ -27,10 +27,8 @@ export default function RadioGroup({
                     onClick={() => {
                         if (typeof onChange === "function") {
                             onChange(item.id);
-                        } else {
-                            if (item.id !== selected) {
-                                setSelected(item.id);
-                            }
+                        } else if (item.id !== selected) {
+                            setSelected(item.id);
                         }
                     }}
                 >
