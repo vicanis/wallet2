@@ -1,5 +1,5 @@
 import { Handler } from "@netlify/functions";
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient, ObjectId, WithId } from "mongodb";
 import dayjs from "../../../src/lib/dayjs";
 import { Context } from "@netlify/functions/dist/function/context";
 import { Event } from "@netlify/functions/dist/function/event";
@@ -141,10 +141,12 @@ const getTransferHistory: Handler = async (event, context) => {
         ]);
 
         for (const group of groups) {
-            const items: TransferItem[] = [];
+            const items: WithId<TransferItem>[] = [];
 
             for (const transfer of group.items) {
-                const item: Partial<TransferItem> = {};
+                const item: Partial<WithId<TransferItem>> = {
+                    _id: transfer._id,
+                };
 
                 for (const { _id, name, icon, color } of wallets) {
                     for (const key of ["src", "dst"]) {
@@ -173,7 +175,7 @@ const getTransferHistory: Handler = async (event, context) => {
                 item.amount = amount;
                 item.amountDst = amountDst;
 
-                items.push(item as TransferItem);
+                items.push(item as WithId<TransferItem>);
             }
 
             group.items = items;

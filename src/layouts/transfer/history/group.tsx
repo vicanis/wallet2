@@ -11,7 +11,7 @@ export default function TransferHistoryGroup({ date, items }: TransferGroup) {
             <hr className="my-1" />
             <div className="grid gap-4 mt-2 px-4">
                 {items.map((item, index) => (
-                    <TransferHistoryItem key={index} {...item} />
+                    <TransferHistoryItem key={item._id.toString()} {...item} />
                 ))}
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb";
+import { ObjectId, WithId } from "mongodb";
 import { Amount } from "./amount";
 import { UUID } from "crypto";
 import { Wallet } from "./wallet";
@@ -15,7 +15,7 @@ export interface Transfer {
 
 export interface TransferGroup {
     date: Date;
-    items: TransferItem[];
+    items: WithId<TransferItem>[];
 }
 
 export interface TransferItem {
