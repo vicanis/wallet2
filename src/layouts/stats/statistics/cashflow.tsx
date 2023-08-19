@@ -38,14 +38,29 @@ function Item({
     const colorRed = "#E85338";
     const colorGreen = "#72B805";
 
-    const color =
-        type === "balance"
-            ? value > 0
-                ? colorGreen
-                : colorRed
-            : type === "income"
-            ? colorGreen
-            : colorRed;
+    const color = (() => {
+        if (type === "balance") {
+            return value > 0 ? colorGreen : colorRed;
+        }
+
+        if (type === "income") {
+            return colorGreen;
+        }
+
+        return colorRed;
+    })();
+
+    const text = (() => {
+        if (type === "balance") {
+            return "Остаток";
+        }
+
+        if (type === "income") {
+            return "Доход";
+        }
+
+        return "Расход";
+    })();
 
     return (
         <div
@@ -68,13 +83,7 @@ function Item({
                 )}
             </div>
 
-            <span className="flex-grow">
-                {type === "balance"
-                    ? "Остаток"
-                    : type === "income"
-                    ? "Доход"
-                    : "Расход"}
-            </span>
+            <span className="flex-grow">{text}</span>
 
             <Amount
                 currency="RUB"
