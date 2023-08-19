@@ -41,7 +41,7 @@ export default function CategoryLayout() {
     const chartItems = useMemo<PieChartItemData[]>(() => {
         const chartItems: PieChartItemData[] = [];
 
-        const sorted: ItemData[] = items.sort((a, b) => {
+        items.sort((a, b) => {
             if (a.value === b.value) {
                 return 0;
             }
@@ -49,11 +49,11 @@ export default function CategoryLayout() {
             return a.value > b.value ? -1 : 1;
         });
 
-        const total = sorted.reduce((sum, item) => sum + item.value, 0);
+        const total = items.reduce((sum, item) => sum + item.value, 0);
 
         let start = 0;
 
-        for (const { name, color, value } of sorted) {
+        for (const { name, color, value } of items) {
             const percent = (value / total) * 100;
 
             chartItems.push({
