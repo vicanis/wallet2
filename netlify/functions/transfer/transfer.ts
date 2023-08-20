@@ -15,6 +15,8 @@ import { User } from "../../../src/types/user";
 import GetSharedUsers from "../../../src/lib/user";
 import { DefaultTransactionOptions } from "../../../src/lib/transaction";
 import { GetExchangeRate } from "../../../src/lib/exchange";
+import SortReverse from "../../../src/lib/reverse";
+import { UUID } from "crypto";
 
 export const handler: Handler = withAuth(async (event, context) => {
     const response = await router(event, context);
@@ -80,19 +82,11 @@ const getTransferHistory: Handler = async (event, context) => {
                 .aggregate<TransferGroup>([
                     {
                         $match: {
-                            user: {
-                                $in: [...sharedUsers, sessionUser],
-                            },
+                            user: { $in: [...sharedUsers, sessionUser] },
                         },
                     },
-                    {
-                        $sort: {
-                            date: -1,
-                        },
-                    },
-                    {
-                        $limit: 100,
-                    },
+                    { $sort: { date: -1 } },
+                    { $limit: 100 },
                     {
                         $bucket: {
                             groupBy: "$date",
@@ -112,30 +106,20 @@ const getTransferHistory: Handler = async (event, context) => {
                             },
                         },
                     },
-                    {
-                        $set: {
-                            date: "$_id",
-                        },
-                    },
-                    {
-                        $unset: "_id",
-                    },
+                    { $set: { date: "$_id" } },
+                    { $unset: "_id" },
                 ])
                 .toArray(),
             db
                 .collection<Wallet>("wallet")
                 .find({
-                    user: {
-                        $in: [...sharedUsers, sessionUser],
-                    },
+                    user: { $in: [...sharedUsers, sessionUser] },
                 })
                 .toArray(),
             db
                 .collection<User>("users")
                 .find({
-                    user: {
-                        $in: [...sharedUsers, sessionUser],
-                    },
+                    user: { $in: [...sharedUsers, sessionUser] },
                 })
                 .toArray(),
         ]);
@@ -144,38 +128,10 @@ const getTransferHistory: Handler = async (event, context) => {
             const items: WithId<TransferItem>[] = [];
 
             for (const transfer of group.items) {
-                const item: Partial<WithId<TransferItem>> = {
-                    _id: transfer._id,
-                };
+                push_wallet(wallets, transfer);
+                push_user(users, transfer, sessionUser);
 
-                for (const { _id, name, icon, color } of wallets) {
-                    for (const key of ["src", "dst"]) {
-                        if (typeof transfer[key] !== "undefined") {
-                            if (transfer[key].toString() === _id.toString()) {
-                                item[key] = { name, icon, color };
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (typeof transfer.user !== "undefined") {
-                    for (const user of users) {
-                        if (
-                            user.user !== sessionUser &&
-                            user.user === transfer.user
-                        ) {
-                            item.user = user.name;
-                            break;
-                        }
-                    }
-                }
-
-                const { amount, amountDst } = transfer;
-                item.amount = amount;
-                item.amountDst = amountDst;
-
-                items.push(item as WithId<TransferItem>);
+                items.push(transfer);
             }
 
             group.items = items;
@@ -187,7 +143,7 @@ const getTransferHistory: Handler = async (event, context) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify(groups),
+            body: JSON.stringify(SortReverse(groups)),
         };
     } catch (e) {
         return {
@@ -196,6 +152,36 @@ const getTransferHistory: Handler = async (event, context) => {
         };
     } finally {
         mongoclient.close();
+    }
+};
+
+const push_wallet = (wallets: WithId<Wallet>[], item: TransferItem) => {
+    for (const { _id, name, icon, color } of wallets) {
+        for (const key of ["src", "dst"]) {
+            if (typeof item[key] !== "undefined") {
+                if (item[key].toString() === _id.toString()) {
+                    item[key] = { name, icon, color };
+                    break;
+                }
+            }
+        }
+    }
+};
+
+const push_user = (
+    users: WithId<User>[],
+    item: TransferItem,
+    sessionUser: UUID
+) => {
+    if (typeof item.user === "undefined") {
+        return;
+    }
+
+    for (const user of users) {
+        if (user.user !== sessionUser && user.user === item.user) {
+            item.user = user.name;
+            break;
+        }
     }
 };
 
